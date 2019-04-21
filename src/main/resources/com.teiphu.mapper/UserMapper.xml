@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teiphu.mapper.UserMapper">
+
+    <insert id="insertUser">
+        insert into `user`(`user_name`, `password`, `email`, `phone`, `sex`, `birthday`, `job`, `signature`)
+        values (#{userName}, #{password}, #{email}, #{phone}, #{sex}, #{birthday}, #{job}, #{signature});
+    </insert>
+
+    <delete id="deleteUser">
+        delete
+        from `user`
+        where `id` = #{userId};
+    </delete>
+
+    <update id="updateUser">
+        update `user`
+        <set>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="job != null">job = #{job},</if>
+            <if test="signature != null">signature = #{signature}</if>
+        </set>
+        where id = #{id};
+    </update>
+
+    <select id="getUser" resultType="com.teiphu.pojo.UserDo">
+        select user_name userName, password, email, phone, sex, birthday, job, signature, gmt_create gmtCreate
+        from `user`
+        where id = #{userId};
+    </select>
+
+    <select id="listUser" resultType="com.teiphu.pojo.UserDo">
+        select user_name userName, password, email, phone, sex, birthday, job, signature, gmt_create gmtCreate
+        from `user`;
+    </select>
+
+</mapper>

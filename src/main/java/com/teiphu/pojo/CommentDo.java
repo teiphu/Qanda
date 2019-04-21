@@ -1,15 +1,16 @@
 package com.teiphu.pojo;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * @Author Teiphu
- * @Creation 2019.03.08 下午 3:57
+ * @Date 2019.03.08 下午 3:57
  **/
-public class CommentDo {
+public class CommentDo implements Serializable {
 
-    private int id;
-    private int parentCommentId;
+    private Integer id;
+    private Integer parentCommentId;
     private UserDo user;
     private AnswerDo answer;
     private String commentContent;
@@ -17,19 +18,19 @@ public class CommentDo {
     private Timestamp gmtModified;
     private int delete;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getParentCommentId() {
+    public Integer getParentCommentId() {
         return parentCommentId;
     }
 
-    public void setParentCommentId(int parentCommentId) {
+    public void setParentCommentId(Integer parentCommentId) {
         this.parentCommentId = parentCommentId;
     }
 

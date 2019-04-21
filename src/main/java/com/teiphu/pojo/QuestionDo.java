@@ -1,26 +1,27 @@
 package com.teiphu.pojo;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * @Author Teiphu
- * @Creation 2019.03.08 下午 3:52
+ * @Date 2019.03.08 下午 3:52
  **/
-public class QuestionDo {
+public class QuestionDo implements Serializable {
 
-    private int id;
+    private Integer id;
     private UserDo user;
     private TopicDo topic;
     private String content;
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
-    private int status;
+    private Integer status;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -64,11 +65,11 @@ public class QuestionDo {
         this.gmtModified = gmtModified;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 }

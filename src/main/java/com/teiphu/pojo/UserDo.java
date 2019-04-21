@@ -1,14 +1,15 @@
 package com.teiphu.pojo;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * @Author Teiphu
- * @Creation 2019.03.08 下午 3:41
+ * @Date 2019.03.08 下午 3:41
  **/
-public class UserDo {
+public class UserDo implements Serializable {
 
-    private int id;
+    private Integer id;
     private String userName;
     private String password;
     private String email;
@@ -20,14 +21,14 @@ public class UserDo {
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
     private Timestamp gmtLogout;
-    private int status;
-    private int delete;
+    private Integer status;
+    private Integer delete;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -119,19 +120,19 @@ public class UserDo {
         this.gmtLogout = gmtLogout;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public int getDelete() {
+    public Integer getDelete() {
         return delete;
     }
 
-    public void setDelete(int delete) {
+    public void setDelete(Integer delete) {
         this.delete = delete;
     }
 }

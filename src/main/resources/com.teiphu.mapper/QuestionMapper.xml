@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teiphu.mapper.QuestionMapper">
+
+    <resultMap id="QuestionBean" type="com.teiphu.pojo.QuestionDo">
+        <id property="id" column="id"/>
+        <result property="user.id" column="user_id"/>
+        <result property="topic.id" column="topic_id"/>
+        <result property="content" column="content"/>
+        <result property="gmtCreate" column="gmt_create"/>
+    </resultMap>
+
+    <insert id="insertQuestion">
+        insert into qanda.question(user_id, topic_id, content)
+        values (#{user.id}, #{topic.id}, #{content});
+    </insert>
+
+    <delete id="deleteQuestion">
+        delete
+        from qanda.question
+        where id = #{questionId};
+    </delete>
+
+    <update id="updateQuestion">
+        update qanda.question
+        set content = #{content}
+        where id = #{id};
+    </update>
+
+    <select id="getQuestion" resultMap="QuestionBean">
+        select id, user_id, topic_id, content, gmt_create
+        from qanda.question
+        where id = #{questionId};
+    </select>
+
+    <select id="listQuestionByUser" resultMap="QuestionBean">
+        select id, user_id, topic_id, content, gmt_create
+        from qanda.question
+        where user_id = #{userId};
+    </select>
+
+    <select id="listQuestionByTopic" resultMap="QuestionBean">
+        select id, user_id, topic_id, content, gmt_create
+        from qanda.question
+        where topic_id = #{topicId};
+    </select>
+
+    <select id="listQuestion" resultMap="QuestionBean">
+        select id, user_id, topic_id, content, gmt_create
+        from qanda.question;
+    </select>
+
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teiphu.mapper.CommentMapper">
+
+    <resultMap id="CommentBean" type="com.teiphu.pojo.CommentDo">
+        <id property="id" column="id"/>
+        <result property="parentCommentId" column="parent_comment_id"/>
+        <result property="user.id" column="user_id"/>
+        <result property="answer.id" column="answer_id"/>
+        <result property="commentContent" column="comment_content"/>
+        <result property="gmtCreate" column="gmt_create"/>
+    </resultMap>
+
+    <insert id="insertComment">
+        insert into qanda.comment (parent_comment_id, user_id, answer_id, comment_content, gmt_create)
+        values (#{parentCommentId}, #{user.id}, #{answer.id}, #{commentContent}, #{gmtCreate});
+    </insert>
+
+    <delete id="deleteComment">
+        delete
+        from qanda.comment
+        where id = #{commentId};
+    </delete>
+
+    <update id="updateComment">
+        update qanda.comment
+        set comment_content = #{commentContent}
+        where id = #{id};
+    </update>
+
+    <select id="getComment" resultMap="CommentBean">
+        select id, parent_comment_id, user_id, answer_id, comment_content, gmt_create
+        from qanda.comment
+        where id = #{commentId}
+    </select>
+
+    <select id="listCommentByParent" resultMap="CommentBean">
+        select id, parent_comment_id, user_id, answer_id, comment_content, gmt_create
+        from qanda.comment
+        where parent_comment_id = #{parentCommentId};
+    </select>
+
+    <select id="listCommentByAnswer" resultMap="CommentBean">
+        select id, parent_comment_id, user_id, answer_id, comment_content, gmt_create
+        from qanda.comment
+        where answer_id = #{answerId};
+    </select>
+
+    <select id="listTopCommentByAnswer" resultMap="CommentBean">
+        select id, parent_comment_id, user_id, answer_id, comment_content, gmt_create
+        from qanda.comment
+        where answer_id = #{answerId} and parent_comment_id = 0;
+    </select>
+
+    <select id="listComment" resultMap="CommentBean">
+        select id, parent_comment_id, user_id, answer_id, comment_content, gmt_create
+        from qanda.comment;
+    </select>
+
+</mapper>

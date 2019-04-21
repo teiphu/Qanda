@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teiphu.mapper.UpdownvoteMapper">
+
+    <resultMap id="UpdownvoteBean" type="com.teiphu.pojo.UpdownvoteDo">
+        <id property="id" column="id"/>
+        <result property="comment.id" column="comment_id"/>
+        <result property="answer.id" column="answer_id"/>
+        <result property="sender.id" column="sender_id"/>
+        <result property="receiver.id" column="receiver_id"/>
+        <result property="upOrDown" column="up_or_down"/>
+        <result property="gmtCreate" column="gmt_create"/>
+    </resultMap>
+
+    <insert id="insertUpdownvote">
+        insert into qanda.updownvote(comment_id, answer_id, sender_id, receiver_id, up_or_down)
+        values (#{comment.id}, #{answer.id}, #{sender.id}, #{receiver.id}, #{upOrDown});
+    </insert>
+
+    <delete id="deleteUpdownvote">
+        delete
+        from qanda.updownvote
+        where id = #{id};
+    </delete>
+
+    <update id="updateUpdownvote">
+        update qanda.updownvote
+        set up_or_down = #{upOrDown}
+        where id = #{id};
+    </update>
+
+    <select id="getUpdownvote" resultMap="UpdownvoteBean">
+        select id, comment_id, answer_id, sender_id, receiver_id, up_or_down, gmt_create
+        from qanda.updownvote
+        where id = #{updownvoteId};
+    </select>
+
+    <select id="listUpdownvote" resultMap="UpdownvoteBean">
+        select id, comment_id, answer_id, sender_id, receiver_id, up_or_down, gmt_create
+        from qanda.updownvote;
+    </select>
+
+    <select id="listUpvoteByAnswer" resultMap="UpdownvoteBean">
+        select id, comment_id, answer_id, sender_id, receiver_id, up_or_down, gmt_create
+        from qanda.updownvote
+        where answer_id = #{answerId} and up_or_down = 1;
+    </select>
+
+    <select id="listUpvoteByComment" resultMap="UpdownvoteBean">
+        select id, comment_id, answer_id, sender_id, receiver_id, up_or_down, gmt_create
+        from qanda.updownvote
+        where comment_id = #{commentId} and up_or_down = 1;
+    </select>
+
+    <select id="countUpvoteByAnswer" resultType="java.lang.Integer">
+        select count(1)
+        from qanda.updownvote
+        where answer_id = #{answerId} and up_or_down = 1;
+    </select>
+
+    <select id="countDownvoteByAnswer" resultType="java.lang.Integer">
+        select count(1)
+        from qanda.updownvote
+        where answer_id = #{answerId} and up_or_down = 0;
+    </select>
+
+    <select id="countUpvoteByComment" resultType="java.lang.Integer">
+        select count(1)
+        from qanda.updownvote
+        where comment_id = #{commentId} and up_or_down = 1;
+    </select>
+
+    <select id="countDownvoteByComment" resultType="java.lang.Integer">
+        select count(1)
+        from qanda.updownvote
+        where comment_id = #{commentId} and up_or_down = 0;
+    </select>
+
+</mapper>
