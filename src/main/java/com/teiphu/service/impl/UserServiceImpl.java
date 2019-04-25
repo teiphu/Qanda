@@ -5,7 +5,9 @@ import com.teiphu.pojo.UserDo;
 import com.teiphu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -19,27 +21,37 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
+    @Transactional(rollbackFor = { IOException.class })
     public int addUser(UserDo user) {
-        return 0;
+        return userMapper.insertUser(user);
     }
 
     @Override
+    @Transactional(rollbackFor = { IOException.class })
     public int deleteUser(Integer userId) {
-        return 0;
+        return userMapper.deleteUser(userId);
     }
 
     @Override
+    @Transactional(rollbackFor = { IOException.class })
     public int updateUser(UserDo user) {
-        return 0;
+        return userMapper.updateUser(user);
     }
 
     @Override
     public UserDo getUser(Integer userId) {
-        return null;
+        return userMapper.getUser(userId);
     }
 
     @Override
     public List<UserDo> listUser() {
-        return null;
+        return userMapper.listUser();
+    }
+
+    @Override
+    public UserDo getUserByLogin(String email, String phone, String password) {
+        UserDo user = new UserDo(email, phone, password);
+        UserDo userDo = userMapper.getUserByLogin(user);
+        return userDo;
     }
 }

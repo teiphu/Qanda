@@ -5,7 +5,9 @@ import com.teiphu.pojo.AnswerDo;
 import com.teiphu.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -19,16 +21,19 @@ public class AnswerServiceImpl implements AnswerService {
     private AnswerMapper answerMapper;
 
     @Override
+    @Transactional(rollbackFor = { IOException.class })
     public int addAnswer(AnswerDo answer) {
         return 0;
     }
 
     @Override
+    @Transactional(rollbackFor = { IOException.class })
     public int deleteAnswer(Integer answerId) {
         return 0;
     }
 
     @Override
+    @Transactional(rollbackFor = { IOException.class })
     public int updateAnswer(AnswerDo answer) {
         return 0;
     }

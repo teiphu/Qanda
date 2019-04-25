@@ -7,8 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -29,16 +31,19 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
+    @Transactional(rollbackFor = { IOException.class })
     public int addTopic(TopicDo topicDo) {
         return 0;
     }
 
     @Override
+    @Transactional(rollbackFor = { IOException.class })
     public int deleteTopic(Integer topicId) {
         return 0;
     }
 
     @Override
+    @Transactional(rollbackFor = { IOException.class })
     public int updateTopic(TopicDo topic) {
         return 0;
     }

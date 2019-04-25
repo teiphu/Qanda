@@ -5,7 +5,9 @@ import com.teiphu.pojo.UpdownvoteDo;
 import com.teiphu.service.UpdownvoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -19,16 +21,19 @@ public class UpdownvoteServiceImpl implements UpdownvoteService {
     private UpdownvoteMapper voteMapper;
 
     @Override
+    @Transactional(rollbackFor = { IOException.class })
     public int addVote(UpdownvoteDo vote) {
         return 0;
     }
 
     @Override
+    @Transactional(rollbackFor = { IOException.class })
     public int deleteVote(Integer voteId) {
         return 0;
     }
 
     @Override
+    @Transactional(rollbackFor = { IOException.class })
     public int updateVote(UpdownvoteDo vote) {
         return 0;
     }

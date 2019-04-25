@@ -19,4 +19,6 @@ public interface UserService {
     UserDo getUser(Integer userId);
 
     List<UserDo> listUser();
+
+    UserDo getUserByLogin(String email, String phone, String password);
 }

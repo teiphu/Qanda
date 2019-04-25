@@ -24,6 +24,37 @@ public class UserDo implements Serializable {
     private Integer status;
     private Integer delete;
 
+    public UserDo(String email, String phone, String password) {
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+    }
+
+    public UserDo(String userName, String password, String email, String phone, String sex, Timestamp birthday,
+                  String job, String signature) {
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.sex = sex;
+        this.birthday = birthday;
+        this.job = job;
+        this.signature = signature;
+    }
+
+    public UserDo(Integer id, String userName, String password, String email, String phone, String sex,
+                  Timestamp birthday, String job, String signature) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.sex = sex;
+        this.birthday = birthday;
+        this.job = job;
+        this.signature = signature;
+    }
+
     public Integer getId() {
         return id;
     }

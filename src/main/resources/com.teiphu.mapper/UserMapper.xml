@@ -40,4 +40,16 @@
         from `user`;
     </select>
 
+    <select id="getUserByLogin" resultType="com.teiphu.pojo.UserDo">
+        select user_name userName, password, email, phone, sex, birthday, job, signature, gmt_create gmtCreate
+        from `user`
+        where password = #{password}
+        <if test="email != null">
+            and email = #{email}
+        </if>
+        <if test="phone != null">
+            and phone = #{phone}
+        </if>
+    </select>
+
 </mapper>
