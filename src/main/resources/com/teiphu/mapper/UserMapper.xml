@@ -30,18 +30,18 @@
     </update>
 
     <select id="getUser" resultType="com.teiphu.pojo.UserDo">
-        select user_name userName, password, email, phone, sex, birthday, job, signature, gmt_create gmtCreate
+        select id, user_name userName, password, email, phone, sex, birthday, job, signature, gmt_create gmtCreate
         from `user`
         where id = #{userId};
     </select>
 
     <select id="listUser" resultType="com.teiphu.pojo.UserDo">
-        select user_name userName, password, email, phone, sex, birthday, job, signature, gmt_create gmtCreate
+        select id, user_name userName, password, email, phone, sex, birthday, job, signature, gmt_create gmtCreate
         from `user`;
     </select>
 
     <select id="getUserByLogin" resultType="com.teiphu.pojo.UserDo">
-        select user_name userName, password, email, phone, sex, birthday, job, signature, gmt_create gmtCreate
+        select id, user_name userName, password, email, phone, sex, birthday, job, signature, gmt_create gmtCreate
         from `user`
         where password = #{password}
         <if test="email != null">

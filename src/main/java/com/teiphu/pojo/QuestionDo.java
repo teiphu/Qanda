@@ -17,6 +17,13 @@ public class QuestionDo implements Serializable {
     private Timestamp gmtModified;
     private Integer status;
 
+    public QuestionDo() {
+    }
+
+    public QuestionDo(Integer questId) {
+        this.id = questId;
+    }
+
     public Integer getId() {
         return id;
     }

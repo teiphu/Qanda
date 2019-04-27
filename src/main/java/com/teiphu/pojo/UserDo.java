@@ -1,5 +1,8 @@
 package com.teiphu.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -7,6 +10,7 @@ import java.sql.Timestamp;
  * @Author Teiphu
  * @Date 2019.03.08 下午 3:41
  **/
+@JsonInclude(Include.NON_NULL)
 public class UserDo implements Serializable {
 
     private Integer id;
@@ -23,6 +27,9 @@ public class UserDo implements Serializable {
     private Timestamp gmtLogout;
     private Integer status;
     private Integer delete;
+
+    public UserDo() {
+    }
 
     public UserDo(String email, String phone, String password) {
         this.email = email;
@@ -53,6 +60,10 @@ public class UserDo implements Serializable {
         this.birthday = birthday;
         this.job = job;
         this.signature = signature;
+    }
+
+    public UserDo(Integer userId) {
+        this.id = userId;
     }
 
     public Integer getId() {

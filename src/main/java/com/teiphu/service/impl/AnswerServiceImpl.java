@@ -1,6 +1,8 @@
 package com.teiphu.service.impl;
 
 import com.teiphu.mapper.AnswerMapper;
+import com.teiphu.mapper.CommentMapper;
+import com.teiphu.mapper.UpdownvoteMapper;
 import com.teiphu.pojo.AnswerDo;
 import com.teiphu.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,41 +22,49 @@ public class AnswerServiceImpl implements AnswerService {
     @Autowired
     private AnswerMapper answerMapper;
 
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private UpdownvoteMapper voteMapper;
+
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int addAnswer(AnswerDo answer) {
-        return 0;
+        return answerMapper.insertAnswer(answer);
     }
 
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int deleteAnswer(Integer answerId) {
-        return 0;
+        int res = answerMapper.deleteAnswer(answerId);
+        commentMapper.deleteCommentByAnswer(answerId);
+        return res;
     }
 
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int updateAnswer(AnswerDo answer) {
-        return 0;
+        return answerMapper.updateAnswer(answer);
     }
 
     @Override
     public AnswerDo getAnswer(Integer answerId) {
-        return null;
+        return answerMapper.getAnswer(answerId);
     }
 
     @Override
     public List<AnswerDo> listAnswer() {
-        return null;
+        return answerMapper.listAnswer();
     }
 
     @Override
     public List<AnswerDo> listAnswerByQuestion(Integer questionId) {
-        return null;
+        return answerMapper.listAnswerByQuestion(questionId);
     }
 
     @Override
     public List<AnswerDo> listAnswerByUser(Integer userId) {
-        return null;
+        return answerMapper.listAnswerByUser(userId);
     }
 }

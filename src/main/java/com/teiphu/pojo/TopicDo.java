@@ -16,6 +16,13 @@ public class TopicDo implements Serializable {
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
 
+    public TopicDo() {
+    }
+
+    public TopicDo(Integer topicId) {
+        this.id = topicId;
+    }
+
     public Integer getId() {
         return id;
     }

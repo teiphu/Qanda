@@ -31,22 +31,22 @@ public class UserController {
     private DataSource dataSource;
 
     @ApiOperation(value = "登录")
-    @ResponseBody
     @GetMapping("login")
-    public void login(String email, String phone, String password) {
+    public String login(String email, String phone, String password) {
         UserDo user = userService.getUserByLogin(email, phone, password);
+        return user != null ? "登录成功" : "登录失败";
     }
 
     @ApiOperation(value = "注册")
-    @ResponseBody
     @PutMapping("register")
-    public int register(UserDo userDo) {
-        int res = userService.addUser(userDo);
+    public int register(String userName, String password, String email, String phone, String sex,
+                        Timestamp birthday, String job, String signature) {
+        UserDo user = new UserDo(userName, password, email, phone, sex, birthday, job, signature);
+        int res = userService.addUser(user);
         return res;
     }
 
     @ApiOperation(value = "保存用户")
-    @ResponseBody
     @PutMapping("saveUser")
     public String saveUser(String userName, String password, String email, String phone, String sex,
                            Timestamp birthday, String job, String signature) {
@@ -58,7 +58,6 @@ public class UserController {
     }
 
     @ApiOperation(value = "移除用户")
-    @ResponseBody
     @DeleteMapping("removeUser")
     public String removeUser(Integer userId) {
         int res = userService.deleteUser(userId);
@@ -66,7 +65,6 @@ public class UserController {
     }
 
     @ApiOperation(value = "修改用户")
-    @ResponseBody
     @PostMapping("changeUser")
     public String changeUser(Integer id, String userName, String password, String email, String phone, String sex,
                              Timestamp birthday, String job, String signature) {
@@ -76,7 +74,6 @@ public class UserController {
     }
 
     @ApiOperation(value = "获取用户")
-    @ResponseBody
     @GetMapping("retrieveUser")
     public UserDo retrieveUser(Integer userId) {
         UserDo user = userService.getUser(userId);
@@ -84,7 +81,6 @@ public class UserController {
     }
 
     @ApiOperation(value = "获取多个用户")
-    @ResponseBody
     @GetMapping("retrieveUsers")
     public List<UserDo> retrieveUsers() {
         List<UserDo> users = userService.listUser();

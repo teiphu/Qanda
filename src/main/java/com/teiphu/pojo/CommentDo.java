@@ -18,6 +18,13 @@ public class CommentDo implements Serializable {
     private Timestamp gmtModified;
     private int delete;
 
+    public CommentDo() {
+    }
+
+    public CommentDo(Integer commentId) {
+        this.id = commentId;
+    }
+
     public Integer getId() {
         return id;
     }

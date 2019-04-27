@@ -16,6 +16,8 @@ public interface CommentMapper {
 
     int deleteComment(Integer commentId);
 
+    int deleteCommentByAnswer(Integer answerId);
+
     int updateComment(CommentDo comment);
 
     CommentDo getComment(Integer commentId);

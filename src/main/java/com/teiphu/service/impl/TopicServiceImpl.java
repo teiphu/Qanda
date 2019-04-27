@@ -32,29 +32,29 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     @Transactional(rollbackFor = { IOException.class })
-    public int addTopic(TopicDo topicDo) {
-        return 0;
+    public int addTopic(TopicDo topic) {
+        return topicMapper.insertTopic(topic);
     }
 
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int deleteTopic(Integer topicId) {
-        return 0;
+        return topicMapper.deleteTopic(topicId);
     }
 
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int updateTopic(TopicDo topic) {
-        return 0;
+        return topicMapper.updateTopic(topic);
     }
 
     @Override
     public TopicDo getTopic(Integer topicId) {
-        return null;
+        return topicMapper.getTopic(topicId);
     }
 
     @Override
     public List<TopicDo> listTopic() {
-        return null;
+        return topicMapper.listTopic();
     }
 }

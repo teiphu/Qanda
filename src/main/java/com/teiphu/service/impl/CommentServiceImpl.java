@@ -1,6 +1,7 @@
 package com.teiphu.service.impl;
 
 import com.teiphu.mapper.CommentMapper;
+import com.teiphu.mapper.UpdownvoteMapper;
 import com.teiphu.pojo.CommentDo;
 import com.teiphu.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,46 +21,51 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private CommentMapper commentMapper;
 
+    @Autowired
+    private UpdownvoteMapper voteMapper;
+
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int addComment(CommentDo comment) {
-        return 0;
+        return commentMapper.insertComment(comment);
     }
 
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int deleteComment(Integer commentId) {
-        return 0;
+        Integer res = commentMapper.deleteComment(commentId);
+        voteMapper.deleteUpdownvoteByComment(commentId);
+        return res;
     }
 
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int updateComment(CommentDo comment) {
-        return 0;
+        return commentMapper.updateComment(comment);
     }
 
     @Override
     public CommentDo getComment(Integer commentId) {
-        return null;
+        return commentMapper.getComment(commentId);
     }
 
     @Override
     public List<CommentDo> listCommentByParent(Integer parentCommentId) {
-        return null;
+        return commentMapper.listCommentByParent(parentCommentId);
     }
 
     @Override
     public List<CommentDo> listCommentByAnswer(Integer answerId) {
-        return null;
+        return commentMapper.listCommentByAnswer(answerId);
     }
 
     @Override
     public List<CommentDo> listTopCommentByAnswer(Integer answerId) {
-        return null;
+        return commentMapper.listTopCommentByAnswer(answerId);
     }
 
     @Override
     public List<CommentDo> listComent() {
-        return null;
+        return commentMapper.listComment();
     }
 }

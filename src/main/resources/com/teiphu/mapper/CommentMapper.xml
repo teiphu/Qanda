@@ -23,6 +23,12 @@
         where id = #{commentId};
     </delete>
 
+    <delete id="deleteCommentByAnswer">
+        delete
+        from qanda.comment
+        where answer_id = #{answerId};
+    </delete>
+
     <update id="updateComment">
         update qanda.comment
         set comment_content = #{commentContent}

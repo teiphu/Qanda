@@ -16,6 +16,8 @@ public interface UpdownvoteMapper {
 
     int deleteUpdownvote(Integer updownvoteId);
 
+    int deleteUpdownvoteByComment(Integer commentId);
+
     int updateUpdownvote(UpdownvoteDo updownvote);
 
     UpdownvoteDo getUpdownvote(Integer updownvoteId);
@@ -33,5 +35,4 @@ public interface UpdownvoteMapper {
     Integer countUpvoteByComment(Integer commentId);
 
     Integer countDownvoteByComment(Integer commentId);
-
 }

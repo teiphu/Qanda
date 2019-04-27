@@ -23,58 +23,58 @@ public class UpdownvoteServiceImpl implements UpdownvoteService {
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int addVote(UpdownvoteDo vote) {
-        return 0;
+        return voteMapper.insertUpdownvote(vote);
     }
 
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int deleteVote(Integer voteId) {
-        return 0;
+        return voteMapper.deleteUpdownvote(voteId);
     }
 
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int updateVote(UpdownvoteDo vote) {
-        return 0;
+        return voteMapper.updateUpdownvote(vote);
     }
 
     @Override
     public UpdownvoteDo getVote(Integer voteId) {
-        return null;
+        return voteMapper.getUpdownvote(voteId);
     }
 
     @Override
     public List<UpdownvoteDo> listVote() {
-        return null;
+        return voteMapper.listUpdownvote();
     }
 
     @Override
     public List<UpdownvoteDo> listUpvoteByAnswer(Integer answerId) {
-        return null;
+        return voteMapper.listUpvoteByAnswer(answerId);
     }
 
     @Override
     public List<UpdownvoteDo> listUpvoteByComment(Integer commentId) {
-        return null;
+        return voteMapper.listUpvoteByComment(commentId);
     }
 
     @Override
     public Integer countUpvoteByAnswer(Integer answerId) {
-        return null;
+        return voteMapper.countUpvoteByAnswer(answerId);
     }
 
     @Override
     public Integer countDownvoteByAnswer(Integer answerId) {
-        return null;
+        return voteMapper.countDownvoteByAnswer(answerId);
     }
 
     @Override
     public Integer countUpvoteByComment(Integer commentId) {
-        return null;
+        return voteMapper.countUpvoteByComment(commentId);
     }
 
     @Override
     public Integer countDownvoteByComment(Integer commentId) {
-        return null;
+        return voteMapper.countDownvoteByComment(commentId);
     }
 }

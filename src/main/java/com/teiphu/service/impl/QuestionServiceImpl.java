@@ -23,38 +23,38 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int addQuestion(QuestionDo question) {
-        return 0;
+        return questionMapper.insertQuestion(question);
     }
 
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int deleteQuestion(Integer questionId) {
-        return 0;
+        return questionMapper.deleteQuestion(questionId);
     }
 
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int updateQuestion(QuestionDo question) {
-        return 0;
+        return questionMapper.updateQuestion(question);
     }
 
     @Override
     public QuestionDo getQuestion(Integer questionId) {
-        return null;
+        return questionMapper.getQuestion(questionId);
     }
 
     @Override
     public List<QuestionDo> listQuestionByUser(Integer userId) {
-        return null;
+        return questionMapper.listQuestionByUser(userId);
     }
 
     @Override
     public List<QuestionDo> listQuestionByTopic(Integer topicId) {
-        return null;
+        return questionMapper.listQuestionByTopic(topicId);
     }
 
     @Override
     public List<QuestionDo> listQuestion() {
-        return null;
+        return questionMapper.listQuestion();
     }
 }

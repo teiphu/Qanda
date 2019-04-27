@@ -24,6 +24,12 @@
         where id = #{id};
     </delete>
 
+    <delete id="deleteUpdownvoteByComment">
+        delete
+        from qanda.updownvote
+        where comment_id = #{commentId};
+    </delete>
+
     <update id="updateUpdownvote">
         update qanda.updownvote
         set up_or_down = #{upOrDown}

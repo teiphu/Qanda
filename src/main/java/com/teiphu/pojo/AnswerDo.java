@@ -16,6 +16,13 @@ public class AnswerDo implements Serializable {
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
 
+    public AnswerDo() {
+    }
+
+    public AnswerDo(Integer answerId) {
+        this.id = answerId;
+    }
+
     public Integer getId() {
         return id;
     }
