@@ -51,4 +51,15 @@
         from qanda.question;
     </select>
 
+    <select id="listQuestionByPage" resultMap="QuestionBean">
+        select id, user_id, topic_id, content, gmt_create
+        from qanda.question;
+        /*order by id;*/
+    </select>
+
+    <select id="countQuestion" resultType="java.lang.Integer">
+        select count(*)
+        from qanda.question;
+    </select>
+
 </mapper>

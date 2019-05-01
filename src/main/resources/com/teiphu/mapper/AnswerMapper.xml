@@ -22,6 +22,12 @@
         where qanda.answer.id = #{answerId};
     </delete>
 
+    <delete id="deleteAnswerByQuestion">
+        delete
+        from qanda.answer
+        where question_id = #{questionId};
+    </delete>
+
     <update id="updateAnswer">
         update qanda.answer
         set answer_content = #{answerContent}

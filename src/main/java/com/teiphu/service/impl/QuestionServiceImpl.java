@@ -1,13 +1,17 @@
 package com.teiphu.service.impl;
 
+import com.teiphu.mapper.AnswerMapper;
 import com.teiphu.mapper.QuestionMapper;
+import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.QuestionDo;
 import com.teiphu.service.QuestionService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,6 +24,9 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
+    @Autowired
+    private AnswerMapper answerMapper;
+
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int addQuestion(QuestionDo question) {
@@ -29,6 +36,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int deleteQuestion(Integer questionId) {
+        answerMapper.deleteAnswerByQuestion(questionId);
         return questionMapper.deleteQuestion(questionId);
     }
 
@@ -40,7 +48,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public QuestionDo getQuestion(Integer questionId) {
-        return questionMapper.getQuestion(questionId);
+        QuestionDo question = questionMapper.getQuestion(questionId);
+        question.setAnswers(answerMapper.listAnswerByQuestion(questionId));
+        return question;
     }
 
     @Override
@@ -56,5 +66,22 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<QuestionDo> listQuestion() {
         return questionMapper.listQuestion();
+    }
+
+    @Override
+    public List<QuestionDo> listQuestionByPage(Integer num) {
+        int limit = 10;
+        int offset = (num - 1) * limit;
+        int total = questionMapper.countQuestion();
+        RowBounds rowBounds = new RowBounds(offset, limit);
+        List<QuestionDo> questions = questionMapper.listQuestionByPage(rowBounds);
+        Iterator it = questions.iterator();
+        while (it.hasNext()) {
+            QuestionDo question = (QuestionDo) it.next();
+            Integer questId = question.getId();
+            List<AnswerDo> answers = answerMapper.listAnswerByQuestion(questId);
+            question.setAnswers(answers);
+        }
+        return questions;
     }
 }

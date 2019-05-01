@@ -2,6 +2,7 @@ package com.teiphu.mapper;
 
 import com.teiphu.pojo.QuestionDo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -25,4 +26,8 @@ public interface QuestionMapper {
     List<QuestionDo> listQuestionByTopic(Integer topicId);
 
     List<QuestionDo> listQuestion();
+
+    int countQuestion();
+
+    List<QuestionDo> listQuestionByPage(RowBounds rowBounds);
 }

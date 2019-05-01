@@ -16,6 +16,8 @@ public interface AnswerMapper {
 
     int deleteAnswer(Integer answerId);
 
+    int deleteAnswerByQuestion(Integer questionId);
+
     int updateAnswer(AnswerDo answer);
 
     AnswerDo getAnswer(Integer answerId);

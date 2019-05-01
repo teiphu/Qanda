@@ -1,12 +1,16 @@
 package com.teiphu.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @Author Teiphu
  * @Date 2019.03.08 下午 3:52
  **/
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class QuestionDo implements Serializable {
 
     private Integer id;
@@ -16,6 +20,16 @@ public class QuestionDo implements Serializable {
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
     private Integer status;
+
+    private List<AnswerDo> answers;
+
+    public List<AnswerDo> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<AnswerDo> answers) {
+        this.answers = answers;
+    }
 
     public QuestionDo() {
     }

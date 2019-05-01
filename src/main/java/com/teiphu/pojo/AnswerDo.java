@@ -1,5 +1,7 @@
 package com.teiphu.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -7,6 +9,7 @@ import java.sql.Timestamp;
  * @Author Teiphu
  * @Date 2019.03.08 下午 3:55
  **/
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AnswerDo implements Serializable {
 
     private Integer id;

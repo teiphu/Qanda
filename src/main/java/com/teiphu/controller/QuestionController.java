@@ -51,6 +51,13 @@ public class QuestionController {
         return "";
     }
 
+    @ApiOperation("分页检索问题")
+    @GetMapping("retrieveQuestionByPage")
+    public List<QuestionDo> retrieveQuestionByPage(Integer num) {
+        List<QuestionDo> questions = questionService.listQuestionByPage(num);
+        return questions;
+    }
+
     @ApiOperation("检索问题")
     @GetMapping("retrieveQuestion")
     public QuestionDo retrieveQuestion(Integer questionId) {
