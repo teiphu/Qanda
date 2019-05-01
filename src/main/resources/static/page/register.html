@@ -3,80 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <title>注册</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="../../templates/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../style/signin.css" rel="stylesheet">
     <link rel="stylesheet" href="../../templates/layui/css/layui.css">
-    <link rel="stylesheet" href="../style/register.css">
+    <script src="../../templates/layui/layui.js"></script>
     <style>
-        .layui-container {
-            margin-top: 10%;
+        .bg-img {
+            background-image: url("../img/20190501153036.png");
         }
 
-        .my-title {
-            font-size: 50px;
-            cursor: pointer;
-            line-height: 60px;
+        .qa-panel {
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            width: 470px;
+            height: 500px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 8px #000000;
+        }
+
+        .form-signin img {
+            margin-bottom: 30px;
+        }
+
+        .layui-row {
+            margin-bottom: 15px;
+        }
+
+        .layui-btn {
+            width: 143px;
+            border-radius: 5px;
+            background-color: #DF0000;
+            color: white;
+            font-size: 22px;
+            line-height: 22px;
+            height: 46px;
+        }
+
+        .qa-btn {
+            background-color: #DF0000;
+            color: white;
+            font-size: 22px;
+            line-height: 22px;
+            height: 48px;
         }
     </style>
 </head>
-<body>
-<script src="../../templates/layui/layui.js"></script>
 
-<div>
-    <div class="layui-container">
+<body class="bg-img">
 
+<div class="text-center container qa-panel">
+    <form class="form-signin" action="" method="">
+        <img src="../img/qanda.png" alt="" width="224" height="82">
         <div class="layui-row">
-            <div class="layui-col-md4 layui-col-md-offset4">
-                <div>
-                    <a>
-                        <span class="my-title">Qanda</span>
-                    </a>
-                </div>
-                <form class="layui-form" action="">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">姓名</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="name" required lay-verify="required" placeholder="请输入姓名"
-                                   autocomplete="off"
-                                   class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">电话</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="phone" required lay-verify="required" placeholder="请输入电话号码"
-                                   autocomplete="off"
-                                   class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">邮箱</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="email" required lay-verify="required" placeholder="请输入电子邮箱"
-                                   autocomplete="off"
-                                   class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">密码框</label>
-                        <div class="layui-input-inline">
-                            <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
-                                   autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-form-mid layui-word-aux">不</div>
-                    </div>
+            <!--<label>姓名</label>-->
+            <input type="text" id="" class="form-control" placeholder="请输入姓名" required autofocus>
+        </div>
+        <div class="layui-row">
+            <!--<label>电话</label>-->
+            <input type="tel" id="" class="form-control" placeholder="请输入电话" required>
+        </div>
+        <div class="layui-row">
+            <!--<label>邮箱</label>-->
+            <input type="email" id="" class="form-control" placeholder="请输入邮箱" required>
+        </div>
+        <div class="layui-row">
+            <!--<label>密码</label>-->
+            <input type="password" id="" class="form-control" placeholder="请输入密码" required>
+        </div>
 
-                    <div class="layui-form-item">
-                        <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="formDemo">注册</button>
-                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                        </div>
-                    </div>
-                </form>
+        <!--<button class="btn btn-lg btn-block qa-btn" type="submit" style="margin-top: 25px;">注&nbsp;册</button>-->
+        <div class="layui-row" style="margin-top: 30px;">
+            <button type="submit" class="layui-btn" lay-submit lay-filter="formDemo">注册</button>
+            <button type="reset" class="layui-btn">重置</button>
+        </div>
+        <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
+    </form>
+</div>
+
+<!--<div class="layui-container layui-row qa-panel">
+    <div class="layui-col-md4 layui-col-md-offset4">
+        <form class="layui-form" action="">
+            <img src="../img/qanda.png" alt="" width="224" height="82">
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" required lay-verify="required" placeholder="请输入姓名"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="phone" required lay-verify="required" placeholder="请输入电话号码"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block">
+                    <input type="text" name="email" required lay-verify="required" placeholder="请输入电子邮箱"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码框</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
+                           autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">不</div>
             </div>
 
-        </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">注册</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
     </div>
-</div>
+</div>-->
+
 
 </body>
 </html>

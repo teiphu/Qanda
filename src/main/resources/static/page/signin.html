@@ -4,49 +4,55 @@
     <meta charset="UTF-8">
     <title>登录</title>
 
-    <link href="../../templates/bootstrap/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-          crossorigin="anonymous">
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
+    <link href="../../templates/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../style/signin.css" rel="stylesheet">
     <link rel="stylesheet" href="../../templates/layui/css/layui.css">
+    <style>
+        .bg-img {
+            background-image: url("../img/20190501153036.png");
+        }
+
+        .qa-panel {
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            width: 450px;
+            height: 360px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 8px #000000;
+        }
+
+        .form-signin img {
+            margin-bottom: 30px;
+        }
+
+        .qa-btn {
+            background-color: #DF0000;
+            color: white;
+            font-size: 22px;
+            line-height: 22px;
+            height: 48px;
+        }
+    </style>
+
 </head>
-<body class="text-center container">
+<body class="bg-img">
+
+<div class="text-center container qa-panel">
     <form class="form-signin">
-        <img class="mb-4" src="../img/bootstrap-solid.svg" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">登录</h1>
+        <img src="../img/qanda.png" alt="" width="224" height="82">
         <div class="layui-row">
-            <label for="inputEmail" class="sr-only">邮箱</label>
             <input type="email" id="inputEmail" class="form-control" placeholder="请输入电子邮箱" required autofocus>
         </div>
         <div class="layui-row">
-            <label for="inputPassword" class="sr-only">密码</label>
             <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required>
         </div>
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> 记住我
-            </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+        <button class="btn btn-lg btn-block qa-btn" type="submit" style="margin-top: 25px;">登&nbsp;录</button>
         <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
     </form>
+</div>
+
 
 </body>
 </html>
