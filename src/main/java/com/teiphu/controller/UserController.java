@@ -39,9 +39,8 @@ public class UserController {
 
     @ApiOperation(value = "注册")
     @PutMapping("register")
-    public int register(String userName, String password, String email, String phone, String sex,
-                        Timestamp birthday, String job, String signature) {
-        UserDo user = new UserDo(userName, password, email, phone, sex, birthday, job, signature);
+    public int register(String username, String password, String email, String phone) {
+        UserDo user = new UserDo(username, password, email, phone);
         int res = userService.addUser(user);
         return res;
     }

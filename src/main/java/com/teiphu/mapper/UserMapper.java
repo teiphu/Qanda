@@ -23,4 +23,6 @@ public interface UserMapper {
     List<UserDo> listUser();
 
     UserDo getUserByLogin(UserDo user);
+
+    UserDo getUserByUsername(String username);
 }

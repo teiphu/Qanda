@@ -2,19 +2,22 @@ package com.teiphu.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
  * @Author Teiphu
  * @Date 2019.03.08 下午 3:41
  **/
 @JsonInclude(Include.NON_NULL)
-public class UserDo implements Serializable {
+public class UserDo implements UserDetails, Serializable {
 
     private Integer id;
-    private String userName;
+    private String username;
     private String password;
     private String email;
     private String phone;
@@ -39,7 +42,7 @@ public class UserDo implements Serializable {
 
     public UserDo(String userName, String password, String email, String phone, String sex, Timestamp birthday,
                   String job, String signature) {
-        this.userName = userName;
+        this.username = userName;
         this.password = password;
         this.email = email;
         this.phone = phone;
@@ -52,7 +55,7 @@ public class UserDo implements Serializable {
     public UserDo(Integer id, String userName, String password, String email, String phone, String sex,
                   Timestamp birthday, String job, String signature) {
         this.id = id;
-        this.userName = userName;
+        this.username = userName;
         this.password = password;
         this.email = email;
         this.phone = phone;
@@ -66,6 +69,13 @@ public class UserDo implements Serializable {
         this.id = userId;
     }
 
+    public UserDo(String username, String password, String email, String phone) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -74,12 +84,37 @@ public class UserDo implements Serializable {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
     public String getPassword() {
