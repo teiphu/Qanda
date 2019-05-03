@@ -3,8 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <title>问题详情</title>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/layui.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/question-details.css">
+
 </head>
 <body>
+<!-- 导入导航条 -->
+<iframe src="../common/head.html" width="100%" height="61px" frameborder="0" class="qa-nav-iframe"></iframe>
 
+<!-- 中间卡片 -->
+<div class="qa-cart">
+    <!-- 卡片 -->
+    <div class="layui-card" id="qa-inner-padding">
+        <div class="layui-card-header qa-card-header" style="height: auto;">
+            <!--<span>答案</span><br>-->
+            <div class="qa-quest-topic">
+                <span><a href="#">中国</a></span>
+                <span><a href="#">日本</a></span>
+                <span><a href="#">中国</a></span>
+                <span><a href="#">日本</a></span>
+                <span><a href="#">中国</a></span>
+                <span><a href="#">日本</a></span>
+            </div>
+            <h4><a>Why did the Vietnamese succeed in total romanization while the Chinese flopped?</a></h4>
+        </div>
+        <div class="layui-card-body">
+            <!--名字与时间-->
+            <div class="qa-card-inner-body">
+                <p style="color: #9494AE;">Answered 22h ago</p>
+            </div>
+
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote" style="width:90px;">
+                    <!--<i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>-->
+                    <i class="qa-icon-edit"></i>
+                    <b style="padding-top: 4px; ">回答</b>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提示答案数量 -->
+    <div style="text-align: center; margin-bottom: 8px; color: #666;">3个答案</div>
+
+    <!-- 卡片 -->
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <!--名字与时间-->
+            <div class="qa-card-inner-body">
+                <p><a>郑立康</a></p>
+                <p style="color: #9494AE;">Answered 22h ago</p>
+            </div>
+            <!--答案-->
+            <div class="qa-body-content">
+                卡片式面板面板通常用于非白色背景色的主体内<br>
+                从而映衬出边框投影
+            </div>
+
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Upvote · </b>
+                    <span>32</span>
+                </div>
+
+                <div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>
+            </div>
+
+            <!-- 评论 -->
+            <div class="qa-qus-comment">
+                <form class="form-horizontal" role="form">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  placeholder="请输入评论">
+                        <button type="button" class="btn btn-default">提交</button>
+            </div>
+            </form>
+            </div>
+        </div>
+        <hr>
+
+        <div class="layui-card-body">
+            <!--名字与时间-->
+            <div class="qa-card-inner-body">
+                <p><a>郑立康</a></p>
+                <p style="color: #9494AE;">Answered 22h ago</p>
+            </div>
+            <!--答案-->
+            <div class="qa-body-content">
+                卡片式面板面板通常用于非白色背景色的主体内<br>
+                从而映衬出边框投影
+            </div>
+
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Upvote · </b>
+                    <span>32</span>
+                </div>
+
+                <div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>
+            </div>
+
+            <!-- 评论 -->
+            <div class="qa-qus-comment">
+                <form class="form-horizontal" role="form">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  placeholder="请输入评论">
+                        <button type="button" class="btn btn-default">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+
+        <div class="layui-card-body">
+            <!--名字与时间-->
+            <div class="qa-card-inner-body">
+                <p><a>郑立康</a></p>
+                <p style="color: #9494AE;">Answered 22h ago</p>
+            </div>
+            <!--答案-->
+            <div class="qa-body-content">
+                卡片式面板面板通常用于非白色背景色的主体内<br>
+                从而映衬出边框投影
+            </div>
+
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Upvote · </b>
+                    <span>32</span>
+                </div>
+
+                <div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>
+            </div>
+
+            <!-- 评论 -->
+            <div class="qa-qus-comment">
+                <form class="form-horizontal" role="form">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  placeholder="请输入评论">
+                        <button type="button" class="btn btn-default">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+
+
+    </div>
+</div>
 </body>
 </html>
