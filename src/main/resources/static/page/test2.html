@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../templates/layui/layui.all.js"></script>
+
+    <link href="../css/signin.css" rel="stylesheet">
+    <link href="../../templates/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../templates/layui/css/layui.css" rel="stylesheet" >
+
+    <style>
+        .bg-img {
+            background-image: url("../img/20190501153036.png");
+        }
+
+        .qa-panel {
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            width: 470px;
+            height: 500px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 8px #000000;
+        }
+
+        .form-signin img {
+            margin-bottom: 30px;
+        }
+
+        .layui-row {
+            margin-bottom: 15px;
+        }
+
+        .layui-btn {
+            width: 143px;
+            border-radius: 5px;
+            background-color: #DF0000;
+            color: white;
+            font-size: 22px;
+            line-height: 22px;
+            height: 46px;
+        }
+
+        .qa-btn {
+            background-color: #DF0000;
+            color: white;
+            font-size: 22px;
+            line-height: 22px;
+            height: 48px;
+        }
+    </style>
+    <script>
+        $().ready(function(){
+            $("#btn-submit").click(function(){
+                $.ajax({
+                    url: "user/register",
+                    type: "POST",
+                    data: $('#form1').serialize(),
+                    success: function(d){
+
+                        if (d.code == "200") {
+                            layer.msg(d.msg);
+                            // window.location.href = "/user/signin";
+                        } else {
+                            alert(d.msg);
+                            layer.msg(d.msg);
+                        }
+                    }
+
+                })
+            });
+
+            // function dd() {
+            //     layer.msg("DSDF");
+            // }
+
+            $("#dd").click(function () {
+                layer.msg("DSDF");
+            });
+        });
+
+
+
+
+    </script>
+</head>
+
+<body class="bg-img">
+
+
+
+<div class="text-center container qa-panel">
+    <button id="dd" onclick="dd()">按钮</button>
+    <form id="form1" class="form-signin" action="" method="post">
+        <img src="../img/qanda.png" alt="" width="224" height="82">
+        <div class="layui-row">
+            <input type="text" name="username" class="form-control" placeholder="请输入姓名" required autofocus>
+        </div>
+        <div class="layui-row">
+            <input type="tel" name="phone" class="form-control" placeholder="请输入电话" required>
+        </div>
+        <div class="layui-row">
+            <input type="email" name="email" class="form-control" placeholder="请输入邮箱" required>
+        </div>
+        <div class="layui-row">
+            <input type="password" name="password" class="form-control" placeholder="请输入密码" required>
+        </div>
+
+        <div class="layui-row" style="margin-top: 30px;">
+            <button type="button" id="btn-submit" class="layui-btn" lay-submit lay-filter="formDemo">注册</button>
+            <button type="reset" class="layui-btn">重置</button>
+        </div>
+        <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>回答</title>
+    <script type="text/javascript" src="../../templates/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../../templates/layui/css/layui.css">
+    <link rel="stylesheet" href="../css/layui.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../../templates/bootstrap/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #FAFAFA;
+        }
+
+        .qa-nav-iframe {
+            position: fixed;
+            z-index: 999;
+        }
+
+        /* 中间卡片 */
+        .qa-cart {
+            width: 45%;
+            margin: 0px auto;
+            padding-top: 90px;
+            /*margin-top: 90px;*/
+        }
+        .layui-card-body {
+            padding-bottom: 50px;
+        }
+        .layui-card {
+            box-shadow: 2px 2px 3px -2px rgba(200, 200, 200, 0.2);
+            border: 1px solid #EFEFEF;
+            border-radius: 5px;
+        }
+        .qa-card-header h4 {
+            font-size: 18px;
+            font-family: 'q_serif', Georgia, Times, "Times New Roman", "Hiragino Kaku Gothic Pro", "Meiryo", serif;
+            font-weight: bold;
+            line-height: 1.3;
+            padding-top: 5px;
+
+        }
+
+        .qa-card-inner-body p {
+            margin-bottom: 0px;
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-size: 13px;
+            line-height: 1.4;
+
+        }
+        .qa-card-inner-body p a{
+            font-family: 'q_serif',Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif;
+        }
+
+        .qa-body-content {
+            margin-top:10px;
+            font-size: 15px;
+            font-family: Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif;
+        }
+
+        .qa-upvote {
+            width: 90px;
+            height: 38px;
+            line-height: 38px;
+            color: #646464;
+            float: left;
+            cursor: pointer;
+            /*background-color: #00FF00;*/
+        }
+        .qa-upvote:hover, .qa-tread:hover {
+            background-color: #FAFAFA;
+            border-radius: 50px;
+        }
+        .qa-upvote b {
+            display: block;
+            margin-top: -39px;
+            margin-left: 41px;
+            font-weight: normal;
+        }
+        .qa-icon-edit {
+            display: block;
+            width: 24px;
+            height: 24px;
+            margin: 7px 10px;
+            background-image: url("../img/edit.svg");
+        }
+
+        /* 点击后的颜色 */
+        .qa-upvote-click {
+            color: #319AFF;
+        }
+
+        .qa-tread {
+            float: left;
+            width: 38px;
+            height: 38px;
+            margin-left: 10px;
+            line-height: 38px;
+        }
+        .qa-tread i {
+            color: #646464;
+            margin-left: 8px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 导入导航条 -->
+    <iframe src="../common/head.html" width="100%" height="61px" frameborder="0" class="qa-nav-iframe"></iframe>
+
+    <!-- 中间卡片 -->
+    <div class="qa-cart">
+        <div class="layui-card">
+            <div class="layui-card-header">给你的问题</div>
+        </div>
+
+        <!-- 卡片 -->
+        <div class="layui-card">
+            <div class="layui-card-header qa-card-header" style="height: auto;" >
+                <span>答案</span><br>
+                <h4><a>Why did the Vietnamese succeed in total romanization while the Chinese flopped?</a></h4>
+            </div>
+            <div class="layui-card-body">
+                <!--名字与时间-->
+                <div class="qa-card-inner-body">
+                    <p style="color: #9494AE;">Answered 22h ago</p>
+                </div>
+
+                <!-- 操作 -->
+                <div style="margin-top: 10px;">
+                    <div class="qa-upvote">
+                        <!--<i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>-->
+                        <i class="qa-icon-edit"></i>
+                        <b>回答</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 卡片 -->
+        <div class="layui-card">
+            <div class="layui-card-header qa-card-header" style="height: auto;" >
+                <span>答案</span><br>
+                <h4><a>Why did the Vietnamese succeed in total romanization while the Chinese flopped?</a></h4>
+            </div>
+            <div class="layui-card-body">
+                <!--名字与时间-->
+                <div class="qa-card-inner-body">
+                    <p style="color: #9494AE;">Answered 22h ago</p>
+                </div>
+
+                <!-- 操作 -->
+                <div style="margin-top: 10px;">
+                    <div class="qa-upvote">
+                        <!--<i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>-->
+                        <i class="qa-icon-edit"></i>
+                        <b>回答</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 卡片 -->
+        <div class="layui-card">
+            <div class="layui-card-header qa-card-header" style="height: auto;" >
+                <span>答案</span><br>
+                <h4><a>Why did the Vietnamese succeed in total romanization while the Chinese flopped?</a></h4>
+            </div>
+            <div class="layui-card-body">
+                <!--名字与时间-->
+                <div class="qa-card-inner-body">
+                    <p style="color: #9494AE;">Answered 22h ago</p>
+                </div>
+
+                <!-- 操作 -->
+                <div style="margin-top: 10px;">
+                    <div class="qa-upvote">
+                        <!--<i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>-->
+                        <i class="qa-icon-edit"></i>
+                        <b>回答</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+</html>
