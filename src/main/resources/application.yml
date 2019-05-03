@@ -1,17 +1,17 @@
-#spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-#spring.datasource.url=jdbc:mysql://localhost:3306/qanda?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=UTC
-#spring.datasource.username=root
-#spring.datasource.password=961124
-
-#mybatis.mapper-locations=classpath:com/teiphu/mapper/*.xml
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/qanda?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=UTC
     username: root
     password: 961124
+  mvc:
+    view:
+      suffix: .html
+      prefix: /page/
+
 
 mybatis:
   mapper-locations: classpath:com/teiphu/mapper/*.xml
   type-aliases-package: com.teiphu.pojo
+
+

@@ -4,9 +4,6 @@ import com.teiphu.mapper.UserMapper;
 import com.teiphu.pojo.UserDo;
 import com.teiphu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,19 +15,19 @@ import java.util.List;
  * @Date 2019.04.17 下午 09:54
  **/
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
 
-    @Override
+    /*@Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         UserDo user = userMapper.getUserByUsername(s);
         if (user == null) {
             throw new UsernameNotFoundException("username is not exists");
         }
         return user;
-    }
+    }*/
 
     @Override
     @Transactional(rollbackFor = { IOException.class })
@@ -66,6 +63,4 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         UserDo userDo = userMapper.getUserByLogin(user);
         return userDo;
     }
-
-
 }

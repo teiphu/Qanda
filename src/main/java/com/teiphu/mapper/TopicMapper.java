@@ -21,4 +21,6 @@ public interface TopicMapper {
     TopicDo getTopic(Integer topicId);
 
     List<TopicDo> listTopic();
+
+    List<TopicDo> listTopicByUser(Integer userId);
 }

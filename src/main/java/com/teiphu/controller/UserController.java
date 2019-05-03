@@ -1,5 +1,6 @@
 package com.teiphu.controller;
 
+import com.teiphu.pojo.Result;
 import com.teiphu.pojo.UserDo;
 import com.teiphu.service.UserService;
 import io.swagger.annotations.Api;
@@ -7,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
@@ -18,7 +20,7 @@ import java.util.List;
  * @Date 2019.04.17 下午 09:58
  **/
 @Api(tags = "用户控制器")
-@RestController
+@Controller
 @RequestMapping("user")
 public class UserController {
 
@@ -30,19 +32,35 @@ public class UserController {
     @Autowired
     private DataSource dataSource;
 
+    @GetMapping("signin")
+    public String signin() {
+        return "signin";
+    }
+
     @ApiOperation(value = "登录")
     @GetMapping("login")
     public String login(String email, String phone, String password) {
         UserDo user = userService.getUserByLogin(email, phone, password);
-        return user != null ? "登录成功" : "登录失败";
+        return user != null ? "index" : "signin";
     }
 
     @ApiOperation(value = "注册")
-    @PutMapping("register")
-    public int register(String username, String password, String email, String phone) {
+    @ResponseBody
+//    @PostMapping("register")
+    @RequestMapping("register")
+    public Result register(String username, String password, String email, String phone) {
         UserDo user = new UserDo(username, password, email, phone);
         int res = userService.addUser(user);
-        return res;
+        Result result = new Result();
+
+        if (res > 0) {
+            result.setCode(200);
+            result.setMsg("注册成功");
+        } else {
+            result.setCode(400);
+            result.setMsg("注册失败");
+        }
+        return result;
     }
 
     @ApiOperation(value = "保存用户")

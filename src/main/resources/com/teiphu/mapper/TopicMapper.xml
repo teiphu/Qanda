@@ -42,4 +42,11 @@
         from qanda.topic;
     </select>
 
+    <select id="listTopicByUser" resultMap="TopicBean">
+        select b.id id, b.user_id, b.topic_name, b.topic_detail
+        from qanda.user_topic a left join qanda.topic b
+        on a.topic_id = b.id
+        where a.user_id = #{userId}
+    </select>
+
 </mapper>

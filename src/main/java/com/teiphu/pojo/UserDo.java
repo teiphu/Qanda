@@ -2,8 +2,6 @@ package com.teiphu.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -14,7 +12,7 @@ import java.util.Collection;
  * @Date 2019.03.08 下午 3:41
  **/
 @JsonInclude(Include.NON_NULL)
-public class UserDo implements UserDetails, Serializable {
+public class UserDo implements Serializable {
 
     private Integer id;
     private String username;
@@ -88,33 +86,8 @@ public class UserDo implements UserDetails, Serializable {
         return username;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
     }
 
     public String getPassword() {
