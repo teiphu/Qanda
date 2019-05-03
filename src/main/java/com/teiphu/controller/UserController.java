@@ -32,22 +32,37 @@ public class UserController {
     @Autowired
     private DataSource dataSource;
 
+    @GetMapping("/")
+    public String test() {
+        return "register";
+    }
+
     @GetMapping("signin")
     public String signin() {
         return "signin";
     }
 
     @ApiOperation(value = "登录")
-    @GetMapping("login")
-    public String login(String email, String phone, String password) {
+    @ResponseBody
+    @PostMapping("login")
+    public Result login(String email, String phone, String password) {
         UserDo user = userService.getUserByLogin(email, phone, password);
-        return user != null ? "index" : "signin";
+        Result result = new Result();
+        if (user != null) {
+            result.setCode(200);
+            result.setMsg("登录成功");
+        } else {
+            result.setCode(400);
+            result.setMsg("登录失败");
+        }
+        return result;
     }
 
     @ApiOperation(value = "注册")
     @ResponseBody
 //    @PostMapping("register")
-    @RequestMapping("register")
+//    @RequestMapping(value = "register", method = {RequestMethod.GET})
+    @RequestMapping(value = "/register", produces = "application/json")
     public Result register(String username, String password, String email, String phone) {
         UserDo user = new UserDo(username, password, email, phone);
         int res = userService.addUser(user);

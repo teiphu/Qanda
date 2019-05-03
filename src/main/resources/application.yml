@@ -8,7 +8,7 @@ spring:
     view:
       suffix: .html
       prefix: /page/
-
+    static-path-pattern: /**
 
 mybatis:
   mapper-locations: classpath:com/teiphu/mapper/*.xml
