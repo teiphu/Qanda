@@ -60,8 +60,6 @@ public class UserController {
 
     @ApiOperation(value = "注册")
     @ResponseBody
-//    @PostMapping("register")
-//    @RequestMapping(value = "register", method = {RequestMethod.GET})
     @RequestMapping(value = "/register", produces = "application/json")
     public Result register(String username, String password, String email, String phone) {
         UserDo user = new UserDo(username, password, email, phone);

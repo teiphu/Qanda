@@ -7,6 +7,7 @@ import com.teiphu.service.QuestionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,12 +17,17 @@ import java.util.List;
  * @Date 2019.04.17 下午 09:57
  **/
 @Api(tags = "问题控制器")
-@RestController
+@Controller
 @RequestMapping("question")
 public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
+
+    @RequestMapping(value = "/home")
+    public String home() {
+        return "redirect:/question/retrieveQuestions";
+    }
 
     @ApiOperation("保存问题")
     @PutMapping("saveQuestion")
@@ -80,7 +86,7 @@ public class QuestionController {
     }
 
     @ApiOperation("检索所有问题")
-    @GetMapping("retrieveQuestions")
+    @RequestMapping("retrieveQuestions")
     public List<QuestionDo> retrieveQuestions() {
         List<QuestionDo> questions = questionService.listQuestion();
         return questions;
