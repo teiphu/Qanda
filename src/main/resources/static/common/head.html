@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../layui/layui.all.js"></script>
     <link rel="stylesheet" href="../layui/css/layui.css">
     <link rel="stylesheet" href="../css/layui.css">
@@ -98,6 +99,10 @@
             color: #fff;
         }
 
+        .header {
+            /*height: 0;*/
+        }
+
     </style>
 </head>
 <body>
@@ -134,6 +139,22 @@
     </div>
 </div>
 
+<script>
+    function question(e) {
 
+        // $('.header').css("height", "100%");
+
+        layer.alert('<textarea rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
+            {
+                skin: 'layui-layer-lan',
+                closeBtn: 0,
+                title: '提问',
+                shadeClose: true, //点击遮罩关闭
+                area: ['380px', '350px'],
+                anim: 0 //动画类型
+            }
+        );
+    }
+</script>
 </body>
 </html>
