@@ -21,6 +21,8 @@ public class QuestionDo implements Serializable {
     private Timestamp gmtModified;
     private Integer status;
 
+    private AnswerDo answer;
+
     private List<AnswerDo> answers;
 
     public List<AnswerDo> getAnswers() {
@@ -92,5 +94,13 @@ public class QuestionDo implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public AnswerDo getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(AnswerDo answer) {
+        this.answer = answer;
     }
 }

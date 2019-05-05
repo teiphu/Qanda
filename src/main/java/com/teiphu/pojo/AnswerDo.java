@@ -19,6 +19,8 @@ public class AnswerDo implements Serializable {
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
 
+    private Integer upvoteCount;
+
     public AnswerDo() {
     }
 
@@ -72,5 +74,13 @@ public class AnswerDo implements Serializable {
 
     public void setGmtModified(Timestamp gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+    public Integer getUpvoteCount() {
+        return upvoteCount;
+    }
+
+    public void setUpvoteCount(Integer upvoteCount) {
+        this.upvoteCount = upvoteCount;
     }
 }

@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -87,8 +88,9 @@ public class QuestionController {
 
     @ApiOperation("检索所有问题")
     @RequestMapping("retrieveQuestions")
-    public List<QuestionDo> retrieveQuestions() {
+    public String retrieveQuestions(Model model) {
         List<QuestionDo> questions = questionService.listQuestion();
-        return questions;
+        model.addAttribute("questions", questions);
+        return "index";
     }
 }
