@@ -5,10 +5,11 @@
 
     <resultMap id="AnswerBean" type="com.teiphu.pojo.AnswerDo">
         <id property="id" column="id"/>
-        <result property="user.id" column="user_id"/>
-        <result property="question.id" column="question_id"/>
         <result property="answerContent" column="answer_content"/>
         <result property="gmtCreate" column="gmt_create"/>
+        <result property="upvoteCount" column="upvoteCount"/>
+        <result property="user.id" column="user_id"/>
+        <result property="question.id" column="question_id"/>
     </resultMap>
 
     <insert id="insertAnswer">
@@ -40,10 +41,19 @@
         where id = #{answerId};
     </select>
 
+
     <select id="listAnswerByQuestion" resultMap="AnswerBean">
-        select id, user_id, question_id, answer_content, gmt_create
-        from qanda.answer
-        where question_id = #{questionId};
+        SELECT id, user_id, question_id, answer_content, gmt_create, upvoteCount
+        FROM
+          (SELECT id, user_id, question_id, answer_content, gmt_create
+          FROM answer
+          WHERE answer.question_id = #{questionId}) t1
+        LEFT JOIN
+          (SELECT updownvote.answer_id, count(*) upvoteCount
+          FROM updownvote
+          WHERE updownvote.up_or_down = 1
+          GROUP BY updownvote.answer_id) t2
+        ON t1.id = t2.answer_id
     </select>
 
     <select id="listAnswerByUser" resultMap="AnswerBean">

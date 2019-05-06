@@ -19,4 +19,6 @@ public interface TopicService {
     TopicDo getTopic(Integer topicId);
 
     List<TopicDo> listTopic();
+
+    List<TopicDo> listTopicByQuestion(Integer questionId);
 }

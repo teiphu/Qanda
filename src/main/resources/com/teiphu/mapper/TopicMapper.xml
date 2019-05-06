@@ -42,11 +42,23 @@
         from qanda.topic;
     </select>
 
-    <select id="listTopicByUser" resultMap="TopicBean">
+    <select id="listTopicByCreatedUser" resultMap="TopicBean">
         select b.id id, b.user_id, b.topic_name, b.topic_detail
         from qanda.user_topic a left join qanda.topic b
         on a.topic_id = b.id
         where a.user_id = #{userId}
+    </select>
+
+    <select id="listTopicByUser" resultMap="TopicBean">
+        select t2.id, t2.user_id, t2.topic_name, t2.topic_detail
+        from qanda.user_topic t1 left join qanda.topic t2
+        on t1.topic_id = t2.id and t1.user_id = #{userId}
+    </select>
+
+    <select id="listTopicByQuestion">
+        SELECT t2.id, t2.topic_name, t2.topic_detail, t2.gmt_create
+        FROM qanda.topic_question t1 LEFT JOIN qanda.topic t2
+        ON t1.topic_id = t2.id AND t1.question_id = #{questionId}
     </select>
 
 </mapper>

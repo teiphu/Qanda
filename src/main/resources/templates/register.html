@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>注册</title>
-    <script type="text/javascript" src="../js/jquery.min.js"></script>
-    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/signin.css" rel="stylesheet">
-    <link rel="stylesheet" href="../layui/css/layui.css">
-    <!--<script src="../layui/layui.js"></script>-->
-    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <!--<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/layui/layui.all.js"></script>
+    <link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/signin.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/layui/css/layui.css">-->
+
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/layui/layui.all.js}"></script>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/signin.css}">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
     <style>
         .bg-img {
-            background-image: url("../img/20190501153036.png");
+            background-image: url("/img/20190501153036.png");
             background-size: 100%;
         }
 
@@ -62,7 +69,7 @@
 
 <div class="text-center container qa-panel">
     <form class="form-register" action="" method="post">
-        <img src="../img/qanda.png" alt="" width="224" height="82">
+        <img th:src="@{/img/qanda.png}" alt="" width="224" height="82">
         <div class="layui-row">
             <!--<label>姓名</label>-->
             <input type="text" class="form-control" name="username" placeholder="请输入姓名" required autofocus>

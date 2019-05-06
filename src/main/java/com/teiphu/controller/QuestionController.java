@@ -1,5 +1,6 @@
 package com.teiphu.controller;
 
+import com.teiphu.mapper.TopicMapper;
 import com.teiphu.pojo.QuestionDo;
 import com.teiphu.pojo.TopicDo;
 import com.teiphu.pojo.UserDo;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -24,6 +26,9 @@ public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private TopicMapper topicMapper;
 
     @RequestMapping(value = "/home")
     public String home() {
@@ -65,12 +70,12 @@ public class QuestionController {
         return questions;
     }
 
-    @ApiOperation("检索问题")
-    @GetMapping("retrieveQuestion")
-    public QuestionDo retrieveQuestion(Integer questionId) {
+    /*@ApiOperation("检索问题")
+    @RequestMapping(value = "/retrieveQuestion/{questionId}", method = RequestMethod.GET)
+    public String retrieveQuestion(@PathVariable Integer questionId, Model model) {
         QuestionDo question = questionService.getQuestion(questionId);
         return question;
-    }
+    }*/
 
     @ApiOperation("按用户检索问题")
     @GetMapping("retrieveQuestionsByUser")
@@ -88,9 +93,13 @@ public class QuestionController {
 
     @ApiOperation("检索所有问题")
     @RequestMapping("retrieveQuestions")
-    public String retrieveQuestions(Model model) {
+    public String retrieveQuestions(HttpSession session, Model model) {
         List<QuestionDo> questions = questionService.listQuestion();
         model.addAttribute("questions", questions);
+        UserDo user = (UserDo) session.getAttribute("user");
+        model.addAttribute("user", user);
+        List<TopicDo> topics = topicMapper.listTopicByUser(user.getId());
+        model.addAttribute("topics", topics);
         return "index";
     }
 }

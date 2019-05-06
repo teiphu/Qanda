@@ -3,6 +3,7 @@ package com.teiphu;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -10,7 +11,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
 @MapperScan(basePackages = "com.teiphu.mapper")
-@SpringBootApplication
+@SpringBootApplication(exclude= SecurityAutoConfiguration.class)
 public class QandaApplication {
 
     private static ApplicationContext context;

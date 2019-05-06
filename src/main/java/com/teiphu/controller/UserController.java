@@ -34,8 +34,8 @@ public class UserController {
     @Autowired
     private DataSource dataSource;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    /*@Autowired
+    private PasswordEncoder passwordEncoder;*/
 
     @GetMapping("/")
     public String test() {
@@ -55,6 +55,8 @@ public class UserController {
         Result result = new Result();
         if (user != null) {
             session.setAttribute("userId", user.getId());
+            session.setAttribute("user", user);
+            UserDo userDo = (UserDo) session.getAttribute("user");
             result.setCode(200);
             result.setMsg("登录成功");
         } else {
@@ -68,7 +70,8 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/register", produces = "application/json")
     public Result register(String username, String password, String email, String phone) {
-        UserDo user = new UserDo(username, passwordEncoder.encode(password), email, phone);
+        //UserDo user = new UserDo(username, passwordEncoder.encode(password), email, phone);
+        UserDo user = new UserDo(username, password, email, phone);
         int res = userService.addUser(user);
         Result result = new Result();
 
