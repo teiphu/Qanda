@@ -63,9 +63,14 @@ body {
 }
 
 .qa-name {
-    margin: 0 0px 0 50px;
+    margin: 0 0px 0 10px;
     float: left;
     line-height: 55px;
+    width: 100px;
+    height: 55px;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
 }
 
 .qa-question-btn {
