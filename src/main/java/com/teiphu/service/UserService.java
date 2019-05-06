@@ -16,6 +16,8 @@ public interface UserService {
 
     int updateUser(UserDo user);
 
+    UserDo getUserByName(String username);
+
     UserDo getUser(Integer userId);
 
     List<UserDo> listUser();

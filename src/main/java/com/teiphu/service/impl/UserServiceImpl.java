@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDo getUserByName(String username) {
+        return userMapper.getUserByUsername(username);
+    }
+
+    @Override
     public UserDo getUser(Integer userId) {
         return userMapper.getUser(userId);
     }

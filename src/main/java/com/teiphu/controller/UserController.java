@@ -8,9 +8,11 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.util.List;
@@ -32,6 +34,9 @@ public class UserController {
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping("/")
     public String test() {
         return "register";
@@ -45,10 +50,11 @@ public class UserController {
     @ApiOperation(value = "登录")
     @ResponseBody
     @PostMapping("login")
-    public Result login(String email, String phone, String password) {
+    public Result login(HttpSession session, String email, String phone, String password) {
         UserDo user = userService.getUserByLogin(email, phone, password);
         Result result = new Result();
         if (user != null) {
+            session.setAttribute("userId", user.getId());
             result.setCode(200);
             result.setMsg("登录成功");
         } else {
@@ -62,7 +68,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/register", produces = "application/json")
     public Result register(String username, String password, String email, String phone) {
-        UserDo user = new UserDo(username, password, email, phone);
+        UserDo user = new UserDo(username, passwordEncoder.encode(password), email, phone);
         int res = userService.addUser(user);
         Result result = new Result();
 

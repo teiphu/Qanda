@@ -14,6 +14,20 @@ import java.util.Collection;
 @JsonInclude(Include.NON_NULL)
 public class UserDo implements Serializable {
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public enum Role {
+        admin, normal
+    }
+
+    private Role role;
+
     private Integer id;
     private String username;
     private String password;
