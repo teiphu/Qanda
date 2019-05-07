@@ -1,0 +1,58 @@
+.qa-data-cart {
+    position: relative;
+    top: 70px;
+    margin: 0 auto;
+    padding-top: 10px;
+    width: 60%;
+    height: 500px;
+    /*background: #888888;*/
+}
+.qa-cart-top {
+    height: 160px;
+    border-bottom: 2px solid #e2e2e2;
+}
+.qa-cart-top-left {
+    width: 142px;
+    height: 142px;
+    border: 1px solid #383d41;
+    border-radius: 50%;
+    float: left;
+}
+.qa-cart-top-right {
+    /*width: 150px;*/
+    margin-left: 30px;
+    float: left;
+}
+.qa-cart-top-right h2 {
+    font-family: 'q_serif',Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif;
+    font-weight: bold;
+    line-height: 1.3;
+    color: #333;
+    font-size: 26px;
+}
+.qa-cart-top-right p {
+    margin-bottom: 10px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #949494;
+}
+.qa-cart-top-right p a{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #949494;
+}
+
+/* 内容 */
+.qa-data-content-header {
+    color: #333;
+    font-weight: 500;
+    position: relative;
+    border-bottom: 1px solid #e2e2e2;
+    /*margin-bottom: 16px;*/
+    padding-top: 10px;
+    /*padding-bottom: 8px;*/
+    letter-spacing: 0;
+    text-transform: none;
+}
+.qa-data-content-header p {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
