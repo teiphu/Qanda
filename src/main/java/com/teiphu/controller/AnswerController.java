@@ -85,6 +85,8 @@ public class AnswerController {
         List<TopicDo> topics = topicService.listTopicByQuestion(questionId);
         model.addAttribute("question", question);
         model.addAttribute("answers", answers);
+        Integer answerCount = answers.size();
+        model.addAttribute("answerCount", answerCount);
         model.addAttribute("topics", topics);
         return "question-details";
     }

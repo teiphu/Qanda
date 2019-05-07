@@ -63,10 +63,12 @@
 
     <!-- 卡片 -->
     <div class="layui-card" th:each="question : ${questions}">
+
         <div class="layui-card-header qa-card-header" style="height: auto;">
             <span>答案</span><br>
             <h4><a th:text="${question.content}" th:href="@{/answer/retrieveAnswersByQuestion/{questionId}(questionId=${question.id})}">明清两代最有意思的是什么？</a></h4>
         </div>
+
         <div class="layui-card-body">
             <!--名字与时间-->
             <div class="qa-card-inner-body">

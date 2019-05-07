@@ -1,11 +1,16 @@
 package com.teiphu.controller;
 
+import com.teiphu.mapper.QuestionMapper;
+import com.teiphu.pojo.QuestionDo;
 import com.teiphu.pojo.TopicDo;
 import com.teiphu.pojo.UserDo;
+import com.teiphu.service.QuestionService;
 import com.teiphu.service.TopicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +20,15 @@ import java.util.List;
  * @Date 2019.04.17 下午 09:57
  **/
 @Api(tags = "话题控制器")
-@RestController
+@Controller
 @RequestMapping("topic")
 public class TopicController {
 
     @Autowired
     private TopicService topicService;
+
+    @Autowired
+    private QuestionService questionService;
 
     @ApiOperation("保存话题")
     @PutMapping("saveTopic")
@@ -52,11 +60,20 @@ public class TopicController {
     }
 
     @ApiOperation("检索话题")
+    @RequestMapping(value = "/retrieveTopic/{topicId}")
+    public String retrieveTopic(Model model, @PathVariable Integer topicId) {
+        TopicDo topic = topicService.getTopic(topicId);
+        List<QuestionDo> questions = questionService.listQuestionByTopic(topicId);
+        model.addAttribute("topic", topic);
+        return "topic";
+    }
+
+    /*@ApiOperation("检索话题")
     @GetMapping("retrieveTopic")
     public TopicDo retrieveTopic(Integer topicId) {
         TopicDo topic = topicService.getTopic(topicId);
         return topic;
-    }
+    }*/
 
     @ApiOperation("检索所有话题")
     @GetMapping("retrieveTopics")

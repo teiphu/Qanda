@@ -29,11 +29,8 @@
     <div class="layui-card" id="qa-inner-padding">
         <div class="layui-card-header qa-card-header" style="height: auto;">
             <!--<span>答案</span><br>-->
-            <div class="qa-quest-topic">
-                <span><a href="#">中国</a></span>
-                <span><a href="#">中国历史</a></span>
-                <span><a href="#">明朝</a></span>
-                <span><a href="#">清朝</a></span>
+            <div th:each="topic : ${topics}" class="qa-quest-topic">
+                <span><a th:text="${topic.topicName}" href="#">中国</a></span>
             </div>
             <h4><a>明清两代最有意思的是什么？</a></h4>
         </div>
@@ -55,18 +52,19 @@
     </div>
 
     <!-- 提示答案数量 -->
-    <div style="text-align: center; margin-bottom: 8px; color: #666;">3个答案</div>
+    <div style="text-align: center; margin-bottom: 8px; color: #666;"><span th:text="${answerCount}">4</span>个答案</div>
 
     <!-- 卡片 -->
-    <div class="layui-card">
+    <div class="layui-card" th:each="answer : ${answers}">
+
         <div class="layui-card-body">
             <!--名字与时间-->
             <div class="qa-card-inner-body">
-                <p><a>郑立康</a></p>
-                <p style="color: #9494AE;">Answered 22h ago</p>
+                <p><a th:text="${answer.user.username}">郑立康</a></p>
+                <p th:text="${answer.gmtCreate}" style="color: #9494AE;">Answered 22h ago</p>
             </div>
             <!--答案-->
-            <div class="qa-body-content">
+            <div class="qa-body-content" th:text="${answer.answerContent}">
                 清朝沦陷后，革命军队占领了清朝帝国皇宫北京的紫禁城，他们在入口门口发现了一块非常好的平板，写下了大清门。
                 这张照片展示了中国大门上平板电脑的一个例子。
 
@@ -80,7 +78,7 @@
                 <div class="qa-upvote">
                     <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Upvote · </b>
-                    <span>32</span>
+                    <span th:text="${answer.upvoteCount}">32</span>
                 </div>
 
                 <div class="qa-tread">
@@ -100,19 +98,19 @@
         </div>
         <hr>
 
-        <div class="layui-card-body">
-            <!--名字与时间-->
+        <!--<div class="layui-card-body">
+            &lt;!&ndash;名字与时间&ndash;&gt;
             <div class="qa-card-inner-body">
                 <p><a>郑立康</a></p>
                 <p style="color: #9494AE;">Answered 22h ago</p>
             </div>
-            <!--答案-->
+            &lt;!&ndash;答案&ndash;&gt;
             <div class="qa-body-content">
                 卡片式面板面板通常用于非白色背景色的主体内<br>
                 从而映衬出边框投影
             </div>
 
-            <!-- 操作 -->
+            &lt;!&ndash; 操作 &ndash;&gt;
             <div style="margin-top: 10px;">
                 <div class="qa-upvote">
                     <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
@@ -125,7 +123,7 @@
                 </div>
             </div>
 
-            <!-- 评论 -->
+            &lt;!&ndash; 评论 &ndash;&gt;
             <div class="qa-qus-comment">
                 <form class="form-horizontal" role="form">
                     <div class="input-group">
@@ -138,18 +136,18 @@
         <hr>
 
         <div class="layui-card-body">
-            <!--名字与时间-->
+            &lt;!&ndash;名字与时间&ndash;&gt;
             <div class="qa-card-inner-body">
                 <p><a>郑立康</a></p>
                 <p style="color: #9494AE;">Answered 22h ago</p>
             </div>
-            <!--答案-->
+            &lt;!&ndash;答案&ndash;&gt;
             <div class="qa-body-content">
                 卡片式面板面板通常用于非白色背景色的主体内<br>
                 从而映衬出边框投影
             </div>
 
-            <!-- 操作 -->
+            &lt;!&ndash; 操作 &ndash;&gt;
             <div style="margin-top: 10px;">
                 <div class="qa-upvote">
                     <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
@@ -162,7 +160,7 @@
                 </div>
             </div>
 
-            <!-- 评论 -->
+            &lt;!&ndash; 评论 &ndash;&gt;
             <div class="qa-qus-comment">
                 <form class="form-horizontal" role="form">
                     <div class="input-group">
@@ -172,8 +170,7 @@
                 </form>
             </div>
         </div>
-        <hr>
-
+        <hr>-->
 
     </div>
 </div>
