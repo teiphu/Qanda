@@ -5,6 +5,7 @@ import com.teiphu.pojo.QuestionDo;
 import com.teiphu.pojo.TopicDo;
 import com.teiphu.pojo.UserDo;
 import com.teiphu.service.QuestionService;
+import com.teiphu.service.TopicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class QuestionController {
     private QuestionService questionService;
 
     @Autowired
-    private TopicMapper topicMapper;
+    private TopicService topicService;
 
     @RequestMapping(value = "/home")
     public String home() {
@@ -91,6 +92,12 @@ public class QuestionController {
         return questions;
     }
 
+    /**
+     * 获取所有的问题并附带一个答案到首页
+     * @param session
+     * @param model
+     * @return
+     */
     @ApiOperation("检索所有问题")
     @RequestMapping("retrieveQuestions")
     public String retrieveQuestions(HttpSession session, Model model) {
@@ -98,7 +105,7 @@ public class QuestionController {
         model.addAttribute("questions", questions);
         UserDo user = (UserDo) session.getAttribute("user");
         model.addAttribute("user", user);
-        List<TopicDo> topics = topicMapper.listTopicByUser(user.getId());
+        List<TopicDo> topics = topicService.listTopicByUser(user.getId());
         model.addAttribute("topics", topics);
         return "index";
     }

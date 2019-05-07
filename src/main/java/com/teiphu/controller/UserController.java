@@ -37,16 +37,32 @@ public class UserController {
     /*@Autowired
     private PasswordEncoder passwordEncoder;*/
 
+    /**
+     * 用于跳转到注册界面
+     * @return
+     */
     @GetMapping("/")
     public String test() {
         return "register";
     }
 
+    /**
+     * 用于跳转到登录界面
+     * @return
+     */
     @GetMapping("signin")
     public String signin() {
         return "signin";
     }
 
+    /**
+     * 登录并写入Session
+     * @param session
+     * @param email
+     * @param phone
+     * @param password
+     * @return
+     */
     @ApiOperation(value = "登录")
     @ResponseBody
     @PostMapping("login")
@@ -66,6 +82,14 @@ public class UserController {
         return result;
     }
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @param email
+     * @param phone
+     * @return
+     */
     @ApiOperation(value = "注册")
     @ResponseBody
     @RequestMapping(value = "/register", produces = "application/json")

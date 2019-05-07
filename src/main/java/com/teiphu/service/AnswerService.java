@@ -23,4 +23,6 @@ public interface AnswerService {
     List<AnswerDo> listAnswerByQuestion(Integer questionId);
 
     List<AnswerDo> listAnswerByUser(Integer userId);
+
+    AnswerDo getLatestAnswerByQuestion(Integer questionId);
 }

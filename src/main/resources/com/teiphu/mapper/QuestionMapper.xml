@@ -40,10 +40,20 @@
         where user_id = #{userId};
     </select>
 
-    <select id="listQuestionByTopic" resultMap="QuestionBean">
+    <!--<select id="z" resultMap="QuestionBean">
         select id, user_id, topic_id, content, gmt_create
         from qanda.question
         where topic_id = #{topicId};
+    </select>-->
+    
+    <select id="listQuestionByTopic" resultMap="QuestionBean">
+        SELECT t2.id, t2.user_id, t2.content, t2.gmt_create
+        FROM
+        (SELECT topic_question.topic_id, topic_question.question_id
+        FROM qanda.topic_question
+        WHERE topic_question.topic_id = #{topicId}) t1
+        LEFT JOIN qanda.question t2
+        ON t1.question_id = t2.id;
     </select>
 
     <select id="listQuestion" resultMap="QuestionBean">

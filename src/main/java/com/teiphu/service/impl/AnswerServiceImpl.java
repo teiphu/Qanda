@@ -67,4 +67,15 @@ public class AnswerServiceImpl implements AnswerService {
     public List<AnswerDo> listAnswerByUser(Integer userId) {
         return answerMapper.listAnswerByUser(userId);
     }
+
+    /**
+     * 获取一个问题最新的那条答案
+     * @param questionId
+     * @return
+     */
+    @Override
+    public AnswerDo getLatestAnswerByQuestion(Integer questionId) {
+        AnswerDo answer = answerMapper.getLatestAnswerByQuestion(questionId);
+        return answer;
+    }
 }

@@ -62,4 +62,9 @@ public class TopicServiceImpl implements TopicService {
     public List<TopicDo> listTopicByQuestion(Integer questionId) {
         return topicMapper.listTopicByQuestion(questionId);
     }
+
+    @Override
+    public List<TopicDo> listTopicByUser(Integer userId) {
+        return topicMapper.listTopicByUser(userId);
+    }
 }

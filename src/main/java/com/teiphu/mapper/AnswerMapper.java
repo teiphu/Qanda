@@ -27,4 +27,6 @@ public interface AnswerMapper {
     List<AnswerDo> listAnswerByUser(Integer userId);
 
     List<AnswerDo> listAnswer();
+
+    AnswerDo getLatestAnswerByQuestion(Integer questionId);
 }

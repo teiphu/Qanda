@@ -76,6 +76,12 @@ public class AnswerController {
         return answers;
     }
 
+    /**
+     * 获取一个问题下的所有答案
+     * @param model
+     * @param questionId
+     * @return
+     */
     @ApiOperation("查询一个问题的所有答案")
     @GetMapping("retrieveAnswersByQuestion")
     @RequestMapping(value = "/retrieveAnswersByQuestion/{questionId}", method = RequestMethod.GET)

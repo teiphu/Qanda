@@ -16,4 +16,5 @@ public interface UserTopicMapper {
 
     int deleteUserTopic(UserTopicDo userTopic);
 
+    int getAttentionCount(Integer topicId);
 }

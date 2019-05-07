@@ -42,13 +42,14 @@
         where id = #{answerId};
     </select>
 
-
-    <select id="listAnswerByQuestion" resultMap="AnswerBean">
-        SELECT t1.id, user_id, user_name, question_id, answer_content, gmt_create, upvoteCount
+    <select id="getLatestAnswerByQuestion" resultMap="AnswerBean">
+      SELECT t1.id, user_id, user_name, question_id, answer_content, t1.gmt_create, upvoteCount
         FROM (
           (SELECT id, user_id, question_id, answer_content, gmt_create
           FROM answer
-          WHERE answer.question_id = #{questionId}) t1
+          WHERE answer.question_id = #{questionId}
+		  ORDER BY answer.gmt_create DESC
+		  LIMIT 1) t1
         LEFT JOIN
           (SELECT updownvote.answer_id, count(*) upvoteCount
           FROM updownvote
@@ -56,6 +57,37 @@
           GROUP BY updownvote.answer_id) t2
         ON t1.id = t2.answer_id
         ) LEFT JOIN qanda.user t3 ON t1.user_id = t3.id;
+    </select>
+
+    <!--SELECT t1.id, user_id, user_name, question_id, answer_content, t1.gmt_create, upvoteCount
+    FROM (
+    (SELECT id, user_id, question_id, answer_content, gmt_create
+    FROM answer
+    WHERE answer.question_id = #{questionId}) t1
+    LEFT JOIN
+    (SELECT updownvote.answer_id, count(*) upvoteCount
+    FROM updownvote
+    WHERE updownvote.up_or_down = 1
+    GROUP BY updownvote.answer_id) t2
+    ON t1.id = t2.answer_id
+    ) LEFT JOIN qanda.user t3 ON t1.user_id = t3.id;-->
+    <select id="listAnswerByQuestion" resultMap="AnswerBean">
+        SELECT t3.id, t3.user_id, t4.user_name, t3.question_id, t3.answer_content, t3.gmt_create, t3.upvoteCount
+        FROM (
+          SELECT t1.id, user_id, question_id, answer_content, gmt_create, upvoteCount
+          FROM (
+            SELECT id, user_id, question_id, answer_content, gmt_create
+            FROM answer
+            WHERE answer.question_id = #{questionId}) t1
+          LEFT JOIN (
+            SELECT updownvote.answer_id, count(*) upvoteCount
+            FROM updownvote
+            WHERE updownvote.up_or_down = 1
+            GROUP BY updownvote.answer_id) t2
+            ON t1.id = t2.answer_id
+          ) t3
+		LEFT JOIN qanda.user t4
+		ON t3.user_id = t4.id;
     </select>
 
     <select id="listAnswerByUser" resultMap="AnswerBean">

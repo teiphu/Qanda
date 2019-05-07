@@ -1,11 +1,15 @@
 package com.teiphu.controller;
 
 import com.teiphu.mapper.QuestionMapper;
+import com.teiphu.mapper.TopicMapper;
+import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.QuestionDo;
 import com.teiphu.pojo.TopicDo;
 import com.teiphu.pojo.UserDo;
+import com.teiphu.service.AnswerService;
 import com.teiphu.service.QuestionService;
 import com.teiphu.service.TopicService;
+import com.teiphu.service.UserTopicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -29,6 +35,12 @@ public class TopicController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private AnswerService answerService;
+
+    @Autowired
+    private UserTopicService userTopicService;
 
     @ApiOperation("保存话题")
     @PutMapping("saveTopic")
@@ -59,12 +71,31 @@ public class TopicController {
         return "";
     }
 
+    /**
+     * 获取一个话题下的所有问题，问题与话题是M:N的关系
+     * @param model
+     * @param topicId
+     * @return 返回“话题”页面
+     */
     @ApiOperation("检索话题")
     @RequestMapping(value = "/retrieveTopic/{topicId}")
-    public String retrieveTopic(Model model, @PathVariable Integer topicId) {
+    public String retrieveTopic(HttpSession session, Model model, @PathVariable Integer topicId) {
+        UserDo user = (UserDo) session.getAttribute("user");
         TopicDo topic = topicService.getTopic(topicId);
         List<QuestionDo> questions = questionService.listQuestionByTopic(topicId);
+        Iterator it = questions.iterator();
+        while (it.hasNext()) {
+            QuestionDo question = (QuestionDo) it.next();
+            AnswerDo answer = answerService.getLatestAnswerByQuestion(question.getId());
+            question.setAnswer(answer);
+        }
+        List<TopicDo> topicList = topicService.listTopicByUser(user.getId());
+        Integer attention = userTopicService.getAttentionCount(topicId);
+        model.addAttribute("attention", attention);
+        model.addAttribute("user", user);
         model.addAttribute("topic", topic);
+        model.addAttribute("topicList", topicList);
+        model.addAttribute("questions", questions);
         return "topic";
     }
 
