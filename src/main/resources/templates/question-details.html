@@ -21,7 +21,7 @@
 </head>
 <body>
 <!-- 导入导航条 -->
-<iframe src="../static/common/head.html" width="100%" height="61px" frameborder="0" class="qa-nav-iframe"></iframe>
+<iframe th:src="@{/common/head.html}" width="100%" height="61px" frameborder="0" class="qa-nav-iframe"></iframe>
 
 <!-- 中间卡片 -->
 <div class="qa-cart">
@@ -32,12 +32,12 @@
             <div th:each="topic : ${topics}" class="qa-quest-topic">
                 <span><a th:text="${topic.topicName}" th:href="@{/topic/retrieveTopic/{topicId}(topicId=${topic.id})}">中国</a></span>
             </div>
-            <h4><a>明清两代最有意思的是什么？</a></h4>
+            <h4><a th:text="${question.content}">明清两代最有意思的是什么？</a></h4>
         </div>
         <div class="layui-card-body">
             <!--名字与时间-->
             <div class="qa-card-inner-body">
-                <p style="color: #9494AE;">Answered 22h ago</p>
+                <p style="color: #9494AE;" th:text="${question.gmtCreate}">Answered 22h ago</p>
             </div>
 
             <!-- 操作 -->
@@ -90,10 +90,10 @@
             <div class="qa-qus-comment">
                 <form class="form-horizontal" role="form">
                     <div class="input-group">
-                        <input type="text" class="form-control"  placeholder="请输入评论">
+                        <input type="text" class="form-control" placeholder="请输入评论">
                         <button type="button" class="btn btn-default">提交</button>
-            </div>
-            </form>
+                    </div>
+                </form>
             </div>
         </div>
         <hr>

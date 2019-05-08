@@ -83,9 +83,9 @@ public class TopicController {
         UserDo user = (UserDo) session.getAttribute("user");
         TopicDo topic = topicService.getTopic(topicId);
         List<QuestionDo> questions = questionService.listQuestionByTopic(topicId);
-        Iterator it = questions.iterator();
+        Iterator<QuestionDo> it = questions.iterator();
         while (it.hasNext()) {
-            QuestionDo question = (QuestionDo) it.next();
+            QuestionDo question = it.next();
             AnswerDo answer = answerService.getLatestAnswerByQuestion(question.getId());
             question.setAnswer(answer);
         }

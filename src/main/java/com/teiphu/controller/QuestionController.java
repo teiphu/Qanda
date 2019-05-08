@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -108,5 +109,13 @@ public class QuestionController {
         List<TopicDo> topics = topicService.listTopicByUser(user.getId());
         model.addAttribute("topics", topics);
         return "index";
+    }
+
+    @ApiOperation("获取用户感兴趣的问题")
+    @RequestMapping(value = "listQuestOfUserInterest", method = RequestMethod.GET)
+    public String listQuestOfUserInterest(HttpSession session, Model model) {
+        List<QuestionDo> questions = questionService.listQuestOfUserInterest();
+        model.addAttribute("questions", questions);
+        return "answer";
     }
 }

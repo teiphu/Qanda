@@ -24,4 +24,6 @@ public interface QuestionService {
     List<QuestionDo> listQuestion();
 
     List<QuestionDo> listQuestionByPage(Integer num);
+
+    List<QuestionDo> listQuestOfUserInterest();
 }

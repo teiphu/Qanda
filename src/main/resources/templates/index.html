@@ -27,14 +27,10 @@
         </a>
 
         <ul class="layui-nav" id="qa-ul">
-            <li class="layui-nav-item layui-this"><a href="index.html">Home</a></li>
-            <li class="layui-nav-item"><a href="index.html">回答</a></li>
+            <li class="layui-nav-item layui-this"><a th:href="@{/question/home}">Home</a></li>
+            <li class="layui-nav-item"><a th:href="@{/question/listQuestOfUserInterest}">回答</a></li>
             <li class="layui-nav-item"><a href="index.html">通知</a></li>
         </ul>
-
-        <!--<div class="qa-search">
-            <input class="qa-search-input" type="text" autofocus="True" placeholder="搜索问题" >
-        </div>-->
 
         <div class="layui-inline qa-search">
             <!--<input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="layui-input qa-search-input">-->
@@ -66,14 +62,16 @@
 
         <div class="layui-card-header qa-card-header" style="height: auto;">
             <span>答案</span><br>
-            <h4><a th:text="${question.content}" th:href="@{/answer/retrieveAnswersByQuestion/{questionId}(questionId=${question.id})}">明清两代最有意思的是什么？</a></h4>
+            <h4><a th:text="${question.content}"
+                   th:href="@{/answer/retrieveAnswersByQuestion/{questionId}(questionId=${question.id})}">明清两代最有意思的是什么？</a>
+            </h4>
         </div>
 
         <div class="layui-card-body">
             <!--名字与时间-->
             <div class="qa-card-inner-body">
-                <p><a th:text="${question.user != null}? ${question.user.username} : '无名'">郑立康</a></p>
-                <p th:text="${question.gmtCreate}" style="color: #9494AE;">Answered 22h ago</p>
+                <p><a th:text="${question.answer.user != null}? ${question.answer.user.username} : '无名'">郑立康</a></p>
+                <p th:text="${question.answer.gmtCreate}" style="color: #9494AE;">Answered 22h ago</p>
             </div>
             <!--答案-->
             <div th:text="${question.answer != null}? ${question.answer.answerContent} : '无答案'" class="qa-body-content">

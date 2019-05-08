@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>回答</title>
+    <!--<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../static/css/layui.css">
+    <link rel="stylesheet" href="../static/css/global.css">
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/answer.css">-->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/layui/layui.all.js}"></script>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/answer.css}">
+
+</head>
+<body>
+<!-- 导入导航条 -->
+<iframe th:src="@{/common/head.html}" width="100%" height="61px" frameborder="0" class="qa-nav-iframe"></iframe>
+
+<!-- 中间卡片 -->
+<div class="qa-cart">
+    <div class="layui-card">
+        <div class="layui-card-header">给你的问题</div>
+    </div>
+
+    <!-- 卡片 -->
+    <div class="layui-card" th:each="question : ${questions}">
+        <div class="layui-card-header qa-card-header" style="height: auto;">
+            <span>问题</span><br>
+            <h4><a th:text="${question.content}"
+                   th:href="@{/answer/retrieveAnswersByQuestion/{questionId}(questionId=${question.id})}">你认为新世界秩序是全世界还是只关注美国？</a>
+            </h4>
+        </div>
+        <div class="layui-card-body">
+            <!--名字与时间-->
+            <div class="qa-card-inner-body">
+                <p style="color: #9494AE;" th:text="${question.gmtCreate}">Answered 22h ago</p>
+            </div>
+
+            <!-- 操作 -->
+            <div style="margin-top: 10px; height: 40px;">
+                <div class="qa-upvote">
+                    <!--<i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>-->
+                    <i class="qa-icon-edit"></i>
+                    <b>回答</b>
+                </div>
+            </div>
+
+            <!-- 弹出框 -->
+            <div class="qa-pop-up" style="display: none;">
+                    <textarea rows="5" cols="78" style="padding: 5px; border-radius: 5px;"
+                              placeholder="输入你的答案"></textarea>
+                <button class="btn btn-primary" style="height: 30px; line-height: 13px;">提交</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 卡片 -->
+    <!--<div class="layui-card">
+        <div class="layui-card-header qa-card-header" style="height: auto;">
+            <span>答案</span><br>
+            <h4><a>中国人对这篇文章怎么看？</a></h4>
+        </div>
+        <div class="layui-card-body">
+            &lt;!&ndash;名字与时间&ndash;&gt;
+            <div class="qa-card-inner-body">
+                <p style="color: #9494AE;">Answered 22h ago</p>
+            </div>
+
+            &lt;!&ndash; 操作 &ndash;&gt;
+            <div style="margin-top: 10px; height: 40px;">
+                <div class="qa-upvote">
+                    &lt;!&ndash;<i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>&ndash;&gt;
+                    <i class="qa-icon-edit"></i>
+                    <b>回答</b>
+                </div>
+            </div>
+
+            &lt;!&ndash; 弹出框 &ndash;&gt;
+            <div class="qa-pop-up" style="display: none;">
+                <textarea rows="5" cols="78" style="padding: 5px; border-radius: 5px;" placeholder="输入你的答案"></textarea>
+                <button class="btn btn-primary" style="height: 30px; line-height: 13px;">提交</button>
+            </div>
+        </div>
+    </div>-->
+
+    <!-- 卡片 -->
+    <!--<div class="layui-card">
+        <div class="layui-card-header qa-card-header" style="height: auto;">
+            <span>答案</span><br>
+            <h4><a>天文学家如何知道他们正在朝着哈勃望远镜的方向前进？他们声称可以看到130亿年。如果他们看到另一段空间，他们会找到其他较旧的星系吗？</a></h4>
+        </div>
+        <div class="layui-card-body">
+            &lt;!&ndash;名字与时间&ndash;&gt;
+            <div class="qa-card-inner-body">
+                <p style="color: #9494AE;">Answered 22h ago</p>
+            </div>
+
+            &lt;!&ndash; 操作 &ndash;&gt;
+            <div style="margin-top: 10px; height: 40px;">
+                <div class="qa-upvote">
+                    &lt;!&ndash;<i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>&ndash;&gt;
+                    <i class="qa-icon-edit"></i>
+                    <b>回答</b>
+                </div>
+            </div>
+
+            &lt;!&ndash; 弹出框 &ndash;&gt;
+            <div class="qa-pop-up" style="display: none;">
+                <textarea rows="5" cols="78" style="padding: 5px; border-radius: 5px;" placeholder="输入你的答案"></textarea>
+                <button class="btn btn-primary" style="height: 30px; line-height: 13px;">提交</button>
+            </div>
+        </div>
+    </div>-->
+
+</div>
+
+<script>
+    $().ready(function () {
+        $('.qa-upvote').click(function () {
+            $(this).parent().next().toggle();
+            // $('.qa-pop-up').toggle();
+        });
+
+    })
+
+</script>
+</body>
+</html>

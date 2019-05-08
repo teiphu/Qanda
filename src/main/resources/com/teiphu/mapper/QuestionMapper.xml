@@ -72,4 +72,18 @@
         from qanda.question;
     </select>
 
+    <select id="listQuestOfUserInterest" resultMap="QuestionBean">
+        SELECT id, user_id, topic_id, content, gmt_create
+        FROM qanda.question
+        WHERE qanda.question.id IN (
+            SELECT question_id
+            FROM qanda.topic_question
+            WHERE qanda.topic_question.topic_id IN (
+                SELECT qanda.user_topic.topic_id
+                FROM qanda.user_topic
+                WHERE qanda.user_topic.user_id = 2
+            )
+        )
+    </select>
+
 </mapper>

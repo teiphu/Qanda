@@ -30,4 +30,6 @@ public interface QuestionMapper {
     int countQuestion();
 
     List<QuestionDo> listQuestionByPage(RowBounds rowBounds);
+
+    List<QuestionDo> listQuestOfUserInterest();
 }

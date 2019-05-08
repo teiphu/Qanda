@@ -16,7 +16,7 @@ public class UserTopicServiceImpl implements UserTopicService {
     private UserTopicMapper userTopicMapper;
 
     @Override
-    public Integer getAttentionCount(Integer topicId) {
+    public int getAttentionCount(Integer topicId) {
         return userTopicMapper.getAttentionCount(topicId);
     }
 }

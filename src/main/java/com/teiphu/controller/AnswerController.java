@@ -9,6 +9,8 @@ import com.teiphu.service.QuestionService;
 import com.teiphu.service.TopicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,8 @@ import java.util.List;
 @Controller
 @RequestMapping("answer")
 public class AnswerController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnswerController.class);
 
     @Autowired
     private AnswerService answerService;

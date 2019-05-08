@@ -65,7 +65,14 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionDo> listQuestion() {
-        return questionMapper.listQuestion();
+        List<QuestionDo> questions = questionMapper.listQuestion();
+        Iterator<QuestionDo> it = questions.iterator();
+        while (it.hasNext()) {
+            QuestionDo question = it.next();
+            AnswerDo answer = answerMapper.getLatestAnswerByQuestion(question.getId());
+            question.setAnswer(answer);
+        }
+        return questions;
     }
 
     @Override
@@ -83,5 +90,10 @@ public class QuestionServiceImpl implements QuestionService {
             question.setAnswers(answers);
         }
         return questions;
+    }
+
+    @Override
+    public List<QuestionDo> listQuestOfUserInterest() {
+        return questionMapper.listQuestOfUserInterest();
     }
 }
