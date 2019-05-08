@@ -3,7 +3,7 @@
     top: 70px;
     margin: 0 auto;
     padding-top: 10px;
-    width: 60%;
+    width: 50%;
     height: 500px;
     /*background: #888888;*/
 }
@@ -55,4 +55,50 @@
 .qa-data-content-header p {
     font-size: 15px;
     margin-bottom: 10px;
+}
+
+/* 卡片 */
+.qa-cart-data {
+    border-bottom: 1px solid #888888;
+    padding-bottom: 50px;
+    margin-bottom: 5px;
+}
+.qa-cart-data > div > h2 {
+    font-family: 'q_serif',Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif;
+    font-weight: bold;
+    line-height: 1.3;
+    font-size: 18px;
+    padding-top: 5px;
+}
+
+.qa-cart-data > div > h2 > a {
+    color: #333;
+}
+
+.qa-cart-personal > p {
+    margin-bottom: 3px;
+    line-height: 1.2em;
+    font-size: 15px;
+}
+
+ .qa-cart-personal p:nth-child(1) {
+     font-family: 'q_serif',Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif;
+ }
+.qa-cart-personal p:nth-child(2) {
+    /*font-family: 'q_serif',Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif;*/
+    font-size: 14px;
+    color: #888;
+}
+
+.qa-cart-content {
+    font-family: 'q_serif', Georgia, Times, "Times New Roman", "Hiragino Kaku Gothic Pro", "Meiryo", serif;
+    /*font-size: 13px;*/
+    margin-top: 10px;
+}
+
+/* 操作 */
+.qa-upvote-2:hover, .qa-tread:hover {
+    background-color: #E8E8E2;
+    cursor: pointer;
+    border-radius: 50px;
 }

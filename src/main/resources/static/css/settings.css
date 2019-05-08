@@ -1,0 +1,38 @@
+.qa-serttings {
+    margin: 0 auto;
+    width: 50%;
+    position: relative;
+    top: 80px;
+    /*border: 1px solid #999999;*/
+    padding: 30px 30px 110px 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 3px 2px 5px 1px #888888;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.form-group > div {
+    float: right;
+}
+.form-group > label {
+    /*display: block;*/
+    /*float: left;*/
+    text-align: center;
+    padding-top: 5px;
+}
+
+#birthday {
+    height: 38px;
+}
+
+.btn-info {
+    width: 100px;
+}
+
+.form-group {
+    /*border: 1px solid #888;*/
+}
+.form-group textarea {
+    /*float: right;*/
+    /*width: 480px;*/
+}
