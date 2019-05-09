@@ -9,6 +9,7 @@ import com.teiphu.service.TopicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -117,5 +118,15 @@ public class QuestionController {
         List<QuestionDo> questions = questionService.listQuestOfUserInterest();
         model.addAttribute("questions", questions);
         return "answer";
+    }
+
+    @ApiOperation("获取用户回答过的问题")
+    @RequestMapping(value = "listQuestionsAnswered", method = RequestMethod.GET)
+    public String listQuestionsAnswered(HttpSession session, Model model) {
+        UserDo user = (UserDo) session.getAttribute("user");
+        List<QuestionDo> questions = questionService.listQuestionsAnswered(user.getId());
+        model.addAttribute("questions", questions);
+        model.addAttribute("qacount", questions.size());
+        return "profile";
     }
 }

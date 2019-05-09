@@ -96,4 +96,9 @@ public class QuestionServiceImpl implements QuestionService {
     public List<QuestionDo> listQuestOfUserInterest() {
         return questionMapper.listQuestOfUserInterest();
     }
+
+    @Override
+    public List<QuestionDo> listQuestionsAnswered(Integer userId) {
+        return questionMapper.listQuestionsAnswered(userId);
+    }
 }

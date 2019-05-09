@@ -26,4 +26,6 @@ public interface QuestionService {
     List<QuestionDo> listQuestionByPage(Integer num);
 
     List<QuestionDo> listQuestOfUserInterest();
+
+    List<QuestionDo> listQuestionsAnswered(Integer userId);
 }

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人资料</title>
+    <!--<script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/profile.css">-->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/layui/layui.all.js}"></script>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+
+</head>
+<body>
+<!-- 导航 -->
+<div class="layui-header header header-index" id="qa-nav">
+    <div class="layui-main">
+        <a class="logo" href="/">
+            <img th:src="@{/img/qanda.png}" alt="layui">
+        </a>
+
+        <ul class="layui-nav" id="qa-ul">
+            <li class="layui-nav-item layui-this"><a th:href="@{/question/home}">Home</a></li>
+            <li class="layui-nav-item"><a th:href="@{/question/listQuestOfUserInterest}">回答</a></li>
+            <li class="layui-nav-item"><a th:href="@{#}">通知</a></li>
+        </ul>
+
+        <div class="layui-inline qa-search">
+            <!--<input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="layui-input qa-search-input">-->
+            <input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="qa-search-input">
+            <button class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
+        </div>
+
+        <div class="qa-name">
+            <a th:text="${session.user.username}" th:href="@{/question/listQuestionsAnswered}">郑立富</a>
+        </div>
+
+        <div class="qa-question-btn">
+            <button onclick="question(this)">添加问题</button>
+        </div>
+    </div>
+</div>
+
+<!-- 内容卡片 -->
+<div class="qa-data-cart">
+    <!-- 头部 -->
+    <div class="qa-cart-top">
+        <div class="qa-cart-top-left"></div>
+        <div class="qa-cart-top-right">
+            <h2 th:text="${session.user.username}">name</h2>
+            <p><a href="#">Add profile credential</a></p>
+            <p><a href="#">Write a description about yourself</a></p>
+            <p><span>1</span> Follower</p>
+        </div>
+    </div>
+
+    <div class="qa-data-content">
+        <div class="qa-data-content-header">
+            <p><span th:text="${qacount}">0</span> Profile</p>
+        </div>
+
+        <!-- 卡片 -->
+        <div class="qa-cart-data" th:each="question : ${questions}">
+            <div><h2><a th:href="@{/answer/retrieveAnswersByQuestion/{questionId}(questionId=${question.id})}"
+                        th:text="${question.content}">Why is the world afraid of China?</a></h2></div>
+            <div class="qa-cart-personal">
+                <p th:text="${session.user.username}">Tom McGregor, I lived in Beijing since Oct. 2010</p>
+                <p th:text="${question.answer.gmtCreate}">Answered 10h ago</p>
+            </div>
+            <!-- 内容 -->
+            <div class="qa-cart-content" th:text="${question.answer.answerContent}">
+                Whether Chinese officials are willing to admit it or not, they face a more precarious position if
+                US-China trade talks collapse. US President Donald J. Trump has a strong advantage, since he does
+            </div>
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote qa-upvote-2">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Upvote · </b>
+                    <span th:text="${question.answer.upvoteCount != null}? ${question.answer.upvoteCount} : '0'">32</span>
+                </div>
+
+                <div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>
+            </div>
+        </div>
+        <!-- /卡片end -->
+
+        <!-- 卡片 -->
+        <!--<div class="qa-cart-data">
+            <div><h2><a href="#">Why is the world afraid of China?</a></h2></div>
+            <div class="qa-cart-personal">
+                <p>Tom McGregor, I lived in Beijing since Oct. 2010</p>
+                <p>Answered 10h ago</p>
+            </div>
+            &lt;!&ndash; 内容 &ndash;&gt;
+            <div class="qa-cart-content">
+                Whether Chinese officials are willing to admit it or not, they face a more precarious position if
+                US-China trade talks collapse. US President Donald J. Trump has a strong advantage, since he does
+            </div>
+            &lt;!&ndash; 操作 &ndash;&gt;
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote qa-upvote-2">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Upvote · </b>
+                    <span>32</span>
+                </div>
+
+                <div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>
+            </div>
+        </div>-->
+        <!-- /卡片end -->
+
+        <!-- 卡片 -->
+        <!--<div class="qa-cart-data">
+            <div><h2><a href="#">Why is the world afraid of China?</a></h2></div>
+            <div class="qa-cart-personal">
+                <p>Tom McGregor, I lived in Beijing since Oct. 2010</p>
+                <p>Answered 10h ago</p>
+            </div>
+            &lt;!&ndash; 内容 &ndash;&gt;
+            <div class="qa-cart-content">
+                Whether Chinese officials are willing to admit it or not, they face a more precarious position if
+                US-China trade talks collapse. US President Donald J. Trump has a strong advantage, since he does
+            </div>
+            &lt;!&ndash; 操作 &ndash;&gt;
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote qa-upvote-2">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Upvote · </b>
+                    <span>32</span>
+                </div>
+
+                <div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>
+            </div>
+        </div>-->
+        <!-- /卡片end -->
+    </div>
+
+</div>
+
+<script>
+    function question(e) {
+        layer.alert('<textarea rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
+            {
+                skin: 'layui-layer-lan',
+                closeBtn: 0,
+                title: '提问',
+                shadeClose: true, //点击遮罩关闭
+                area: ['380px', '350px'],
+                anim: 0 //动画类型
+            }
+        );
+    }
+</script>
+</body>
+</html>

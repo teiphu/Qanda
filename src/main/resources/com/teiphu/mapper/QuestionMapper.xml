@@ -11,6 +11,15 @@
         <result property="gmtCreate" column="gmt_create"/>
     </resultMap>
 
+    <resultMap id="QABean" type="com.teiphu.pojo.QuestionDo">
+        <id property="id" column="questionId"/>
+        <result property="content" column="content"/>
+        <result property="answer.id" column="answerId"/>
+        <result property="answer.answerContent" column="answer_content"/>
+        <result property="answer.gmtCreate" column="gmt_create"/>
+        <result property="answer.upvoteCount" column="upvoteCount"/>
+    </resultMap>
+
     <insert id="insertQuestion">
         insert into qanda.question(user_id, topic_id, content)
         values (#{user.id}, #{topic.id}, #{content});
@@ -45,7 +54,7 @@
         from qanda.question
         where topic_id = #{topicId};
     </select>-->
-    
+
     <select id="listQuestionByTopic" resultMap="QuestionBean">
         SELECT t2.id, t2.user_id, t2.content, t2.gmt_create
         FROM
@@ -84,6 +93,25 @@
                 WHERE qanda.user_topic.user_id = 2
             )
         )
+    </select>
+
+
+    <select id="listQuestionsAnswered" resultMap="QABean">
+        select *
+        from (
+        SELECT  t1.id answerId, t1.answer_content, t1.gmt_create, t2.id questionId, t2.content
+        FROM
+          (SELECT *
+          FROM answer
+          WHERE answer.user_id = #{userId}) t1
+        LEFT JOIN question t2
+        ON t1.question_id = t2.id
+        ) t3
+        LEFT JOIN (SELECT updownvote.answer_id, count(*) upvoteCount
+          FROM updownvote
+          WHERE updownvote.up_or_down = 1
+          GROUP BY updownvote.answer_id) t4
+        on t3.answerId = t4.answer_id;
     </select>
 
 </mapper>

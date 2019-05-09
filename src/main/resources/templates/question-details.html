@@ -29,8 +29,8 @@
     <div class="layui-card" id="qa-inner-padding">
         <div class="layui-card-header qa-card-header" style="height: auto;">
             <!--<span>答案</span><br>-->
-            <div th:each="topic : ${topics}" class="qa-quest-topic">
-                <span><a th:text="${topic.topicName}" th:href="@{/topic/retrieveTopic/{topicId}(topicId=${topic.id})}">中国</a></span>
+            <div class="qa-quest-topic">
+                <span th:each="topic : ${topics}"><a th:text="${topic.topicName}" th:href="@{/topic/retrieveTopic/{topicId}(topicId=${topic.id})}">中国</a></span>
             </div>
             <h4><a th:text="${question.content}">明清两代最有意思的是什么？</a></h4>
         </div>
