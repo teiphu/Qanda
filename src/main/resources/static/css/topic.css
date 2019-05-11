@@ -50,7 +50,12 @@
     margin-top: -23px;
     margin-left: 105px;
 }
+
 .qa-topic-follow:hover {
     background-color: #FAFAFA;
     border-radius: 50px;
+}
+
+.qa-qa-card {
+    padding-bottom: 45px;
 }

@@ -23,6 +23,8 @@ public interface QuestionService {
 
     List<QuestionDo> listQuestion();
 
+    List<QuestionDo> listQuestionPaging(Integer page);
+
     List<QuestionDo> listQuestionByPage(Integer num);
 
     List<QuestionDo> listQuestOfUserInterest();

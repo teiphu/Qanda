@@ -11,6 +11,10 @@ public class HttpClientResult {
     private HttpStatus status;
     private String result;
 
+    public HttpClientResult(HttpStatus status) {
+        this.status = status;
+    }
+
     public HttpClientResult(HttpStatus status, String result) {
         this.status = status;
         this.result = result;

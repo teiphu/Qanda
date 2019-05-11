@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主题</title>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/topic.css">
+</head>
+<body>
+<!-- 导航 -->
+<div class="layui-header header header-index" id="qa-nav">
+    <div class="layui-main">
+        <a class="logo" href="/">
+            <img src="../../static/img/qanda.png" alt="layui">
+        </a>
+
+        <ul class="layui-nav" id="qa-ul">
+            <li class="layui-nav-item layui-this"><a href="index.html">Home</a></li>
+            <li class="layui-nav-item"><a href="index.html">回答</a></li>
+            <li class="layui-nav-item"><a href="index.html">通知</a></li>
+        </ul>
+
+        <!--<div class="qa-search">
+            <input class="qa-search-input" type="text" autofocus="True" placeholder="搜索问题" >
+        </div>-->
+
+        <div class="layui-inline qa-search">
+            <!--<input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="layui-input qa-search-input">-->
+            <input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="qa-search-input">
+            <button class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
+        </div>
+
+        <div class="qa-name">
+            <a href="#">郑立富</a>
+        </div>
+
+        <div class="qa-question-btn">
+            <button onclick="question(this)">添加问题</button>
+        </div>
+    </div>
+</div>
+
+<!-- 中间卡片 -->
+<div class="qa-cart">
+    <div class="layui-card">
+        <!--<div class="layui-card-header">郑立富</div>-->
+        <div class="layui-card-body">
+            <div class="qa-topic-img"></div>
+            <h2 class="qa-topic-title">Vietnam</h2>
+            <div class="qa-topic-follow">
+                <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 15px; padding-top: 10px;"></i>
+                <b>Follow · </b>
+                <span>32.6k</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 卡片 -->
+    <div class="layui-card">
+        <div class="layui-card-header qa-card-header" style="height: auto;">
+            <span>答案</span><br>
+            <h4><a>明清两代最有意思的是什么？</a></h4>
+        </div>
+        <div class="layui-card-body">
+            <!--名字与时间-->
+            <div class="qa-card-inner-body">
+                <p><a>郑立康</a></p>
+                <p style="color: #9494AE;">Answered 22h ago</p>
+            </div>
+            <!--答案-->
+            <div class="qa-body-content">
+
+                清朝沦陷后，革命军队占领了清朝帝国皇宫北京的紫禁城，他们在入口门口发现了一块非常好的平板，写下了大清门。
+                这张照片展示了中国大门上平板电脑的一个例子。
+                他们不想浪费这么好的平板电脑，并决定在平板电脑的另一边写下他们的州名。
+                当他们翻过平板电脑时。他们眼中的是大明之门。
+                <br>
+            </div>
+
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Upvote · </b>
+                    <span>32</span>
+                </div>
+
+                <div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 卡片 -->
+    <div class="layui-card">
+        <div class="layui-card-header qa-card-header" style="height: auto;">
+            <span>答案</span><br>
+            <h4><a>作为第二代华人移民，离家后如何保持中文能力？</a></h4>
+        </div>
+        <div class="layui-card-body">
+            <!--名字与时间-->
+            <div class="qa-card-inner-body">
+                <p><a>郑立康</a></p>
+                <p style="color: #9494AE;">Answered 22h ago</p>
+            </div>
+            <!--答案-->
+            <div class="qa-body-content">
+                第三代。华人在英国偏好的大都市。
+
+                对于语言？
+
+                关键是你必须有爱和兴趣才能努力工作。任何语言都是一样的。并且个人认为，您的语言是一种值得珍惜的丰富遗产。
+
+                实际上容易中国人。为什么？因为它是一种非常丰富的文化。你对中国人的事物有很大的敬意和喜爱。语言是独特的，是文化中非常特殊的组成部分。中国人有5000年的历史，有3000多年的历代朝代，无尽的文学，经典，民间传说，音乐，电影，书籍，漫画书等等。
+
+                那么我们是如何在海外学习和维持中国人的？家庭，学校，社区和你自己。
+                <br>
+            </div>
+
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Upvote · </b>
+                    <span>32</span>
+                </div>
+
+                <div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 卡片 -->
+    <div class="layui-card">
+        <div class="layui-card-header qa-card-header" style="height: auto;">
+            <span>答案</span><br>
+            <h4><a>Why did the Vietnamese succeed in total romanization while the Chinese flopped?</a></h4>
+        </div>
+        <div class="layui-card-body">
+            <!--名字与时间-->
+            <div class="qa-card-inner-body">
+                <p><a>郑立康</a></p>
+                <p style="color: #9494AE;">Answered 22h ago</p>
+            </div>
+            <!--答案-->
+            <div class="qa-body-content">
+
+                卡片式面板面板通常用于非白色背景色的主体内<br>
+                从而映衬出边框投影
+            </div>
+
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Upvote · </b>
+                    <span>32</span>
+                </div>
+
+                <div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- 侧边 -->
+<div class="qa-side">
+    <ul class="list-group">
+        <li class="list-group-item" style="background-color: #E6E6E6">中国</li>
+        <li class="list-group-item">美国</li>
+        <li class="list-group-item">日本</li>
+        <li class="list-group-item">越南</li>
+        <li class="list-group-item">文字</li>
+    </ul>
+</div>
+
+<script>
+    function question(e) {
+        layer.alert('<textarea rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
+            {
+                skin: 'layui-layer-lan',
+                closeBtn: 0,
+                title: '提问',
+                shadeClose: true, //点击遮罩关闭
+                area: ['380px', '350px'],
+                anim: 0 //动画类型
+            }
+        );
+    }
+</script>
+
+
+</body>
+</html>

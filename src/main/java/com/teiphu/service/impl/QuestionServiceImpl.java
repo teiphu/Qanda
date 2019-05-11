@@ -76,6 +76,21 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public List<QuestionDo> listQuestionPaging(Integer page) {
+        int limit = 10;
+        int offset = (page - 1) * limit;
+        RowBounds rowBounds = new RowBounds(offset, limit);
+        List<QuestionDo> questions = questionMapper.listQuestionPaging(rowBounds);
+        Iterator<QuestionDo> it = questions.iterator();
+        while (it.hasNext()) {
+            QuestionDo question = it.next();
+            AnswerDo answer = answerMapper.getLatestAnswerByQuestion(question.getId());
+            question.setAnswer(answer);
+        }
+        return questions;
+    }
+
+    @Override
     public List<QuestionDo> listQuestionByPage(Integer num) {
         int limit = 10;
         int offset = (num - 1) * limit;

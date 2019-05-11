@@ -34,4 +34,6 @@ public interface QuestionMapper {
     List<QuestionDo> listQuestOfUserInterest();
 
     List<QuestionDo> listQuestionsAnswered(Integer userId);
+
+    List<QuestionDo> listQuestionPaging(RowBounds rowBounds);
 }

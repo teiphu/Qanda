@@ -10,12 +10,56 @@
     <link rel="stylesheet" href="../static/css/global.css">
     <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/css/index.css">-->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/layui/layui.all.js}"></script>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <link rel="stylesheet" th:href="@{/css/layui.css}">
     <link rel="stylesheet" th:href="@{/css/global.css}">
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/index.css}">
+    <script>
+        <!-- 弹出框 -->
+        function question(e) {
+            layer.alert('<textarea id="qa-quest-content" rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
+                {
+                    skin: 'layui-layer-lan',
+                    closeBtn: 0,
+                    title: '提问',
+                    shadeClose: true, //点击遮罩关闭
+                    area: ['380px', '350px'],
+                    anim: 0, //动画类型
+                    yes: function(index, layero){
+                        console.log($('#qa-quest-content').val());
+                        var question =  $('#qa-quest-content').val();
+
+                        $.ajax({
+                            url: "/question/saveQuestion",
+                            type: "POST",
+                            data: {content: question},
+                            success: function(res){
+                                //console.log(res);
+                                //alert(res);
+                                if (res.code == "200") {
+                                    layer.msg("添加问题成功！");
+                                } else {
+                                    layer.msg("添加问题失败！")
+                                }
+                                // $(this).addClass("done");
+                                window.location.reload();
+                            }
+                        });
+
+                        layer.close(index);
+                    }
+                }
+            );
+        }
+
+
+        function clickTopic(topic_id) {
+            window.location.href = "http://localhost:8080/topic/retrieveTopic/" + topic_id;
+        }
+    </script>
 
 </head>
 <body class="site-home">
@@ -62,7 +106,7 @@
         <div class="layui-card-header qa-card-header" style="height: auto;">
             <span>答案</span><br>
             <h4><a th:text="${question.content}"
-                   th:href="@{/answer/retrieveAnswersByQuestion/{questionId}(questionId=${question.id})}">明清两代最有意思的是什么？</a>
+                th:href="@{/answer/retrieveAnswersByQuestion/{questionId}(questionId=${question.id})}">明清两代最有意思的是什么？</a>
             </h4>
         </div>
 
@@ -102,7 +146,7 @@
 <!-- 侧边 -->
 <div class="qa-side">
     <ul th:each="topic : ${topics}" class="list-group">
-        <li th:text="${topic.topicName}" th:href="@{/topic/retrieveTopic/{topicId}(topicId=${topic.id})}" class="list-group-item"></li>
+        <li th:text="${topic.topicName != null}? ${topic.topicName} : '话题'" th:onclick="'javascript:clickTopic(\''+${topic.id}+'\')'" th:attr="data-topicid=${topic.id}" class="list-group-item"></li>
         <!--<li class="list-group-item" style="background-color: #E6E6E6">中国</li>
         <li class="list-group-item">美国</li>
         <li class="list-group-item">日本</li>
@@ -112,18 +156,106 @@
 </div>
 
 <script>
-    function question(e) {
-        layer.alert('<textarea rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
-            {
-                skin: 'layui-layer-lan',
-                closeBtn: 0,
-                title: '提问',
-                shadeClose: true, //点击遮罩关闭
-                area: ['380px', '350px'],
-                anim: 0 //动画类型
+    /* jQuery类级别插件扩展 */
+    $.extend({
+        onReachBottom: function(params, callFn) {
+            if (!params.container || !params.content) {
+                console.error('缺失必要的参数');
+                return;
             }
-        );
-    }
+
+            var $container = params.container,
+                $content = params.content,
+                distance = params.distance || 30;
+
+            $container.scroll(function() {
+                var awayBtm = $content.height() - $container.scrollTop() - $container.height();
+                if (awayBtm <= distance) {
+                    callFn && callFn()
+                }
+            });
+        }
+    });
+
+    /* 调用插件 */
+    $.onReachBottom({
+        "container": $(window),
+        /* 容器对象 */
+        "content": $(document),
+        /* 内容对象 */
+        "distance": 30 /* 触发事件距离，默认30px */
+    }, function() {
+        /* 插件回调函数 */
+        getUserList.get();
+    });
+
+    /* 项目方法 */
+    var getUserList = {
+        /* 允许请求 */
+        isGet: true,
+        /* 条数 */
+        rows: 25,
+        /* 页码 */
+        page: 1,
+        /*获取*/
+        get: function() {
+            if (!this.isGet) {
+                return;
+            }
+            /* 关闭请求条件，避免多次调用 */
+            this.isGet = false;
+
+            /* 缓存 this 对象 */
+            var _self = this;
+
+            $("#load").html('正在加载');
+
+            /* 模拟请求 */
+            setTimeout(function() {
+                var strHtml = '';
+                for (var i = 1; i <= _self.rows; i++) {
+                    strHtml += '<div class="item">用户：' + (_self.rows * (_self.page - 1) + i) +
+                        '</div>';
+                }
+                $("#list").append(strHtml);
+
+                /* 允许重新加载 */
+                $("#load").html('上拉加载更多');
+                _self.isGet = true;
+                _self.page++;
+            }, 2000);
+
+            /* 发请求 */
+            $.ajax({
+                url: "/question/retrieveQuestionsPaging",
+                type: "GET",
+                data: {page: _self.page},
+                success: function(res){
+                    
+                    if (res == null || res.length() == 0) {
+                        // 已经到底了
+                        return ;
+                    }
+
+
+                    
+                    //console.log(res);
+                    //alert(res);
+                    if (res.code == "200") {
+                        layer.msg("添加问题成功！");
+                    } else {
+                        layer.msg("添加问题失败！")
+                    }
+                    // $(this).addClass("done");
+                    window.location.reload();
+                }
+            });
+        }
+    };
+
+    /* 初始化模拟数据 */
+    getUserList.get();
 </script>
+
 </body>
 </html>

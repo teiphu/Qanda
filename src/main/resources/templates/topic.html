@@ -18,6 +18,25 @@
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <link rel="stylesheet" th:href="@{/css/topic.css}">
+
+    <script>
+        function question(e) {
+            layer.alert('<textarea rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
+                {
+                    skin: 'layui-layer-lan',
+                    closeBtn: 0,
+                    title: '提问',
+                    shadeClose: true, //点击遮罩关闭
+                    area: ['380px', '350px'],
+                    anim: 0 //动画类型
+                }
+            );
+        }
+
+        function clickTopic(topic_id) {
+            window.location.href = "/topic/retrieveTopic/" + topic_id;
+        }
+    </script>
 </head>
 <body>
 <!-- 导航 -->
@@ -69,7 +88,7 @@
     </div>
 
     <!-- 卡片 -->
-    <div class="layui-card" th:each="question : ${questions}">
+    <div class="layui-card qa-qa-card" th:each="question : ${questions}">
         <div class="layui-card-header qa-card-header" style="height: auto;">
             <span>答案</span><br>
             <h4><a th:text="${question.content}"
@@ -107,110 +126,21 @@
             </div>
         </div>
     </div>
-
-    <!-- 卡片 -->
-    <!--<div class="layui-card">
-        <div class="layui-card-header qa-card-header" style="height: auto;">
-            <span>答案</span><br>
-            <h4><a>作为第二代华人移民，离家后如何保持中文能力？</a></h4>
-        </div>
-        <div class="layui-card-body">
-            &lt;!&ndash;名字与时间&ndash;&gt;
-            <div class="qa-card-inner-body">
-                <p><a>郑立康</a></p>
-                <p style="color: #9494AE;">Answered 22h ago</p>
-            </div>
-            &lt;!&ndash;答案&ndash;&gt;
-            <div class="qa-body-content">
-                第三代。华人在英国偏好的大都市。
-
-                对于语言？
-
-                关键是你必须有爱和兴趣才能努力工作。任何语言都是一样的。并且个人认为，您的语言是一种值得珍惜的丰富遗产。
-
-                实际上容易中国人。为什么？因为它是一种非常丰富的文化。你对中国人的事物有很大的敬意和喜爱。语言是独特的，是文化中非常特殊的组成部分。中国人有5000年的历史，有3000多年的历代朝代，无尽的文学，经典，民间传说，音乐，电影，书籍，漫画书等等。
-
-                那么我们是如何在海外学习和维持中国人的？家庭，学校，社区和你自己。
-                <br>
-            </div>
-
-            &lt;!&ndash; 操作 &ndash;&gt;
-            <div style="margin-top: 10px;">
-                <div class="qa-upvote">
-                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
-                    <b>Upvote · </b>
-                    <span>32</span>
-                </div>
-
-                <div class="qa-tread">
-                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
-                </div>
-            </div>
-        </div>
-    </div>-->
-
-    <!-- 卡片 -->
-    <!--<div class="layui-card">
-        <div class="layui-card-header qa-card-header" style="height: auto;">
-            <span>答案</span><br>
-            <h4><a>Why did the Vietnamese succeed in total romanization while the Chinese flopped?</a></h4>
-        </div>
-        <div class="layui-card-body">
-            &lt;!&ndash;名字与时间&ndash;&gt;
-            <div class="qa-card-inner-body">
-                <p><a>郑立康</a></p>
-                <p style="color: #9494AE;">Answered 22h ago</p>
-            </div>
-            &lt;!&ndash;答案&ndash;&gt;
-            <div class="qa-body-content">
-
-                卡片式面板面板通常用于非白色背景色的主体内<br>
-                从而映衬出边框投影
-            </div>
-
-            &lt;!&ndash; 操作 &ndash;&gt;
-            <div style="margin-top: 10px;">
-                <div class="qa-upvote">
-                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
-                    <b>Upvote · </b>
-                    <span>32</span>
-                </div>
-
-                <div class="qa-tread">
-                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
-                </div>
-            </div>
-        </div>
-    </div>-->
-
 </div>
 
 <!-- 侧边 -->
 <div class="qa-side">
-    <ul th:each="t : ${topicList}" class="list-group">
-        <li th:text="${t.topicName}" th:href="@{/topic/retrieveTopic/{topicId}(topicId=${t.id})}" class="list-group-item" style="background-color: #E6E6E6">中国</li>
+    <ul th:each="topicbean : ${topicList}" class="list-group">
+        <li th:text="${topicbean.topicName}"
+            th:onclick="'javascript:clickTopic(\''+${topicbean.id}+'\')'" th:attr="data-topicid=${topicbean.id}"
+            class="list-group-item" style="background-color: #E6E6E6">中国
+        </li>
         <!--<li class="list-group-item">美国</li>
         <li class="list-group-item">日本</li>
         <li class="list-group-item">越南</li>
         <li class="list-group-item">文字</li>-->
     </ul>
 </div>
-
-<script>
-    function question(e) {
-        layer.alert('<textarea rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
-            {
-                skin: 'layui-layer-lan',
-                closeBtn: 0,
-                title: '提问',
-                shadeClose: true, //点击遮罩关闭
-                area: ['380px', '350px'],
-                anim: 0 //动画类型
-            }
-        );
-    }
-</script>
-
 
 </body>
 </html>

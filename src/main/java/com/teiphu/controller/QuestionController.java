@@ -1,13 +1,19 @@
 package com.teiphu.controller;
 
+import com.teiphu.http.HttpClientResult;
+import com.teiphu.http.HttpStatus;
+import com.teiphu.http.Result;
 import com.teiphu.mapper.TopicMapper;
 import com.teiphu.pojo.QuestionDo;
 import com.teiphu.pojo.TopicDo;
 import com.teiphu.pojo.UserDo;
 import com.teiphu.service.QuestionService;
 import com.teiphu.service.TopicService;
+import com.teiphu.service.impl.TopicServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -27,6 +33,8 @@ import java.util.List;
 @RequestMapping("question")
 public class QuestionController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuestionController.class);
+
     @Autowired
     private QuestionService questionService;
 
@@ -39,14 +47,22 @@ public class QuestionController {
     }
 
     @ApiOperation("保存问题")
-    @PutMapping("saveQuestion")
-    public String saveQuestion(Integer userId, Integer topicId, String content) {
+    @ResponseBody
+    @PostMapping("saveQuestion")
+    public Result saveQuestion(HttpSession session, String content) {
+        UserDo user = (UserDo) session.getAttribute("user");
         QuestionDo question = new QuestionDo();
-        question.setUser(new UserDo(userId));
-        question.setTopic(new TopicDo(topicId));
+        question.setUser(user);
+        //question.setTopic(new TopicDo(topicId));
         question.setContent(content);
         int res = questionService.addQuestion(question);
-        return "";
+        if (res > 0) {
+//            return new HttpClientResult(new HttpStatus.Descriptor());
+            return new Result(HttpStatus.OK.getCode(), HttpStatus.OK.getDesc());
+        } else {
+            return new Result(HttpStatus.INTERNAL_SERVER_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR.getDesc());
+        }
+
     }
 
     @ApiOperation("删除问题")
@@ -103,13 +119,27 @@ public class QuestionController {
     @ApiOperation("检索所有问题")
     @RequestMapping("retrieveQuestions")
     public String retrieveQuestions(HttpSession session, Model model) {
-        List<QuestionDo> questions = questionService.listQuestion();
+        List<QuestionDo> questions = questionService.listQuestionPaging(1);
         model.addAttribute("questions", questions);
         UserDo user = (UserDo) session.getAttribute("user");
         model.addAttribute("user", user);
         List<TopicDo> topics = topicService.listTopicByUser(user.getId());
         model.addAttribute("topics", topics);
         return "index";
+    }
+
+    @ApiOperation("分页检索所有问题")
+    @ResponseBody
+    @RequestMapping(value = "retrieveQuestionsPaging", method = RequestMethod.GET)
+    public List<QuestionDo> retrieveQuestionsPaging(HttpSession session, Model model, Integer page) {
+
+        List<QuestionDo> questions = questionService.listQuestionPaging(page);
+        //model.addAttribute("questions", questions);
+        //UserDo user = (UserDo) session.getAttribute("user");
+        //model.addAttribute("user", user);
+        //List<TopicDo> topics = topicService.listTopicByUser(user.getId());
+        //model.addAttribute("topics", topics);
+        return questions;
     }
 
     @ApiOperation("获取用户感兴趣的问题")

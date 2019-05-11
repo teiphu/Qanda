@@ -21,8 +21,8 @@
     </resultMap>
 
     <insert id="insertQuestion">
-        insert into qanda.question(user_id, topic_id, content)
-        values (#{user.id}, #{topic.id}, #{content});
+        insert into qanda.question(user_id, content)
+        values (#{user.id}, #{content});
     </insert>
 
     <delete id="deleteQuestion">
@@ -66,6 +66,11 @@
     </select>
 
     <select id="listQuestion" resultMap="QuestionBean">
+        select id, user_id, topic_id, content, gmt_create
+        from qanda.question;
+    </select>
+
+    <select id="listQuestionPaging" resultMap="QuestionBean">
         select id, user_id, topic_id, content, gmt_create
         from qanda.question;
     </select>
