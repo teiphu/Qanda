@@ -23,7 +23,7 @@
             layer.alert('<textarea id="qa-quest-content" rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
                 {
                     skin: 'layui-layer-lan',
-                    closeBtn: 0,
+                    closeBtn: 2,
                     title: '提问',
                     shadeClose: true, //点击遮罩关闭
                     area: ['380px', '350px'],
@@ -92,7 +92,8 @@
 </div>
 
 <!-- 中间卡片 -->
-<div class="qa-cart">
+<div class="qa-cart" id="qa-content">
+
     <div class="layui-card">
         <div class="layui-card-header" th:text="${session.user.username}">郑立富</div>
         <div class="layui-card-body">
@@ -100,8 +101,51 @@
         </div>
     </div>
 
+    <!-- 模板 -->
+    <div id="qa-template" style="display: none">
+        <div id="qa-refresh" th:fragment="qa-refresh" class="layui-card" th:each="question : ${questions}">
+
+            <div class="layui-card-header qa-card-header" style="height: auto;">
+                <span>答案</span><br>
+                <h4><a th:text="${question.content}"
+                       th:href="@{/answer/retrieveAnswersByQuestion/{questionId}(questionId=${question.id})}">明清两代最有意思的是什么？</a>
+                </h4>
+            </div>
+
+            <div class="layui-card-body">
+                <!--名字与时间-->
+                <div class="qa-card-inner-body">
+                    <p><a th:text="${question.answer != null}? ${question.answer.user.username} : '无名'">郑立康</a></p>
+                    <p th:text="${question.answer != null}? ${question.answer.gmtCreate} : 'Answered 22h ago'" style="color: #9494AE;">Answered 22h ago</p>
+                </div>
+                <!--答案-->
+                <div th:text="${question.answer != null}? ${question.answer.answerContent} : '无答案'" class="qa-body-content">
+
+                    清朝沦陷后，革命军队占领了清朝帝国皇宫北京的紫禁城，他们在入口门口发现了一块非常好的平板，写下了大清门。
+                    这张照片展示了中国大门上平板电脑的一个例子。
+                    他们不想浪费这么好的平板电脑，并决定在平板电脑的另一边写下他们的州名。
+                    当他们翻过平板电脑时。他们眼中的是大明之门。
+                    <br>
+                </div>
+
+                <!-- 操作 -->
+                <div style="margin-top: 10px;">
+                    <div class="qa-upvote">
+                        <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                        <b>Upvote · </b>
+                        <span th:text="${question.answer != null}? ${question.answer.upvoteCount} : '0'">32</span>
+                    </div>
+
+                    <div class="qa-tread">
+                        <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 卡片 -->
-    <div class="layui-card" th:each="question : ${questions}">
+    <!--<div class="layui-card" th:each="question : ${questions}">
 
         <div class="layui-card-header qa-card-header" style="height: auto;">
             <span>答案</span><br>
@@ -111,12 +155,12 @@
         </div>
 
         <div class="layui-card-body">
-            <!--名字与时间-->
+            &lt;!&ndash;名字与时间&ndash;&gt;
             <div class="qa-card-inner-body">
                 <p><a th:text="${question.answer != null}? ${question.answer.user.username} : '无名'">郑立康</a></p>
                 <p th:text="${question.answer != null}? ${question.answer.gmtCreate} : 'Answered 22h ago'" style="color: #9494AE;">Answered 22h ago</p>
             </div>
-            <!--答案-->
+            &lt;!&ndash;答案&ndash;&gt;
             <div th:text="${question.answer != null}? ${question.answer.answerContent} : '无答案'" class="qa-body-content">
 
                 清朝沦陷后，革命军队占领了清朝帝国皇宫北京的紫禁城，他们在入口门口发现了一块非常好的平板，写下了大清门。
@@ -126,7 +170,7 @@
                 <br>
             </div>
 
-            <!-- 操作 -->
+            &lt;!&ndash; 操作 &ndash;&gt;
             <div style="margin-top: 10px;">
                 <div class="qa-upvote">
                     <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
@@ -139,10 +183,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
 </div>
-
+<div class="loading" id="load" style="width: 200px; height: 30px; line-height: 25px; text-align: center; margin: 0 auto;">上拉加载更多</div>
 <!-- 侧边 -->
 <div class="qa-side">
     <ul th:each="topic : ${topics}" class="list-group">
@@ -156,6 +200,7 @@
 </div>
 
 <script>
+
     /* jQuery类级别插件扩展 */
     $.extend({
         onReachBottom: function(params, callFn) {
@@ -212,49 +257,35 @@
 
             /* 模拟请求 */
             setTimeout(function() {
-                var strHtml = '';
-                for (var i = 1; i <= _self.rows; i++) {
-                    strHtml += '<div class="item">用户：' + (_self.rows * (_self.page - 1) + i) +
-                        '</div>';
-                }
-                $("#list").append(strHtml);
+                // 装载局部刷新返回的页面
+                $('#qa-refresh').load("/question/retrieveQuestionsPaging",
+                    {
+                        "page": _self.page
+                    },
+                    function(response, status) {//回调函数
+                        console.log(response);
+                        $('#qa-content').append(response);
+
+                        if (response == null || response == "") {
+                            $("#load").html('已经到底了');
+                            return ;
+                        } else {
+                            _self.page++;
+                        }
+                    }
+                );
 
                 /* 允许重新加载 */
                 $("#load").html('上拉加载更多');
                 _self.isGet = true;
-                _self.page++;
-            }, 2000);
 
-            /* 发请求 */
-            $.ajax({
-                url: "/question/retrieveQuestionsPaging",
-                type: "GET",
-                data: {page: _self.page},
-                success: function(res){
-                    
-                    if (res == null || res.length() == 0) {
-                        // 已经到底了
-                        return ;
-                    }
-
-
-                    
-                    //console.log(res);
-                    //alert(res);
-                    if (res.code == "200") {
-                        layer.msg("添加问题成功！");
-                    } else {
-                        layer.msg("添加问题失败！")
-                    }
-                    // $(this).addClass("done");
-                    window.location.reload();
-                }
-            });
+            }, 1000);
         }
     };
 
     /* 初始化模拟数据 */
     getUserList.get();
+
 </script>
 
 </body>

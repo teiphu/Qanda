@@ -77,4 +77,14 @@ public class UpdownvoteServiceImpl implements UpdownvoteService {
     public Integer countDownvoteByComment(Integer commentId) {
         return voteMapper.countDownvoteByComment(commentId);
     }
+
+    @Override
+    public Integer deleteVoteByAnswerAndUser(Integer answerId, Integer userId) {
+        return voteMapper.deleteVoteByAnswerAndUser(answerId, userId);
+    }
+
+    @Override
+    public UpdownvoteDo getVoteByAnswerAndUser(Integer answerId, Integer userId) {
+        return voteMapper.getVoteByAnswerAndUser(answerId, userId);
+    }
 }

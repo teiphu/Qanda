@@ -31,4 +31,8 @@ public interface UpdownvoteService {
     Integer countUpvoteByComment(Integer commentId);
 
     Integer countDownvoteByComment(Integer commentId);
+
+    Integer deleteVoteByAnswerAndUser(Integer answerId, Integer userId);
+
+    UpdownvoteDo getVoteByAnswerAndUser(Integer answerId, Integer userId);
 }

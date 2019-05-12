@@ -21,6 +21,16 @@ public class AnswerDo implements Serializable {
 
     private Integer upvoteCount;
 
+    public Integer getVoteStatus() {
+        return voteStatus;
+    }
+
+    public void setVoteStatus(Integer voteStatus) {
+        this.voteStatus = voteStatus;
+    }
+
+    private Integer voteStatus;
+
     public AnswerDo() {
     }
 

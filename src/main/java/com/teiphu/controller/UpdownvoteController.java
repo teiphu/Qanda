@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -26,8 +27,50 @@ public class UpdownvoteController {
     private UpdownvoteService voteService;
 
     @ApiOperation("保存投票")
-    @PutMapping("saveVote")
-    public String saveVote(Integer commentId, Integer answerId, Integer senderId, Integer receiverId, Integer upOrDown) {
+    @PostMapping("saveVote")
+    public String saveVote(HttpSession session, Integer commentId, Integer answerId, Integer senderId,
+                           Integer receiverId, Integer upOrDown) {
+        UserDo user = (UserDo) session.getAttribute("user");
+        Integer userId = user.getId();
+        if (upOrDown == 0) {
+            voteService.deleteVoteByAnswerAndUser(answerId, userId);
+        } else {
+            UpdownvoteDo vote = voteService.getVoteByAnswerAndUser(answerId, userId);
+            if (vote == null) {
+                UserDo receiver = new UserDo();
+                receiver.setId(receiverId);
+                AnswerDo answer = new AnswerDo();
+                answer.setId(answerId);
+                UpdownvoteDo voteDo = null;
+                if (upOrDown == 2) {
+                    voteDo = new UpdownvoteDo(answer, user, receiver, 1);
+                } else if (upOrDown == 3) {
+                    voteDo = new UpdownvoteDo(answer, user, receiver, 0);
+                }
+                int res = voteService.addVote(voteDo);
+            } else {
+                if (upOrDown == 2) {
+                    vote.setUpOrDown(1);
+                } else {
+                    vote.setUpOrDown(0);
+                }
+                voteService.updateVote(vote);
+            }
+        }
+        /*UpdownvoteDo vote = new UpdownvoteDo();
+        vote.setComment(new CommentDo(commentId));
+        vote.setAnswer(new AnswerDo(answerId));
+        vote.setSender(new UserDo(senderId));
+        vote.setReceiver(new UserDo(receiverId));
+        vote.setUpOrDown(upOrDown);
+        int res = voteService.addVote(vote);*/
+        return "";
+    }
+
+    /*@ApiOperation("保存投票")
+    @PostMapping("saveVote")
+    public String saveVote(Integer commentId, Integer answerId, Integer senderId,
+                           Integer receiverId, Integer upOrDown) {
         UpdownvoteDo vote = new UpdownvoteDo();
         vote.setComment(new CommentDo(commentId));
         vote.setAnswer(new AnswerDo(answerId));
@@ -36,7 +79,7 @@ public class UpdownvoteController {
         vote.setUpOrDown(upOrDown);
         int res = voteService.addVote(vote);
         return "";
-    }
+    }*/
 
     @ApiOperation("删除投票")
     @DeleteMapping("removeVote")

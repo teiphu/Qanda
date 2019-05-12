@@ -1,5 +1,7 @@
 package com.teiphu.controller;
 
+import com.teiphu.http.HttpStatus;
+import com.teiphu.http.Result;
 import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.QuestionDo;
 import com.teiphu.pojo.TopicDo;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -39,14 +42,20 @@ public class AnswerController {
     private TopicService topicService;
 
     @ApiOperation("保存答案")
-    @PutMapping("saveAnswer")
-    public String saveAnswer(Integer userId, Integer questId, String content) {
+    @ResponseBody
+    @PostMapping("saveAnswer")
+    public Result saveAnswer(HttpSession session, Integer questionId, String answerContent) {
         AnswerDo answer = new AnswerDo();
-        answer.setUser(new UserDo(userId));
-        answer.setQuestion(new QuestionDo(questId));
-        answer.setAnswerContent(content);
+        UserDo user = (UserDo) session.getAttribute("user");
+        answer.setUser(user);
+        answer.setQuestion(new QuestionDo(questionId));
+        answer.setAnswerContent(answerContent);
         int res = answerService.addAnswer(answer);
-        return "";
+        if (res > 0) {
+            return new Result(HttpStatus.OK.getCode(), HttpStatus.OK.getDesc());
+        } else {
+            return new Result(HttpStatus.INTERNAL_SERVER_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR.getDesc());
+        }
     }
 
     @ApiOperation("删除答案")
@@ -89,15 +98,18 @@ public class AnswerController {
     @ApiOperation("查询一个问题的所有答案")
     @GetMapping("retrieveAnswersByQuestion")
     @RequestMapping(value = "/retrieveAnswersByQuestion/{questionId}", method = RequestMethod.GET)
-    public String retrieveAnswersByQuestion(Model model, @PathVariable Integer questionId) {
+    public String retrieveAnswersByQuestion(HttpSession session, Model model, @PathVariable Integer questionId) {
+        UserDo user = (UserDo) session.getAttribute("user");
         QuestionDo question = questionService.getQuestion(questionId);
-        List<AnswerDo> answers = answerService.listAnswerByQuestion(questionId);
+        List<AnswerDo> answers = answerService.listAnswerByQuestion(questionId, user.getId());
         List<TopicDo> topics = topicService.listTopicByQuestion(questionId);
         model.addAttribute("question", question);
         model.addAttribute("answers", answers);
         Integer answerCount = answers.size();
         model.addAttribute("answerCount", answerCount);
         model.addAttribute("topics", topics);
+        //Integer voteStatus = 0;
+        //model.addAttribute("voteStatus", voteStatus);
         return "question-details";
     }
 

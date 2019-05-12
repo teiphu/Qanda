@@ -21,6 +21,16 @@ public class UpdownvoteDo implements Serializable {
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
 
+    public UpdownvoteDo() {
+    }
+
+    public UpdownvoteDo(AnswerDo answer, UserDo sender, UserDo receiver, Integer upOrDown) {
+        this.answer = answer;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.upOrDown = upOrDown;
+    }
+
     public Integer getId() {
         return id;
     }

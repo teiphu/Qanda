@@ -20,7 +20,7 @@ public interface AnswerService {
 
     List<AnswerDo> listAnswer();
 
-    List<AnswerDo> listAnswerByQuestion(Integer questionId);
+    List<AnswerDo> listAnswerByQuestion(Integer questionId, Integer userId);
 
     List<AnswerDo> listAnswerByUser(Integer userId);
 

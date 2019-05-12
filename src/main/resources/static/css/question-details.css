@@ -83,7 +83,7 @@ body {
     line-height: 38px;
 }
 .qa-tread i {
-    color: #646464;
+    /*color: #646464;*/
     margin-left: 8px;
 }
 .qa-icon-edit {
@@ -107,7 +107,7 @@ body {
     line-height: 38px;
 }
 .qa-tread i {
-    color: #646464;
+    /*color: #646464;*/
     margin-left: 8px;
 }
 
@@ -164,3 +164,16 @@ hr {
 /*.layui-card-body {*/
     /*border-bottom: 1px solid #E8E8E8;*/
 /*}*/
+
+.layui-layer-lan .layui-layer-title {
+    background-color: #B92B27;
+}
+
+.qa-upvote-red {
+    color: #B92B27;
+}
+
+.qa-downvote-red {
+    color: #B92B27;
+    /*color: #1E9FFF;*/
+}

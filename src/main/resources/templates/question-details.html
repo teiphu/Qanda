@@ -18,10 +18,123 @@
     <link rel="stylesheet" th:href="@{/css/global.css}">
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/question-details.css}">
+
+    <script th:inline="javascript">
+
+        /*<![CDATA[*/
+        var questionId = /*[[${question.id}]]*/ '1';
+
+        /*]]>*/
+
+        function reply(e) {
+            layer.alert('<textarea id="qa-answer-content" rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
+                {
+                    skin: 'layui-layer-lan',
+                    closeBtn: 2,
+                    title: '回答问题',
+                    shadeClose: true, //点击遮罩关闭
+                    area: ['380px', '350px'],
+                    anim: 0, //动画类型
+                    yes: function (index, layero) {
+                        console.log($('#qa-answer-content').val());
+                        var question = $('#qa-answer-content').val();
+
+                        $.ajax({
+                            url: "/answer/saveAnswer",
+                            type: "POST",
+                            data: {questionId: questionId, answerContent: question},
+                            success: function (res) {
+                                if (res.code == "200") {
+                                    layer.msg("回答问题成功！");
+                                } else {
+                                    layer.msg("回答问题失败！")
+                                }
+                                window.location.reload();
+                            }
+                        });
+
+                        layer.close(index);
+                    }
+                }
+            );
+        }
+
+        // 顶
+        function upvote(answerId, receiverId) {
+            console.log("upvote:    answerId: " + answerId);
+            console.log("upvote:    receiverId: " + receiverId);
+            var upOrDown = 0;
+            var count = $(this).find('span').html();
+            console.log("count: " + count);
+            if ($(this).hasClass('qa-upvote-red')) {
+                console.log("upvote will dark!");
+                // 变暗
+                upOrDown = 0;
+                count = parseInt(count) - 1;
+                $(this).find('span').html(count);
+                $(this).removeClass('qa-upvote-red');
+            } else {
+                console.log("upvote will light!");
+                // 变亮
+                upOrDown = 1;
+                $(this).addClass('qa-upvote-red');
+                count = parseInt(count) + 1;
+                $(this).find('span').html(count);
+                $(this).next('.qa-tread').removeClass('qa-downvote-red');
+            }
+
+            $.ajax({
+                url: "/updownvote/saveVote",
+                type: "POST",
+                data: {
+                    answerId: answerId,
+                    /*senderId: senderId,*/
+                    receiverId: receiverId,
+                    upOrDown: upOrDown
+                }
+            });
+        }
+
+        // 踩
+        function downvote(answerId, receiverId) {
+            console.log("downvote:    answerId: " + answerId);
+            console.log("downvote:    receiverId: " + receiverId);
+            var upOrDown = 0;
+            var count = $(this).prev('.qa-upvote').find('span').html();
+            if ($(this).hasClass('qa-downvote-red')) {
+                // 变暗
+                upOrDown = 0;
+                $(this).removeClass('qa-downvote-red');
+            } else {
+                // 变亮
+                upOrDown = 2;
+                $(this).addClass('qa-downvote-red');
+                if ($(this).prev('.qa-upvote').hasClass('qa-upvote-red')) {
+                    count = parseInt(count) - 1;
+                    $(this).prev('.qa-upvote').find('span').html(count);
+                }
+                $(this).prev('.qa-upvote').removeClass('qa-upvote-red');
+            }
+
+            $.ajax({
+                url: "/updownvote/saveVote",
+                type: "POST",
+                data: {
+                    answerId: answerId,
+                    /*senderId: senderId,*/
+                    receiverId: receiverId,
+                    upOrDown: upOrDown
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 <!-- 导入导航条 -->
 <iframe th:src="@{/common/head.html}" width="100%" height="61px" frameborder="0" class="qa-nav-iframe"></iframe>
+
+<!--<div th:insert="~{head::header}"></div>-->
+
 
 <!-- 中间卡片 -->
 <div class="qa-cart">
@@ -30,7 +143,8 @@
         <div class="layui-card-header qa-card-header" style="height: auto;">
             <!--<span>答案</span><br>-->
             <div class="qa-quest-topic">
-                <span th:each="topic : ${topics}"><a th:text="${topic.topicName}" th:href="@{/topic/retrieveTopic/{topicId}(topicId=${topic.id})}">中国</a></span>
+                <span th:each="topic : ${topics}"><a th:text="${topic.topicName}"
+                                                     th:href="@{/topic/retrieveTopic/{topicId}(topicId=${topic.id})}">中国</a></span>
             </div>
             <h4><a th:text="${question.content}">明清两代最有意思的是什么？</a></h4>
         </div>
@@ -42,7 +156,7 @@
 
             <!-- 操作 -->
             <div style="margin-top: 10px;">
-                <div class="qa-upvote" style="width:90px;">
+                <div class="qa-upvote" style="width:90px;" onclick="reply(this)">
                     <!--<i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>-->
                     <i class="qa-icon-edit"></i>
                     <b style="padding-top: 4px; ">回答</b>
@@ -67,21 +181,21 @@
             <div class="qa-body-content" th:text="${answer.answerContent}">
                 清朝沦陷后，革命军队占领了清朝帝国皇宫北京的紫禁城，他们在入口门口发现了一块非常好的平板，写下了大清门。
                 这张照片展示了中国大门上平板电脑的一个例子。
-
                 他们不想浪费这么好的平板电脑，并决定在平板电脑的另一边写下他们的州名。
-
                 当他们翻过平板电脑时。他们眼中的是大明之门。<br>
             </div>
 
-            <!-- 操作 -->
+            <!-- 顶踩操作 -->
             <div style="margin-top: 10px;">
-                <div class="qa-upvote">
-                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                <div class="qa-upvote"
+                     th:onclick="|upvote('${answer.id}', '${answer.user.id}')|">
+                    <i class="layui-icon layui-icon-praise" th:classappend="${answer.voteStatus == 1}? 'qa-upvote-red' : ''" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Upvote · </b>
-                    <span th:text="${answer.upvoteCount}">32</span>
+                    <span th:text="${answer.upvoteCount != null}? ${answer.upvoteCount} : 0">32</span>
                 </div>
 
-                <div class="qa-tread">
+                <div class="qa-tread" th:classappend="${answer.voteStatus == 2}? 'qa-downvote-red' : ''"
+                     th:onclick="|downvote('${answer.id}', '${answer.user.id}')|">
                     <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
                 </div>
             </div>
@@ -96,81 +210,7 @@
                 </form>
             </div>
         </div>
-        <hr>
-
-        <!--<div class="layui-card-body">
-            &lt;!&ndash;名字与时间&ndash;&gt;
-            <div class="qa-card-inner-body">
-                <p><a>郑立康</a></p>
-                <p style="color: #9494AE;">Answered 22h ago</p>
-            </div>
-            &lt;!&ndash;答案&ndash;&gt;
-            <div class="qa-body-content">
-                卡片式面板面板通常用于非白色背景色的主体内<br>
-                从而映衬出边框投影
-            </div>
-
-            &lt;!&ndash; 操作 &ndash;&gt;
-            <div style="margin-top: 10px;">
-                <div class="qa-upvote">
-                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
-                    <b>Upvote · </b>
-                    <span>32</span>
-                </div>
-
-                <div class="qa-tread">
-                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
-                </div>
-            </div>
-
-            &lt;!&ndash; 评论 &ndash;&gt;
-            <div class="qa-qus-comment">
-                <form class="form-horizontal" role="form">
-                    <div class="input-group">
-                        <input type="text" class="form-control"  placeholder="请输入评论">
-                        <button type="button" class="btn btn-default">提交</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <hr>
-
-        <div class="layui-card-body">
-            &lt;!&ndash;名字与时间&ndash;&gt;
-            <div class="qa-card-inner-body">
-                <p><a>郑立康</a></p>
-                <p style="color: #9494AE;">Answered 22h ago</p>
-            </div>
-            &lt;!&ndash;答案&ndash;&gt;
-            <div class="qa-body-content">
-                卡片式面板面板通常用于非白色背景色的主体内<br>
-                从而映衬出边框投影
-            </div>
-
-            &lt;!&ndash; 操作 &ndash;&gt;
-            <div style="margin-top: 10px;">
-                <div class="qa-upvote">
-                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
-                    <b>Upvote · </b>
-                    <span>32</span>
-                </div>
-
-                <div class="qa-tread">
-                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
-                </div>
-            </div>
-
-            &lt;!&ndash; 评论 &ndash;&gt;
-            <div class="qa-qus-comment">
-                <form class="form-horizontal" role="form">
-                    <div class="input-group">
-                        <input type="text" class="form-control"  placeholder="请输入评论">
-                        <button type="button" class="btn btn-default">提交</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <hr>-->
+        <!--<hr>-->
 
     </div>
 </div>

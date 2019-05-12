@@ -57,7 +57,6 @@ public class QuestionController {
         question.setContent(content);
         int res = questionService.addQuestion(question);
         if (res > 0) {
-//            return new HttpClientResult(new HttpStatus.Descriptor());
             return new Result(HttpStatus.OK.getCode(), HttpStatus.OK.getDesc());
         } else {
             return new Result(HttpStatus.INTERNAL_SERVER_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR.getDesc());
@@ -129,17 +128,16 @@ public class QuestionController {
     }
 
     @ApiOperation("分页检索所有问题")
-    @ResponseBody
-    @RequestMapping(value = "retrieveQuestionsPaging", method = RequestMethod.GET)
-    public List<QuestionDo> retrieveQuestionsPaging(HttpSession session, Model model, Integer page) {
+    @RequestMapping(value = "retrieveQuestionsPaging")
+    public String retrieveQuestionsPaging(HttpSession session, Model model, Integer page) {
 
         List<QuestionDo> questions = questionService.listQuestionPaging(page);
-        //model.addAttribute("questions", questions);
+        model.addAttribute("questions", questions);
         //UserDo user = (UserDo) session.getAttribute("user");
         //model.addAttribute("user", user);
         //List<TopicDo> topics = topicService.listTopicByUser(user.getId());
         //model.addAttribute("topics", topics);
-        return questions;
+        return "index::qa-refresh";
     }
 
     @ApiOperation("获取用户感兴趣的问题")

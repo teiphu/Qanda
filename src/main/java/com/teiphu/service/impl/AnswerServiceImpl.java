@@ -4,12 +4,14 @@ import com.teiphu.mapper.AnswerMapper;
 import com.teiphu.mapper.CommentMapper;
 import com.teiphu.mapper.UpdownvoteMapper;
 import com.teiphu.pojo.AnswerDo;
+import com.teiphu.pojo.UpdownvoteDo;
 import com.teiphu.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -59,8 +61,23 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public List<AnswerDo> listAnswerByQuestion(Integer questionId) {
-        return answerMapper.listAnswerByQuestion(questionId);
+    public List<AnswerDo> listAnswerByQuestion(Integer questionId, Integer userId) {
+        List<AnswerDo> answers = answerMapper.listAnswerByQuestion(questionId);
+        Iterator<AnswerDo> it = answers.iterator();
+        while (it.hasNext()) {
+            AnswerDo answer = it.next();
+            UpdownvoteDo vote = voteMapper.getUpdownvoteStatus(answer.getId(), userId);
+            if (vote == null) {
+                answer.setVoteStatus(0);
+            } else {
+                if (vote.getUpOrDown() == 1) {
+                    answer.setVoteStatus(1);
+                } else {
+                    answer.setVoteStatus(2);
+                }
+            }
+        }
+        return answers;
     }
 
     @Override
