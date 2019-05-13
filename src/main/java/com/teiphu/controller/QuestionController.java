@@ -1,27 +1,22 @@
 package com.teiphu.controller;
 
-import com.teiphu.http.HttpClientResult;
 import com.teiphu.http.HttpStatus;
 import com.teiphu.http.Result;
-import com.teiphu.mapper.TopicMapper;
 import com.teiphu.pojo.QuestionDo;
 import com.teiphu.pojo.TopicDo;
 import com.teiphu.pojo.UserDo;
 import com.teiphu.service.QuestionService;
 import com.teiphu.service.TopicService;
-import com.teiphu.service.impl.TopicServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -118,9 +113,9 @@ public class QuestionController {
     @ApiOperation("检索所有问题")
     @RequestMapping("retrieveQuestions")
     public String retrieveQuestions(HttpSession session, Model model) {
-        List<QuestionDo> questions = questionService.listQuestionPaging(1);
-        model.addAttribute("questions", questions);
         UserDo user = (UserDo) session.getAttribute("user");
+        List<QuestionDo> questions = questionService.listQuestionPaging(1, user.getId());
+        model.addAttribute("questions", questions);
         model.addAttribute("user", user);
         List<TopicDo> topics = topicService.listTopicByUser(user.getId());
         model.addAttribute("topics", topics);
@@ -130,8 +125,8 @@ public class QuestionController {
     @ApiOperation("分页检索所有问题")
     @RequestMapping(value = "retrieveQuestionsPaging")
     public String retrieveQuestionsPaging(HttpSession session, Model model, Integer page) {
-
-        List<QuestionDo> questions = questionService.listQuestionPaging(page);
+        UserDo user = (UserDo) session.getAttribute("user");
+        List<QuestionDo> questions = questionService.listQuestionPaging(page, user.getId());
         model.addAttribute("questions", questions);
         //UserDo user = (UserDo) session.getAttribute("user");
         //model.addAttribute("user", user);

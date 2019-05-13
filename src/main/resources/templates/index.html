@@ -59,6 +59,72 @@
         function clickTopic(topic_id) {
             window.location.href = "http://localhost:8080/topic/retrieveTopic/" + topic_id;
         }
+
+        function clickAllTopic() {
+            window.location.href = "http://localhost:8080/topic/retrieveTopics";
+        }
+
+        // 顶
+        function upvote(e, answerId, receiverId) {
+            var upOrDown = 0;
+            var count = $(e).find('span').html();
+            if ($(e).hasClass('qa-upvote-red')) {
+                // 变暗
+                upOrDown = 0;
+                count = parseInt(count) - 1;
+                $(e).find('span').html(count);
+                $(e).removeClass('qa-upvote-red');
+            } else {
+                // 变亮
+                upOrDown = 1;
+                $(e).addClass('qa-upvote-red');
+                count = parseInt(count) + 1;
+                $(e).find('span').html(count);
+                $(e).next('.qa-tread').removeClass('qa-downvote-red');
+            }
+
+            $.ajax({
+                url: "/updownvote/saveVote",
+                type: "POST",
+                data: {
+                    answerId: answerId,
+                    /*senderId: senderId,*/
+                    receiverId: receiverId,
+                    upOrDown: upOrDown
+                }
+            });
+        }
+
+        // 踩
+        function downvote(e, answerId, receiverId) {
+            var upOrDown = 0;
+            var count = $(e).prev('.qa-upvote').find('span').html();
+            if ($(e).hasClass('qa-downvote-red')) {
+                // 变暗
+                upOrDown = 0;
+                $(e).removeClass('qa-downvote-red');
+            } else {
+                // 变亮
+                upOrDown = 2;
+                $(e).addClass('qa-downvote-red');
+                if ($(e).prev('.qa-upvote').hasClass('qa-upvote-red')) {
+                    count = parseInt(count) - 1;
+                    $(e).prev('.qa-upvote').find('span').html(count);
+                }
+                $(e).prev('.qa-upvote').removeClass('qa-upvote-red');
+            }
+
+            $.ajax({
+                url: "/updownvote/saveVote",
+                type: "POST",
+                data: {
+                    answerId: answerId,
+                    /*senderId: senderId,*/
+                    receiverId: receiverId,
+                    upOrDown: upOrDown
+                }
+            });
+        }
     </script>
 
 </head>
@@ -82,7 +148,7 @@
         </div>
 
         <div class="qa-name">
-            <a th:text="${session.user.username != null}? ${session.user.username} : '无名'" th:href="@{/question/listQuestionsAnswered}">无名</a>
+            <a th:text="${session.user.username != null}? ${session.user.username} : ''" th:href="@{/question/listQuestionsAnswered}"></a>
         </div>
 
         <div class="qa-question-btn">
@@ -112,14 +178,14 @@
                 </h4>
             </div>
 
-            <div class="layui-card-body">
+            <div class="layui-card-body" th:classappend="${question.answer == null}? 'qa-div-hide'">
                 <!--名字与时间-->
                 <div class="qa-card-inner-body">
-                    <p><a th:text="${question.answer != null}? ${question.answer.user.username} : '无名'">郑立康</a></p>
+                    <p><a th:text="${question.answer != null}? ${question.answer.user.username} : ''">郑立康</a></p>
                     <p th:text="${question.answer != null}? ${question.answer.gmtCreate} : 'Answered 22h ago'" style="color: #9494AE;">Answered 22h ago</p>
                 </div>
                 <!--答案-->
-                <div th:text="${question.answer != null}? ${question.answer.answerContent} : '无答案'" class="qa-body-content">
+                <div th:text="${question.answer != null}? ${question.answer.answerContent} : ''" class="qa-body-content">
 
                     清朝沦陷后，革命军队占领了清朝帝国皇宫北京的紫禁城，他们在入口门口发现了一块非常好的平板，写下了大清门。
                     这张照片展示了中国大门上平板电脑的一个例子。
@@ -129,11 +195,11 @@
                 </div>
 
                 <!-- 操作 -->
-                <div style="margin-top: 10px;">
+                <div style="margin-top: 10px;" th:classappend="${question.answer == null}? 'qa-div-hide'">
                     <div class="qa-upvote">
                         <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
                         <b>Upvote · </b>
-                        <span th:text="${question.answer != null}? ${question.answer.upvoteCount} : '0'">32</span>
+                        <span th:text="${question.answer != null}? ${question.answer.upvoteCount} : '0'"></span>
                     </div>
 
                     <div class="qa-tread">
@@ -189,13 +255,11 @@
 <div class="loading" id="load" style="width: 200px; height: 30px; line-height: 25px; text-align: center; margin: 0 auto;">上拉加载更多</div>
 <!-- 侧边 -->
 <div class="qa-side">
+    <ul class="list-group">
+        <li class="list-group-item" th:onclick="|clickAllTopic(this)|">所有话题</li>
+    </ul>
     <ul th:each="topic : ${topics}" class="list-group">
         <li th:text="${topic.topicName != null}? ${topic.topicName} : '话题'" th:onclick="'javascript:clickTopic(\''+${topic.id}+'\')'" th:attr="data-topicid=${topic.id}" class="list-group-item"></li>
-        <!--<li class="list-group-item" style="background-color: #E6E6E6">中国</li>
-        <li class="list-group-item">美国</li>
-        <li class="list-group-item">日本</li>
-        <li class="list-group-item">越南</li>
-        <li class="list-group-item">文字</li>-->
     </ul>
 </div>
 

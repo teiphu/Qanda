@@ -2,8 +2,10 @@ package com.teiphu.service.impl;
 
 import com.teiphu.mapper.AnswerMapper;
 import com.teiphu.mapper.QuestionMapper;
+import com.teiphu.mapper.UpdownvoteMapper;
 import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.QuestionDo;
+import com.teiphu.pojo.UpdownvoteDo;
 import com.teiphu.service.QuestionService;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Autowired
     private AnswerMapper answerMapper;
+
+    @Autowired
+    private UpdownvoteMapper voteMapper;
 
     @Override
     @Transactional(rollbackFor = { IOException.class })
@@ -76,7 +81,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionDo> listQuestionPaging(Integer page) {
+    public List<QuestionDo> listQuestionPaging(Integer page, Integer userId) {
         int limit = 4;
         int offset = (page - 1) * limit;
         RowBounds rowBounds = new RowBounds(offset, limit);
@@ -85,6 +90,18 @@ public class QuestionServiceImpl implements QuestionService {
         while (it.hasNext()) {
             QuestionDo question = it.next();
             AnswerDo answer = answerMapper.getLatestAnswerByQuestion(question.getId());
+            if (answer != null) {
+                UpdownvoteDo vote = voteMapper.getUpdownvoteStatus(answer.getId(), userId);
+                if (vote == null) {
+                    answer.setVoteStatus(0);
+                } else {
+                    if (vote.getUpOrDown().intValue() == 1) {
+                        answer.setVoteStatus(1);
+                    } else {
+                        answer.setVoteStatus(2);
+                    }
+                }
+            }
             question.setAnswer(answer);
         }
         return questions;

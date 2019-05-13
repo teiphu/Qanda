@@ -70,7 +70,7 @@ public class AnswerServiceImpl implements AnswerService {
             if (vote == null) {
                 answer.setVoteStatus(0);
             } else {
-                if (vote.getUpOrDown() == 1) {
+                if (vote.getUpOrDown().intValue() == 1) {
                     answer.setVoteStatus(1);
                 } else {
                     answer.setVoteStatus(2);

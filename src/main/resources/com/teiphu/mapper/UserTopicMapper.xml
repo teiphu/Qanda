@@ -8,17 +8,34 @@
         values (#{user.id}, #{topic.id});
     </insert>
 
+    <insert id="insertUserTopicById">
+        insert into qanda.user_topic(user_id, topic_id)
+        values (#{userId}, #{topicId});
+    </insert>
+
     <delete id="deleteUserTopic">
       delete
       from qanda.user_topic
       where user_id = #{user.id} and topic_id = #{topic.id};
     </delete>
 
+    <delete id="deleteUserTopicByTopicidAndUserid">
+      delete
+      from qanda.user_topic
+      where user_id = #{userId} and topic_id = #{topicId};
+    </delete>
+
+
     <select id="getAttentionCount" resultType="int">
         SELECT COUNT(*)
         FROM qanda.user_topic
-        WHERE user_topic.topic_id = #{topicId}
-        GROUP BY user_topic.topic_id;
+        WHERE user_topic.topic_id = #{topicId};
+    </select>
+
+    <select id="getUserTopic" resultType="int">
+        SELECT COUNT(*)
+        FROM qanda.user_topic
+        WHERE topic_id = #{topicId} and user_id = #{userId};
     </select>
 
 </mapper>

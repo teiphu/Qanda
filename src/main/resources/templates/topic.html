@@ -36,6 +36,30 @@
         function clickTopic(topic_id) {
             window.location.href = "/topic/retrieveTopic/" + topic_id;
         }
+
+        function follow(e, topicId, userId) {
+            var followStatus = 0;
+            var count = $(e).find('span').html();
+            if ($(e).hasClass('qa-topic-followed')) {
+                count = parseInt(count) - 1;
+                $(e).find('span').html(count);
+                $(e).removeClass('qa-topic-followed');
+            } else {
+                followStatus = 1;
+                count = parseInt(count) + 1;
+                $(e).find('span').html(count);
+                $(e).addClass('qa-topic-followed')
+            }
+            $.ajax({
+                url: "/topic/updateTopicAttention",
+                type: "POST",
+                data: {
+                    topicId: topicId,
+                    userId: userId,
+                    followStatus: followStatus
+                }
+            })
+        }
     </script>
 </head>
 <body>
@@ -63,7 +87,7 @@
         </div>
 
         <div class="qa-name">
-            <a th:text="${user.username != null}? ${user.username} : '无名'" href="#">郑立富</a>
+            <a th:text="${user.username != null}? ${user.username} : ''" href="#">郑立富</a>
         </div>
 
         <div class="qa-question-btn">
@@ -78,7 +102,8 @@
         <div class="layui-card-body">
             <div class="qa-topic-img"></div>
             <h2 th:text="${topic.topicName}" class="qa-topic-title">Vietnam</h2>
-            <div class="qa-topic-follow">
+            <div class="qa-topic-follow" th:classappend="${topic.followStatus == 1}? 'qa-topic-followed'"
+                th:onclick="|follow(this, '${topic.id}', '${session.user.id}')|">
                 <i class="layui-icon layui-icon-praise"
                    style="font-size: 25px; padding-left: 15px; padding-top: 10px;"></i>
                 <b>Follow · </b>
@@ -117,7 +142,7 @@
                 <div class="qa-upvote">
                     <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Upvote · </b>
-                    <span th:text="${question.answer != null}? ${question.answer.upvoteCount} : '0'">32</span>
+                    <span th:text="${question.answer != null}? ${question.answer.upvoteCount} : '0'"></span>
                 </div>
 
                 <div class="qa-tread">

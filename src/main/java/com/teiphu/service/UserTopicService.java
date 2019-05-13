@@ -8,4 +8,9 @@ public interface UserTopicService {
 
     int getAttentionCount(Integer topicId);
 
+    int deleteUserTopic(Integer topicId, Integer userId);
+
+    int getUserTopic(Integer topicId, Integer userId);
+
+    int addUserTopic(Integer topicId, Integer userId);
 }

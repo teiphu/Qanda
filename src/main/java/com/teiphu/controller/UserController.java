@@ -41,7 +41,7 @@ public class UserController {
      * 用于跳转到注册界面
      * @return
      */
-    @GetMapping("/")
+    @GetMapping("/registration")
     public String test() {
         return "register";
     }

@@ -176,7 +176,7 @@ body {
     line-height: 38px;
 }
 .qa-tread i {
-    color: #646464;
+    /*color: #646464;*/
     margin-left: 8px;
 }
 
@@ -204,4 +204,17 @@ body {
 /* 话题选中背景 */
 .list-group li.qa-topic-sel {
     /*background: #E6E6E6;*/
+}
+
+.qa-upvote-red {
+    color: #B92B27;
+}
+
+.qa-downvote-red {
+    color: #B92B27;
+    /*color: #1E9FFF;*/
+}
+
+.qa-div-hide {
+    visibility: hidden;
 }

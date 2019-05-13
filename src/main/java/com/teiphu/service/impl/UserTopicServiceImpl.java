@@ -19,4 +19,19 @@ public class UserTopicServiceImpl implements UserTopicService {
     public int getAttentionCount(Integer topicId) {
         return userTopicMapper.getAttentionCount(topicId);
     }
+
+    @Override
+    public int deleteUserTopic(Integer topicId, Integer userId) {
+        return userTopicMapper.deleteUserTopicByTopicidAndUserid(topicId, userId);
+    }
+
+    @Override
+    public int getUserTopic(Integer topicId, Integer userId) {
+        return userTopicMapper.getUserTopic(topicId, userId);
+    }
+
+    @Override
+    public int addUserTopic(Integer topicId, Integer userId) {
+        return userTopicMapper.insertUserTopicById(topicId, userId);
+    }
 }

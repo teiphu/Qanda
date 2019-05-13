@@ -17,4 +17,10 @@ public interface UserTopicMapper {
     int deleteUserTopic(UserTopicDo userTopic);
 
     int getAttentionCount(Integer topicId);
+
+    int getUserTopic(Integer topicId, Integer userId);
+
+    int deleteUserTopicByTopicidAndUserid(Integer topicId, Integer userId);
+
+    int insertUserTopicById(Integer topicId, Integer userId);
 }

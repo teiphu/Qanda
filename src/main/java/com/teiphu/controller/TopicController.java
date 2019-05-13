@@ -1,7 +1,5 @@
 package com.teiphu.controller;
 
-import com.teiphu.mapper.QuestionMapper;
-import com.teiphu.mapper.TopicMapper;
 import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.QuestionDo;
 import com.teiphu.pojo.TopicDo;
@@ -42,6 +40,20 @@ public class TopicController {
     @Autowired
     private UserTopicService userTopicService;
 
+    @ApiOperation("取消关注或关注话题")
+    @PostMapping("updateTopicAttention")
+    public String updateTopicAttention(Integer topicId, Integer userId, Integer followStatus) {
+        if (followStatus.intValue() == 0) {
+            int res = userTopicService.deleteUserTopic(topicId, userId);
+        } else if (followStatus.intValue() == 1){
+            int num = userTopicService.getUserTopic(topicId, userId);
+            if (num < 1) {
+                int res = userTopicService.addUserTopic(topicId, userId);
+            }
+        }
+        return "";
+    }
+
     @ApiOperation("保存话题")
     @PutMapping("saveTopic")
     public String saveTopic(Integer userId, String topicName, String topicDetail) {
@@ -81,7 +93,7 @@ public class TopicController {
     @RequestMapping(value = "/retrieveTopic/{topicId}")
     public String retrieveTopic(HttpSession session, Model model, @PathVariable Integer topicId) {
         UserDo user = (UserDo) session.getAttribute("user");
-        TopicDo topic = topicService.getTopic(topicId);
+        TopicDo topic = topicService.getTopic(topicId, user.getId());
         List<QuestionDo> questions = questionService.listQuestionByTopic(topicId);
         Iterator<QuestionDo> it = questions.iterator();
         while (it.hasNext()) {
@@ -99,18 +111,13 @@ public class TopicController {
         return "topic";
     }
 
-    /*@ApiOperation("检索话题")
-    @GetMapping("retrieveTopic")
-    public TopicDo retrieveTopic(Integer topicId) {
-        TopicDo topic = topicService.getTopic(topicId);
-        return topic;
-    }*/
-
     @ApiOperation("检索所有话题")
     @GetMapping("retrieveTopics")
-    public List<TopicDo> retrieveTopics() {
-        List<TopicDo> topics = topicService.listTopic();
-        return topics;
+    public String retrieveTopics(HttpSession session, Model model) {
+        UserDo user = (UserDo) session.getAttribute("user");
+        List<TopicDo> topics = topicService.listTopic(user.getId());
+        model.addAttribute("topics", topics);
+        return "topiclist";
     }
 
 }

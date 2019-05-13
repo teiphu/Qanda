@@ -19,6 +19,26 @@ public class TopicDo implements Serializable {
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
 
+    private Integer followStatus;
+
+    private Integer attention;
+
+    public Integer getAttention() {
+        return attention;
+    }
+
+    public void setAttention(Integer attention) {
+        this.attention = attention;
+    }
+
+    public Integer getFollowStatus() {
+        return followStatus;
+    }
+
+    public void setFollowStatus(Integer followStatus) {
+        this.followStatus = followStatus;
+    }
+
     public TopicDo() {
     }
 

@@ -16,9 +16,9 @@ public interface TopicService {
     
     int updateTopic(TopicDo topic);
 
-    TopicDo getTopic(Integer topicId);
+    TopicDo getTopic(Integer topicId, Integer userId);
 
-    List<TopicDo> listTopic();
+    List<TopicDo> listTopic(Integer userId);
 
     List<TopicDo> listTopicByQuestion(Integer questionId);
 

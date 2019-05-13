@@ -1,6 +1,7 @@
 package com.teiphu.service.impl;
 
 import com.teiphu.mapper.TopicMapper;
+import com.teiphu.mapper.UserTopicMapper;
 import com.teiphu.pojo.TopicDo;
 import com.teiphu.service.TopicService;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -24,6 +26,9 @@ public class TopicServiceImpl implements TopicService {
 
     @Autowired
     private TopicMapper topicMapper;
+
+    @Autowired
+    private UserTopicMapper userTopicMapper;
 
     @PostConstruct
     public void init() {
@@ -49,13 +54,33 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public TopicDo getTopic(Integer topicId) {
-        return topicMapper.getTopic(topicId);
+    public TopicDo getTopic(Integer topicId, Integer userId) {
+        TopicDo topic = topicMapper.getTopic(topicId);
+        int num = userTopicMapper.getUserTopic(topicId, userId);
+        if (num > 0) {
+            topic.setFollowStatus(1);
+        } else {
+            topic.setFollowStatus(0);
+        }
+        return topic;
     }
 
     @Override
-    public List<TopicDo> listTopic() {
-        return topicMapper.listTopic();
+    public List<TopicDo> listTopic(Integer userId) {
+        List<TopicDo> topics = topicMapper.listTopic();
+        Iterator<TopicDo> it = topics.iterator();
+        while (it.hasNext()) {
+            TopicDo topic = it.next();
+            int num = userTopicMapper.getUserTopic(topic.getId(), userId);
+            int attention = userTopicMapper.getAttentionCount(topic.getId());
+            topic.setAttention(attention);
+            if (num > 0) {
+                topic.setFollowStatus(1);
+            } else {
+                topic.setFollowStatus(0);
+            }
+        }
+        return topics;
     }
 
     @Override

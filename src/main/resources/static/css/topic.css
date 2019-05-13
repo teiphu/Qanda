@@ -35,7 +35,6 @@
     /*line-height: 30px;*/
     height: 38px;
     border-radius: 50px;
-    color: #329bff!important;
 }
 .qa-topic-follow b {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -59,3 +58,8 @@
 .qa-qa-card {
     padding-bottom: 45px;
 }
+
+.qa-topic-followed {
+    color: #B92B27;
+}
+
