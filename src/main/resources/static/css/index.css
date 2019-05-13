@@ -136,8 +136,9 @@ body {
 }
 
 .qa-upvote {
-    width: 138px;
+    /*width: 138px;*/
     height: 38px;
+    padding-right: 10px;
     line-height: 38px;
     color: #646464;
     float: left;

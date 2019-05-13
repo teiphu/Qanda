@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索</title>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/search.css">
+
+    <script>
+        function question(e) {
+            layer.alert('<textarea id="qa-quest-content" rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
+                {
+                    skin: 'layui-layer-lan',
+                    closeBtn: 0,
+                    title: '提问',
+                    shadeClose: true, //点击遮罩关闭
+                    area: ['380px', '350px'],
+                    anim: 0, //动画类型
+                    yes: function(index, layero){
+                        console.log($('#qa-quest-content').val());
+                        layer.close(index);
+                    }
+                }
+            );
+        }
+    </script>
+</head>
+<body style="background-color: #fff">
+<!-- 导航 -->
+<div class="layui-header header header-index" id="qa-nav">
+    <div class="layui-main">
+        <a class="logo" href="/">
+            <img src="../../static/img/qanda.png" alt="layui">
+        </a>
+
+        <ul class="layui-nav" id="qa-ul">
+            <li class="layui-nav-item layui-this"><a href="index.html">Home</a></li>
+            <li class="layui-nav-item"><a href="index.html">回答</a></li>
+            <li class="layui-nav-item"><a href="index.html">通知</a></li>
+        </ul>
+
+        <!--<div class="qa-search">
+            <input class="qa-search-input" type="text" autofocus="True" placeholder="搜索问题" >
+        </div>-->
+
+        <div class="layui-inline qa-search">
+            <!--<input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="layui-input qa-search-input">-->
+            <input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="qa-search-input">
+            <button class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
+        </div>
+
+        <div class="qa-name">
+            <a href="#">郑立富</a>
+        </div>
+
+        <div class="qa-question-btn">
+            <button onclick="question(this)">添加问题</button>
+        </div>
+    </div>
+</div>
+
+<!-- 内容卡片 -->
+<div class="qa-data-cart">
+
+    <div class="qa-data-content">
+        <div class="qa-data-content-header">
+            <p>Results for <span>China</span></p>
+        </div>
+
+        <!-- 卡片 -->
+        <div class="qa-cart-data">
+            <div><h2><a href="#">Why is the world afraid of China?</a></h2></div>
+            <!-- 操作 -->
+            <div style="margin-top: 5px;">
+                <div class="qa-upvote qa-upvote-2">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Follow ·</b>
+                    <span >32</span>
+                </div>
+
+                <!--<div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>-->
+            </div>
+        </div>
+        <!-- /卡片end -->
+
+        <!-- 卡片 -->
+        <div class="qa-cart-data">
+            <div><h2><a href="#">Why do educated Chinese people still believe Taiwan is part of People's Republic of China, if the People's Republic of China has never actually controlled Taiwan?</a></h2></div>
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote qa-upvote-2">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Follow ·</b>
+                    <span >132</span>
+                </div>
+
+                <!--<div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>-->
+            </div>
+        </div>
+        <!-- /卡片end -->
+
+        <!-- 卡片 -->
+        <div class="qa-cart-data">
+            <div><h2><a href="#">Is China safe for tourists?</a></h2></div>
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote qa-upvote-2">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Follow ·</b>
+                    <span >132</span>
+                </div>
+
+                <!--<div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>-->
+            </div>
+        </div>
+        <!-- /卡片end -->
+
+        <!-- 卡片 -->
+        <div class="qa-cart-data">
+            <div><h2><a href="#">Is China very poor?</a></h2></div>
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote qa-upvote-2">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Follow ·</b>
+                    <span >132</span>
+                </div>
+
+                <!--<div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>-->
+            </div>
+        </div>
+        <!-- /卡片end -->
+
+        <!-- 卡片 -->
+        <div class="qa-cart-data">
+            <div><h2><a href="#">Can India defeat China in a full-fledged war?</a></h2></div>
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote qa-upvote-2">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Follow ·</b>
+                    <span >132</span>
+                </div>
+
+                <!--<div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>-->
+            </div>
+        </div>
+        <!-- /卡片end -->
+
+        <!-- 卡片 -->
+        <div class="qa-cart-data">
+            <div><h2><a href="#">Is China very poor?</a></h2></div>
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote qa-upvote-2">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Follow ·</b>
+                    <span >132</span>
+                </div>
+
+                <!--<div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>-->
+            </div>
+        </div>
+        <!-- /卡片end -->
+
+        <!-- 卡片 -->
+        <div class="qa-cart-data">
+            <div><h2><a href="#">Can India defeat China in a full-fledged war?</a></h2></div>
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote qa-upvote-2">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Follow ·</b>
+                    <span >132</span>
+                </div>
+
+                <!--<div class="qa-tread">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>-->
+            </div>
+        </div>
+        <!-- /卡片end -->
+
+    </div>
+
+</div>
+
+</body>
+</html>
