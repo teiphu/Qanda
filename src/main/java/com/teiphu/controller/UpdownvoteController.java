@@ -1,13 +1,14 @@
 package com.teiphu.controller;
 
 import com.teiphu.pojo.AnswerDo;
-import com.teiphu.pojo.CommentDo;
 import com.teiphu.pojo.UpdownvoteDo;
 import com.teiphu.pojo.UserDo;
 import com.teiphu.service.UpdownvoteService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Update;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,8 @@ import java.util.List;
 @RequestMapping("updownvote")
 public class UpdownvoteController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdownvoteController.class);
+
     @Autowired
     private UpdownvoteService voteService;
 
@@ -32,7 +35,7 @@ public class UpdownvoteController {
                            Integer receiverId, Integer upOrDown) {
         UserDo user = (UserDo) session.getAttribute("user");
         Integer userId = user.getId();
-        if (upOrDown == 0) {
+        if (upOrDown.intValue() == 0) {
             voteService.deleteVoteByAnswerAndUser(answerId, userId);
         } else {
             UpdownvoteDo vote = voteService.getVoteByAnswerAndUser(answerId, userId);
@@ -42,17 +45,17 @@ public class UpdownvoteController {
                 AnswerDo answer = new AnswerDo();
                 answer.setId(answerId);
                 UpdownvoteDo voteDo = null;
-                if (upOrDown == 2) {
+                if (upOrDown.intValue() == 1) {
                     voteDo = new UpdownvoteDo(answer, user, receiver, 1);
-                } else if (upOrDown == 3) {
+                } else if (upOrDown.intValue() == 2) {
                     voteDo = new UpdownvoteDo(answer, user, receiver, 0);
                 }
                 int res = voteService.addVote(voteDo);
             } else {
                 if (upOrDown == 2) {
-                    vote.setUpOrDown(1);
-                } else {
                     vote.setUpOrDown(0);
+                } else {
+                    vote.setUpOrDown(1);
                 }
                 voteService.updateVote(vote);
             }
