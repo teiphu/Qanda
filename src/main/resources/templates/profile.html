@@ -19,6 +19,69 @@
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <link rel="stylesheet" th:href="@{/css/profile.css}">
 
+    <script th:inline="javascript">
+        // 顶
+        function upvote(e, answerId, receiverId) {
+            var upOrDown = 0;
+            var count = $(e).find('span').html();
+            if ($(e).hasClass('qa-upvote-red')) {
+                // 变暗
+                upOrDown = 0;
+                count = parseInt(count) - 1;
+                $(e).find('span').html(count);
+                $(e).removeClass('qa-upvote-red');
+            } else {
+                // 变亮
+                upOrDown = 1;
+                $(e).addClass('qa-upvote-red');
+                count = parseInt(count) + 1;
+                $(e).find('span').html(count);
+                $(e).next('.qa-tread').removeClass('qa-downvote-red');
+            }
+
+            $.ajax({
+                url: "/updownvote/saveVote",
+                type: "POST",
+                data: {
+                    answerId: answerId,
+                    /*senderId: senderId,*/
+                    receiverId: receiverId,
+                    upOrDown: upOrDown
+                }
+            });
+        }
+
+        // 踩
+        function downvote(e, answerId, receiverId) {
+            var upOrDown = 0;
+            var count = $(e).prev('.qa-upvote').find('span').html();
+            if ($(e).hasClass('qa-downvote-red')) {
+                // 变暗
+                upOrDown = 0;
+                $(e).removeClass('qa-downvote-red');
+            } else {
+                // 变亮
+                upOrDown = 2;
+                $(e).addClass('qa-downvote-red');
+                if ($(e).prev('.qa-upvote').hasClass('qa-upvote-red')) {
+                    count = parseInt(count) - 1;
+                    $(e).prev('.qa-upvote').find('span').html(count);
+                }
+                $(e).prev('.qa-upvote').removeClass('qa-upvote-red');
+            }
+
+            $.ajax({
+                url: "/updownvote/saveVote",
+                type: "POST",
+                data: {
+                    answerId: answerId,
+                    /*senderId: senderId,*/
+                    receiverId: receiverId,
+                    upOrDown: upOrDown
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 <!-- 导航 -->
@@ -41,7 +104,7 @@
         </div>
 
         <div class="qa-name">
-            <a th:text="${session.user.username}" th:href="@{/question/listQuestionsAnswered}">郑立富</a>
+            <a th:text="${session.user.username}" th:href="@{/question/listQuestionsAnswered}"></a>
         </div>
 
         <div class="qa-question-btn">
@@ -83,13 +146,15 @@
             </div>
             <!-- 操作 -->
             <div style="margin-top: 10px;">
-                <div class="qa-upvote qa-upvote-2">
+                <div class="qa-upvote qa-upvote-2" th:classappend="${question.answer.voteStatus == 1}? 'qa-upvote-red'"
+                     th:onclick="|upvote(this, '${question.answer.id}', '${session.user.id}')|">
                     <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Upvote · </b>
                     <span th:text="${question.answer.upvoteCount != null}? ${question.answer.upvoteCount} : '0'">32</span>
                 </div>
 
-                <div class="qa-tread">
+                <div class="qa-tread" th:classappend="${question.answer.voteStatus == 2}? 'qa-downvote-red'"
+                     th:onclick="|downvote(this, '${question.answer.id}', '${session.user.id}')|">
                     <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
                 </div>
             </div>

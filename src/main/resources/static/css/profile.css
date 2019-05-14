@@ -102,3 +102,11 @@
     cursor: pointer;
     border-radius: 50px;
 }
+
+.qa-upvote-red {
+    color: #B92B27;
+}
+
+.qa-downvote-red {
+    color: #B92B27;
+}

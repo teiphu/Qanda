@@ -9,8 +9,123 @@
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/profile.css">
+    <!--<link rel="stylesheet" href="../css/profile.css">-->
 
+    <style>
+        .qa-data-cart {
+            position: relative;
+            top: 70px;
+            margin: 0 auto;
+            padding-top: 10px;
+            width: 50%;
+            height: 500px;
+            /*background: #888888;*/
+        }
+        .qa-cart-top {
+            height: 160px;
+            border-bottom: 2px solid #e2e2e2;
+        }
+        .qa-cart-top-left {
+            width: 142px;
+            height: 142px;
+            border: 1px solid #383d41;
+            border-radius: 50%;
+            float: left;
+        }
+        .qa-cart-top-right {
+            /*width: 150px;*/
+            margin-left: 30px;
+            float: left;
+        }
+        .qa-cart-top-right h2 {
+            font-family: 'q_serif',Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif;
+            font-weight: bold;
+            line-height: 1.3;
+            color: #333;
+            font-size: 26px;
+        }
+        .qa-cart-top-right p {
+            margin-bottom: 10px;
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            color: #949494;
+        }
+        .qa-cart-top-right p a{
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            color: #949494;
+        }
+
+        /* 内容 */
+        .qa-data-content-header {
+            color: #333;
+            font-weight: 500;
+            position: relative;
+            border-bottom: 1px solid #e2e2e2;
+            /*margin-bottom: 16px;*/
+            padding-top: 10px;
+            /*padding-bottom: 8px;*/
+            letter-spacing: 0;
+            text-transform: none;
+        }
+        .qa-data-content-header p {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        /* 卡片 */
+        .qa-cart-data {
+            border-bottom: 1px solid #888888;
+            padding-bottom: 50px;
+            margin-bottom: 15px;
+        }
+        .qa-cart-data > div > h2 {
+            font-family: 'q_serif',Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif;
+            font-weight: bold;
+            line-height: 1.3;
+            font-size: 18px;
+            padding-top: 5px;
+        }
+
+        .qa-cart-data > div > h2 > a {
+            color: #333;
+        }
+
+        .qa-cart-personal > p {
+            margin-bottom: 3px;
+            line-height: 1.2em;
+            font-size: 15px;
+        }
+
+        .qa-cart-personal p:nth-child(1) {
+            font-family: 'q_serif',Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif;
+        }
+        .qa-cart-personal p:nth-child(2) {
+            /*font-family: 'q_serif',Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif;*/
+            font-size: 14px;
+            color: #888;
+        }
+
+        .qa-cart-content {
+            font-family: 'q_serif', Georgia, Times, "Times New Roman", "Hiragino Kaku Gothic Pro", "Meiryo", serif;
+            /*font-size: 13px;*/
+            margin-top: 10px;
+        }
+
+        /* 操作 */
+        .qa-upvote-2:hover, .qa-tread:hover {
+            background-color: #E8E8E2;
+            cursor: pointer;
+            border-radius: 50px;
+        }
+
+        .qa-upvote-red {
+            color: #B92B27;
+        }
+
+        .qa-downvote-red {
+            color: #B92B27;
+        }
+
+    </style>
     <script>
         function question(e) {
             layer.alert('<textarea id="qa-quest-content" rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
@@ -21,7 +136,7 @@
                     shadeClose: true, //点击遮罩关闭
                     area: ['380px', '350px'],
                     anim: 0, //动画类型
-                    yes: function(index, layero){
+                    yes: function (index, layero) {
                         console.log($('#qa-quest-content').val());
                         layer.close(index);
                     }
@@ -37,6 +152,11 @@
                 console.log(value); //得到value
                 layer.close(index);
             });*/
+            ;!function () {
+                var element = layui.elements;
+
+
+            }
         }
     </script>
 </head>
@@ -52,25 +172,41 @@
             <li class="layui-nav-item layui-this"><a href="index.html">Home</a></li>
             <li class="layui-nav-item"><a href="index.html">回答</a></li>
             <li class="layui-nav-item"><a href="index.html">通知</a></li>
+            <li class="layui-nav-item">
+                <div class="layui-inline qa-search">
+                    <!--<input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="layui-input qa-search-input">-->
+                    <input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="qa-search-input">
+                    <button class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
+                </div>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">郑立富</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">修改资料</a></dd>
+                    <dd><a href="">注销</a></dd>
+                </dl>
+            </li>
+            <li>
+                <div class="qa-question-btn">
+                    <button onclick="question(this)">添加问题</button>
+                </div>
+            </li>
         </ul>
 
-        <!--<div class="qa-search">
-            <input class="qa-search-input" type="text" autofocus="True" placeholder="搜索问题" >
-        </div>-->
 
-        <div class="layui-inline qa-search">
-            <!--<input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="layui-input qa-search-input">-->
+        <!--<div class="layui-inline qa-search">
+            &lt;!&ndash;<input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="layui-input qa-search-input">&ndash;&gt;
             <input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="qa-search-input">
             <button class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
-        </div>
+        </div>-->
 
-        <div class="qa-name">
+        <!--<div class="qa-name">
             <a href="#">郑立富</a>
-        </div>
+        </div>-->
 
-        <div class="qa-question-btn">
+        <!--<div class="qa-question-btn">
             <button onclick="question(this)">添加问题</button>
-        </div>
+        </div>-->
     </div>
 </div>
 
@@ -101,14 +237,15 @@
             </div>
             <!-- 内容 -->
             <div class="qa-cart-content">
-                Whether Chinese officials are willing to admit it or not, they face a more precarious position if US-China trade talks collapse. US President Donald J. Trump has a strong advantage, since he does
+                Whether Chinese officials are willing to admit it or not, they face a more precarious position if
+                US-China trade talks collapse. US President Donald J. Trump has a strong advantage, since he does
             </div>
             <!-- 操作 -->
             <div style="margin-top: 10px;">
                 <div class="qa-upvote qa-upvote-2">
                     <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Upvote · </b>
-                    <span >32</span>
+                    <span>32</span>
                 </div>
 
                 <div class="qa-tread">
@@ -127,14 +264,15 @@
             </div>
             <!-- 内容 -->
             <div class="qa-cart-content">
-                Whether Chinese officials are willing to admit it or not, they face a more precarious position if US-China trade talks collapse. US President Donald J. Trump has a strong advantage, since he does
+                Whether Chinese officials are willing to admit it or not, they face a more precarious position if
+                US-China trade talks collapse. US President Donald J. Trump has a strong advantage, since he does
             </div>
             <!-- 操作 -->
             <div style="margin-top: 10px;">
                 <div class="qa-upvote qa-upvote-2">
                     <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Upvote · </b>
-                    <span >32</span>
+                    <span>32</span>
                 </div>
 
                 <div class="qa-tread">
@@ -153,14 +291,15 @@
             </div>
             <!-- 内容 -->
             <div class="qa-cart-content">
-                Whether Chinese officials are willing to admit it or not, they face a more precarious position if US-China trade talks collapse. US President Donald J. Trump has a strong advantage, since he does
+                Whether Chinese officials are willing to admit it or not, they face a more precarious position if
+                US-China trade talks collapse. US President Donald J. Trump has a strong advantage, since he does
             </div>
             <!-- 操作 -->
             <div style="margin-top: 10px;">
                 <div class="qa-upvote qa-upvote-2">
                     <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Upvote · </b>
-                    <span >32</span>
+                    <span>32</span>
                 </div>
 
                 <div class="qa-tread">

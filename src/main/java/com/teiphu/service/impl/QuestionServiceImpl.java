@@ -131,6 +131,24 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionDo> listQuestionsAnswered(Integer userId) {
-        return questionMapper.listQuestionsAnswered(userId);
+        List<QuestionDo> questions = questionMapper.listQuestionsAnswered(userId);
+        Iterator<QuestionDo> it = questions.iterator();
+        while (it.hasNext()) {
+            QuestionDo question = it.next();
+            AnswerDo answer = question.getAnswer();
+            if (answer != null) {
+                UpdownvoteDo vote = voteMapper.getUpdownvoteStatus(answer.getId(), userId);
+                if (vote == null) {
+                    answer.setVoteStatus(0);
+                } else {
+                    if (vote.getUpOrDown().intValue() == 1) {
+                        answer.setVoteStatus(1);
+                    } else {
+                        answer.setVoteStatus(2);
+                    }
+                }
+            }
+        }
+        return questions;
     }
 }
