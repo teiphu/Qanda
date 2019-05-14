@@ -18,16 +18,22 @@
     border: 1px solid #888888;
     border-radius: 50%;
     box-shadow: 1px 1px 2px 0px #888888;
-    margin: 5px 20px 0 0;
+    margin: 15px 20px 0 0;
     float: left;
 }
 .layui-card-body h2 {
     margin-top: 10px;
     padding-left: 132px;
 }
+.qa-topic-detail {
+    height: 50px;
+    font-family: 'q_serif',Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif;
+    padding-left: 10px;
+    overflow: hidden;
+}
 .qa-topic-follow {
     margin-left: 120px;
-    margin-top: 30px;
+    /*margin-top: 30px;*/
     margin-bottom: 10px;
     padding-top: 8px;
     padding-right: 10px;
