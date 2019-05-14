@@ -11,7 +11,126 @@
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/search.css">
 
+    <style>
+        /*.layui-nav-item {
+            position: relative;
+            display: inline-block;
+            *display: inline;
+            *zoom: 1;
+            vertical-align: middle;
+            line-height: 60px;
+            height: 50px;
+            line-height: 50px;
+            display: block;
+            width: 100%;
+            line-height: 45px;
+        }
+
+        .layui-nav-item a {
+            display: block;
+            padding: 0 20px;
+            color: #fff;
+            color: rgba(255, 255, 255, .7);
+            transition: all .3s;
+            -webkit-transition: all .3s;
+        }
+
+        .layui-nav-item a {
+            position: relative;
+            height: 45px;
+            line-height: 45px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .layui-nav-item a:hover {
+            background-color: #4E5465;
+            color: #fff;
+        }
+
+        .layui-nav-child {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 65px;
+            min-width: 100%;
+            line-height: 36px;
+            padding: 5px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+            border: 1px solid #d2d2d2;
+            background-color: #fff;
+            z-index: 100;
+            border-radius: 2px;
+            white-space: nowrap;
+            top: 55px;
+            left: auto;
+            right: 0;
+        }*/
+        .qa-name a {
+            /*position: relative;*/
+            display: block;
+        }
+
+        .qa-name-child {
+            line-height: 33px;
+            background-color: #fff;
+            /*margin-top: 5px;*/
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+            border: 1px solid #d2d2d2;
+            border-radius: 2px;
+            white-space: nowrap;
+            display: none;
+        }
+        .qa-name-child dd {
+            padding: 3px 0;
+            margin: 2px 0;
+        }
+        .qa-name-child dd a {
+            font-size: 14px;
+            font-family: Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-serif;
+            color: #000;
+        }
+        .qa-name-child dd a:hover {
+            text-decoration: none;
+        }
+        .qa-name-child dd:hover {
+            background-color: #F3F3F3;
+        }
+        .qa-name-child dd:first-child {
+            margin-top: 5px;
+        }
+        .qa-name-child dd:last-child {
+            margin-bottom: 5px;
+        }
+
+    </style>
+
     <script>
+        $(document).ready(function(){
+            $(".qa-name a").hover(
+                function () {
+                    $('.qa-name-child').css("display", "block");
+                },
+                function () {
+                    if (!$(this).is(':hover') && !$(".qa-name-child").is(':hover')) {
+                        $('.qa-name-child').css("display", "none");
+                    }
+                    if (!$(this).is(':hover')) {
+                        if ($(".qa-name-child").is(':hover')) {
+                            $(".qa-name-child").hover(
+                                function () {
+                                },
+                                function () {
+                                    $('.qa-name-child').css("display", "none");
+                                }
+                            );
+                        }
+                    }
+                }
+            );
+        });
+
         function question(e) {
             layer.alert('<textarea id="qa-quest-content" rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
                 {
@@ -21,7 +140,7 @@
                     shadeClose: true, //点击遮罩关闭
                     area: ['380px', '350px'],
                     anim: 0, //动画类型
-                    yes: function(index, layero){
+                    yes: function (index, layero) {
                         console.log($('#qa-quest-content').val());
                         layer.close(index);
                     }
@@ -56,6 +175,12 @@
 
         <div class="qa-name">
             <a href="#">郑立富</a>
+            <dl class="qa-name-child">
+                <dd><a href="#">基本资料</a></dd>
+                <dd><a href="#">修改密码</a></dd>
+                <!--<hr>-->
+                <dd style="text-align: center;"><a href="#">退出</a></dd>
+            </dl>
         </div>
 
         <div class="qa-question-btn">
@@ -80,7 +205,7 @@
                 <div class="qa-upvote qa-upvote-2">
                     <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Follow ·</b>
-                    <span >32</span>
+                    <span>32</span>
                 </div>
 
                 <!--<div class="qa-tread">
@@ -92,13 +217,14 @@
 
         <!-- 卡片 -->
         <div class="qa-cart-data">
-            <div><h2><a href="#">Why do educated Chinese people still believe Taiwan is part of People's Republic of China, if the People's Republic of China has never actually controlled Taiwan?</a></h2></div>
+            <div><h2><a href="#">Why do educated Chinese people still believe Taiwan is part of People's Republic of
+                China, if the People's Republic of China has never actually controlled Taiwan?</a></h2></div>
             <!-- 操作 -->
             <div style="margin-top: 10px;">
                 <div class="qa-upvote qa-upvote-2">
                     <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Follow ·</b>
-                    <span >132</span>
+                    <span>132</span>
                 </div>
 
                 <!--<div class="qa-tread">
@@ -116,7 +242,7 @@
                 <div class="qa-upvote qa-upvote-2">
                     <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Follow ·</b>
-                    <span >132</span>
+                    <span>132</span>
                 </div>
 
                 <!--<div class="qa-tread">
@@ -134,7 +260,7 @@
                 <div class="qa-upvote qa-upvote-2">
                     <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Follow ·</b>
-                    <span >132</span>
+                    <span>132</span>
                 </div>
 
                 <!--<div class="qa-tread">
@@ -152,7 +278,7 @@
                 <div class="qa-upvote qa-upvote-2">
                     <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Follow ·</b>
-                    <span >132</span>
+                    <span>132</span>
                 </div>
 
                 <!--<div class="qa-tread">
@@ -170,7 +296,7 @@
                 <div class="qa-upvote qa-upvote-2">
                     <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Follow ·</b>
-                    <span >132</span>
+                    <span>132</span>
                 </div>
 
                 <!--<div class="qa-tread">
@@ -188,7 +314,7 @@
                 <div class="qa-upvote qa-upvote-2">
                     <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Follow ·</b>
-                    <span >132</span>
+                    <span>132</span>
                 </div>
 
                 <!--<div class="qa-tread">
@@ -201,6 +327,7 @@
     </div>
 
 </div>
+
 
 </body>
 </html>
