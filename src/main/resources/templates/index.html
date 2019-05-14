@@ -17,9 +17,46 @@
     <link rel="stylesheet" th:href="@{/css/global.css}">
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/index.css}">
+
+    <style>
+        .qa-name a {
+            display: block;
+        }
+        .qa-name-child {
+            line-height: 33px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+            border: 1px solid #d2d2d2;
+            border-radius: 2px;
+            white-space: nowrap;
+            display: none;
+        }
+        .qa-name-child dd {
+            padding: 3px 0;
+            margin: 2px 0;
+        }
+        .qa-name-child dd a {
+            font-size: 14px;
+            font-family: Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-serif;
+            color: #000;
+        }
+        .qa-name-child dd a:hover {
+            text-decoration: none;
+        }
+        .qa-name-child dd:hover {
+            background-color: #F3F3F3;
+        }
+        .qa-name-child dd:first-child {
+            margin-top: 5px;
+        }
+        .qa-name-child dd:last-child {
+            margin-bottom: 5px;
+        }
+    </style>
+
     <script>
 
-        layui.use('element', function(){
+        layui.use('element', function () {
             var element = layui.element;
 
             //…
@@ -30,6 +67,30 @@
 
 
         }
+
+        $(document).ready(function(){
+            $(".qa-name a").hover(
+                function () {
+                    $('.qa-name-child').css("display", "block");
+                },
+                function () {
+                    if (!$(this).is(':hover') && !$(".qa-name-child").is(':hover')) {
+                        $('.qa-name-child').css("display", "none");
+                    }
+                    if (!$(this).is(':hover')) {
+                        if ($(".qa-name-child").is(':hover')) {
+                            $(".qa-name-child").hover(
+                                function () {
+                                },
+                                function () {
+                                    $('.qa-name-child').css("display", "none");
+                                }
+                            );
+                        }
+                    }
+                }
+            );
+        });
 
         <!-- 弹出框 -->
         function question(e) {
@@ -162,6 +223,11 @@
         <div class="qa-name">
             <a th:text="${session.user.username != null}? ${session.user.username} : ''"
                th:href="@{/question/listQuestionsAnswered}"></a>
+            <dl class="qa-name-child">
+                <dd><a href="#">基本资料</a></dd>
+                <dd><a href="#">修改密码</a></dd>
+                <dd style="text-align: center;"><a href="#">退出</a></dd>
+            </dl>
         </div>
 
         <div class="qa-question-btn">
@@ -174,7 +240,7 @@
 <div class="qa-cart" id="qa-content">
 
     <div class="layui-card">
-        <div class="layui-card-header" th:text="${session.user.username}">郑立富</div>
+        <div class="layui-card-header" th:text="${session.user.username}"></div>
         <div class="layui-card-body">
             你的问题是什么？
         </div>

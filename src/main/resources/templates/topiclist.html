@@ -85,7 +85,7 @@
         <div class="layui-card-body">
             <div class="qa-topic-img"></div>
             <h2 th:text="${topic.topicName}" class="qa-topic-title"></h2>
-            <div class="qa-topic-detail"></div>
+            <div class="qa-topic-detail" th:text="${topic.topicDetail}"></div>
             <div class="qa-topic-follow" th:classappend="${topic.followStatus == 1}? 'qa-topic-followed'"
                  th:onclick="|follow(this, '${topic.id}', '${session.user.id}')|">
                 <i class="layui-icon layui-icon-praise"
