@@ -198,6 +198,23 @@
                 }
             });
         }
+
+        function search(e) {
+            var searchContent = $.trim($('#qa-search-input').val());
+            if (searchContent == null || searchContent.length == 0) {
+                layer.msg("搜索内容不能为空");
+            } else {
+                console.log(searchContent);
+                $.ajax({
+                    url: "/question/search",
+                    type: "POST",
+                    data: {searchContent: searchContent},
+                    success: function (result) {
+
+                    }
+                });
+            }
+        }
     </script>
 
 </head>
@@ -205,7 +222,7 @@
 
 <div class="layui-header header header-index" id="qa-nav">
     <div class="layui-main">
-        <a class="logo" href="/">
+        <a class="logo" th:href="@{/question/home}">
             <img th:src="@{/img/qanda.png}" alt="layui">
         </a>
 
@@ -214,10 +231,10 @@
             <li class="layui-nav-item"><a th:href="@{/question/listQuestOfUserInterest}">回答</a></li>
             <li class="layui-nav-item"><a th:href="@{#}">通知</a></li>
         </ul>
-
+        <!--搜索问题-->
         <div class="layui-inline qa-search">
-            <input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="qa-search-input">
-            <button class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
+            <input placeholder="搜索问题" name="keywords" autocomplete="off" value="" id="qa-search-input" class="qa-search-input">
+            <button class="layui-btn" onclick="search(this)"><i class="layui-icon layui-icon-search"></i></button>
         </div>
 
         <div class="qa-name">
@@ -267,7 +284,6 @@
                 <!--答案-->
                 <div th:text="${question.answer != null}? ${question.answer.answerContent} : ''"
                      class="qa-body-content">
-
                     清朝沦陷后，革命军队占领了清朝帝国皇宫北京的紫禁城，他们在入口门口发现了一块非常好的平板，写下了大清门。
                     这张照片展示了中国大门上平板电脑的一个例子。
                     他们不想浪费这么好的平板电脑，并决定在平板电脑的另一边写下他们的州名。

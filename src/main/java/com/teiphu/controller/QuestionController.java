@@ -48,7 +48,6 @@ public class QuestionController {
         UserDo user = (UserDo) session.getAttribute("user");
         QuestionDo question = new QuestionDo();
         question.setUser(user);
-        //question.setTopic(new TopicDo(topicId));
         question.setContent(content);
         int res = questionService.addQuestion(question);
         if (res > 0) {
@@ -74,6 +73,15 @@ public class QuestionController {
         question.setContent(questionContent);
         int res = questionService.updateQuestion(question);
         return "";
+    }
+
+    @ApiOperation("搜索问题")
+    @PostMapping("search")
+    public String search(Model model, String searchContent) {
+        List<QuestionDo> questions = questionService.searchQuestion(searchContent);
+        model.addAttribute("questions", questions);
+        model.addAttribute("searchContent", searchContent);
+        return "search";
     }
 
     @ApiOperation("分页检索问题")

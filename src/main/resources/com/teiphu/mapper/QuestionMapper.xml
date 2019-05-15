@@ -81,6 +81,12 @@
         /*order by id;*/
     </select>
 
+    <select id="listQuestionBySearch" resultMap="QuestionBean">
+        select id, user_id, topic_id, content, gmt_create
+        from qanda.question
+        where question.content like #{searchContent};
+    </select>
+
     <select id="countQuestion" resultType="java.lang.Integer">
         select count(*)
         from qanda.question;

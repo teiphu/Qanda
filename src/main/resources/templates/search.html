@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>搜索</title>
-    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../layui/layui.all.js"></script>
     <link rel="stylesheet" href="../layui/css/layui.css">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/search.css">
+    <link rel="stylesheet" href="../css/search.css">-->
+
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/layui/layui.all.js}"></script>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/search.css}">
 
     <style>
         .qa-name a {
             display: block;
         }
+
         .qa-name-child {
             line-height: 33px;
             background-color: #fff;
@@ -24,24 +34,30 @@
             white-space: nowrap;
             display: none;
         }
+
         .qa-name-child dd {
             padding: 3px 0;
             margin: 2px 0;
         }
+
         .qa-name-child dd a {
             font-size: 14px;
-            font-family: Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-serif;
+            font-family: Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
             color: #000;
         }
+
         .qa-name-child dd a:hover {
             text-decoration: none;
         }
+
         .qa-name-child dd:hover {
             background-color: #F3F3F3;
         }
+
         .qa-name-child dd:first-child {
             margin-top: 5px;
         }
+
         .qa-name-child dd:last-child {
             margin-bottom: 5px;
         }
@@ -49,7 +65,7 @@
     </style>
 
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             $(".qa-name a").hover(
                 function () {
                     $('.qa-name-child').css("display", "block");
@@ -96,14 +112,14 @@
 <!-- 导航 -->
 <div class="layui-header header header-index" id="qa-nav">
     <div class="layui-main">
-        <a class="logo" href="/">
-            <img src="../../static/img/qanda.png" alt="layui">
+        <a class="logo" th:href="@{/question/home}">
+            <img th:src="@{/img/qanda.png}" alt="layui">
         </a>
 
         <ul class="layui-nav" id="qa-ul">
-            <li class="layui-nav-item layui-this"><a href="index.html">Home</a></li>
-            <li class="layui-nav-item"><a href="index.html">回答</a></li>
-            <li class="layui-nav-item"><a href="index.html">通知</a></li>
+            <li class="layui-nav-item layui-this"><a th:href="@{/question/home}">Home</a></li>
+            <li class="layui-nav-item"><a th:href="@{/question/listQuestOfUserInterest}">回答</a></li>
+            <li class="layui-nav-item"><a th:href="@{#}">通知</a></li>
         </ul>
 
         <div class="layui-inline qa-search">
@@ -112,11 +128,10 @@
         </div>
 
         <div class="qa-name">
-            <a href="#">郑立富</a>
+            <a th:text="${session.user.username}" th:href="@{/question/listQuestionsAnswered}"></a>
             <dl class="qa-name-child">
                 <dd><a href="#">基本资料</a></dd>
                 <dd><a href="#">修改密码</a></dd>
-                <!--<hr>-->
                 <dd style="text-align: center;"><a href="#">退出</a></dd>
             </dl>
         </div>
@@ -132,86 +147,30 @@
 
     <div class="qa-data-content">
         <div class="qa-data-content-header">
-            <p>Results for "<span>China</span>"</p>
+            <p>Results for "<span th:text="${searchContent}"></span>"</p>
         </div>
 
         <!-- 卡片 -->
-        <div class="qa-cart-data">
-            <div><h2><a href="#">Why is the world afraid of China?</a></h2></div>
+        <div class="qa-cart-data" th:each="question : ${questions}">
+            <div><h2>
+                <a href="#" th:text="${question.content}"
+                   th:href="@{/answer/retrieveAnswersByQuestion/{questionId}(questionId=${question.id})}"></a>
+            </h2></div>
             <!-- 操作 -->
             <div style="margin-top: 5px;">
                 <div class="qa-upvote qa-upvote-2">
                     <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
                     <b>Follow ·</b>
-                    <span>32</span>
+                    <span>0</span>
                 </div>
-
-                <!--<div class="qa-tread">
-                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
-                </div>-->
             </div>
         </div>
         <!-- /卡片end -->
 
         <!-- 卡片 -->
-        <div class="qa-cart-data">
-            <div><h2><a href="#">Why do educated Chinese people still believe Taiwan is part of People's Republic of
-                China, if the People's Republic of China has never actually controlled Taiwan?</a></h2></div>
-            <!-- 操作 -->
-            <div style="margin-top: 10px;">
-                <div class="qa-upvote qa-upvote-2">
-                    <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
-                    <b>Follow ·</b>
-                    <span>132</span>
-                </div>
-
-                <!--<div class="qa-tread">
-                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
-                </div>-->
-            </div>
-        </div>
-        <!-- /卡片end -->
-
-        <!-- 卡片 -->
-        <div class="qa-cart-data">
-            <div><h2><a href="#">Is China safe for tourists?</a></h2></div>
-            <!-- 操作 -->
-            <div style="margin-top: 10px;">
-                <div class="qa-upvote qa-upvote-2">
-                    <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
-                    <b>Follow ·</b>
-                    <span>132</span>
-                </div>
-
-                <!--<div class="qa-tread">
-                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
-                </div>-->
-            </div>
-        </div>
-        <!-- /卡片end -->
-
-        <!-- 卡片 -->
-        <div class="qa-cart-data">
-            <div><h2><a href="#">Is China very poor?</a></h2></div>
-            <!-- 操作 -->
-            <div style="margin-top: 10px;">
-                <div class="qa-upvote qa-upvote-2">
-                    <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
-                    <b>Follow ·</b>
-                    <span>132</span>
-                </div>
-
-                <!--<div class="qa-tread">
-                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
-                </div>-->
-            </div>
-        </div>
-        <!-- /卡片end -->
-
-        <!-- 卡片 -->
-        <div class="qa-cart-data">
+        <!--<div class="qa-cart-data">
             <div><h2><a href="#">Can India defeat China in a full-fledged war?</a></h2></div>
-            <!-- 操作 -->
+            &lt;!&ndash; 操作 &ndash;&gt;
             <div style="margin-top: 10px;">
                 <div class="qa-upvote qa-upvote-2">
                     <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
@@ -219,47 +178,11 @@
                     <span>132</span>
                 </div>
 
-                <!--<div class="qa-tread">
+                &lt;!&ndash;<div class="qa-tread">
                     <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
-                </div>-->
+                </div>&ndash;&gt;
             </div>
-        </div>
-        <!-- /卡片end -->
-
-        <!-- 卡片 -->
-        <div class="qa-cart-data">
-            <div><h2><a href="#">Is China very poor?</a></h2></div>
-            <!-- 操作 -->
-            <div style="margin-top: 10px;">
-                <div class="qa-upvote qa-upvote-2">
-                    <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
-                    <b>Follow ·</b>
-                    <span>132</span>
-                </div>
-
-                <!--<div class="qa-tread">
-                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
-                </div>-->
-            </div>
-        </div>
-        <!-- /卡片end -->
-
-        <!-- 卡片 -->
-        <div class="qa-cart-data">
-            <div><h2><a href="#">Can India defeat China in a full-fledged war?</a></h2></div>
-            <!-- 操作 -->
-            <div style="margin-top: 10px;">
-                <div class="qa-upvote qa-upvote-2">
-                    <i class="layui-icon layui-icon-release" style="font-size: 25px; padding-left: 10px"></i>
-                    <b>Follow ·</b>
-                    <span>132</span>
-                </div>
-
-                <!--<div class="qa-tread">
-                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
-                </div>-->
-            </div>
-        </div>
+        </div>-->
         <!-- /卡片end -->
 
     </div>

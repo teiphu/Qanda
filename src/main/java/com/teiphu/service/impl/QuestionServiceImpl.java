@@ -151,4 +151,17 @@ public class QuestionServiceImpl implements QuestionService {
         }
         return questions;
     }
+
+    @Override
+    public List<QuestionDo> searchQuestion(String searchContent) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('%');
+        for (int i = 0; i < searchContent.length(); i++) {
+            sb.append(searchContent.charAt(i));
+            sb.append('%');
+        }
+        String content = sb.toString();
+        List<QuestionDo> questions = questionMapper.listQuestionBySearch(content);
+        return questions;
+    }
 }

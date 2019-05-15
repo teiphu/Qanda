@@ -9,6 +9,7 @@ import java.util.List;
  * @Date 2019.04.17 下午 09:51
  **/
 public interface QuestionService {
+
     int addQuestion(QuestionDo question);
 
     int deleteQuestion(Integer questionId);
@@ -30,4 +31,6 @@ public interface QuestionService {
     List<QuestionDo> listQuestOfUserInterest();
 
     List<QuestionDo> listQuestionsAnswered(Integer userId);
+
+    List<QuestionDo> searchQuestion(String searchContent);
 }
