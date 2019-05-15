@@ -159,7 +159,7 @@
 <!-- 中间卡片 -->
 <div class="qa-cart">
     <!-- 卡片 -->
-    <div class="layui-card" id="qa-inner-padding">
+    <div class="layui-card" id="qa-inner-padding" style="padding-bottom: 0px;">
         <div class="layui-card-header qa-card-header" style="height: auto;">
             <!--<span>答案</span><br>-->
             <div class="qa-quest-topic">
@@ -191,7 +191,7 @@
     <!-- 卡片 -->
     <div class="layui-card" th:each="answer : ${answers}">
 
-        <div class="layui-card-body">
+        <div class="layui-card-body" style="padding-bottom: 10px;">
             <!--名字与时间-->
             <div class="qa-card-inner-body">
                 <p><a th:text="${answer.user.username}">郑立康</a></p>
