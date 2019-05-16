@@ -23,4 +23,6 @@ public interface TopicService {
     List<TopicDo> listTopicByQuestion(Integer questionId);
 
     List<TopicDo> listTopicByUser(Integer userId);
+
+    List<TopicDo> listSimilarTopic(String content, List<TopicDo> topics);
 }

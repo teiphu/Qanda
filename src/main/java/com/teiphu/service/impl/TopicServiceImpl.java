@@ -4,6 +4,7 @@ import com.teiphu.mapper.TopicMapper;
 import com.teiphu.mapper.UserTopicMapper;
 import com.teiphu.pojo.TopicDo;
 import com.teiphu.service.TopicService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author Teiphu
@@ -36,19 +39,19 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    @Transactional(rollbackFor = { IOException.class })
+    @Transactional(rollbackFor = {IOException.class})
     public int addTopic(TopicDo topic) {
         return topicMapper.insertTopic(topic);
     }
 
     @Override
-    @Transactional(rollbackFor = { IOException.class })
+    @Transactional(rollbackFor = {IOException.class})
     public int deleteTopic(Integer topicId) {
         return topicMapper.deleteTopic(topicId);
     }
 
     @Override
-    @Transactional(rollbackFor = { IOException.class })
+    @Transactional(rollbackFor = {IOException.class})
     public int updateTopic(TopicDo topic) {
         return topicMapper.updateTopic(topic);
     }
@@ -91,5 +94,24 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public List<TopicDo> listTopicByUser(Integer userId) {
         return topicMapper.listTopicByUser(userId);
+    }
+
+    @Override
+    public List<TopicDo> listSimilarTopic(String content, List<TopicDo> topics) {
+        Set<String> topicNameSet = new HashSet<>();
+        if (topics != null && topics.size() > 0) {
+            for (TopicDo topic : topics) {
+                topicNameSet.add(topic.getTopicName());
+            }
+        }
+        List<TopicDo> availTopics = topicMapper.listTopic();
+        Iterator<TopicDo> it = availTopics.iterator();
+        while (it.hasNext()) {
+            TopicDo topic = it.next();
+            if (topicNameSet.contains(topic.getTopicName()) || !StringUtils.contains(content, topic.getTopicName())) {
+                it.remove();
+            }
+        }
+        return availTopics;
     }
 }

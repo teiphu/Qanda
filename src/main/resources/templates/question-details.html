@@ -20,6 +20,14 @@
     <link rel="stylesheet" th:href="@{/css/question-details.css}">
     <link rel="stylesheet" th:href="@{/css/index.css}">
 
+    <style>
+        .layui-layer-btn0 {
+            border-color: #dc3545;
+            background-color: #dc3545;
+            color: #fff;
+        }
+    </style>
+
     <script th:inline="javascript">
 
         /*<![CDATA[*/
@@ -121,6 +129,59 @@
                 }
             });
         }
+
+        function edit(e) {
+            /*'<div style="width: 530px; height: 250px;font-size: 15px;">' +
+            '<h4 style="font-weight: normal; font-size: 16px;">· 选择最能描述问题的话题</h4>' +
+            '<form action="#" method="get" style="margin: 20px 40px; ">' +
+            '<input type="checkbox" name="checkbox" id="checkbox1" lay-skin="primary"> <label for="checkbox1" style="cursor: pointer;">发呆1</label><br>' +
+            '<input type="checkbox" name="checkbox" id="checkbox2" lay-skin="primary"> <label for="checkbox2" style="cursor: pointer;">发呆2</label><br>' +
+            '<input type="checkbox" name="checkbox" id="checkbox3" lay-skin="primary"> <label for="checkbox3" style="cursor: pointer;">Japanese (language)</label><br>' +
+            '</form>' +
+            '</div>'*/
+            var str = $("#availTopicList").html();
+            var title = $("#addTopicPopupWindowsTitle").html();
+            layer.confirm(str, {
+                skin: 'layui-layer-rim',
+                title: title,
+                btn: ['确定', '取消'], //可以无限个按钮
+                area: ['530px', '350px'],
+            }, function (index, layero) {
+                //按钮【按钮二】的回调
+                layer.msg("确定");
+            }, function (index) {
+                //按钮【按钮一】的回调
+                layer.msg("取消");
+            });
+
+        }
+    </script>
+    <!--'<div style="width: 530px; height: 250px;font-size: 15px;">' +
+    '<h4 style="font-weight: normal; font-size: 16px;">· 选择最能描述问题的话题</h4>' +
+    '<form action="#" method="get" style="margin: 20px 40px; ">' +
+        '<input type="checkbox" name="checkbox" id="checkbox1" lay-skin="primary"> <label for="checkbox1" style="cursor: pointer;">发呆1</label><br>' +
+        '<input type="checkbox" name="checkbox" id="checkbox2" lay-skin="primary"> <label for="checkbox2" style="cursor: pointer;">发呆2</label><br>' +
+        '<input type="checkbox" name="checkbox" id="checkbox3" lay-skin="primary"> <label for="checkbox3" style="cursor: pointer;">Japanese (language)</label><br>' +
+        '</form>' +
+    '</div>'-->
+
+    <script type="text/html" id="addTopicPopupWindowsTitle">
+        <span style="padding-top: 5px;font-weight: normal; font-size: 18px;" th:text="${question.content}">明清两代最有意思的是什么？</span>
+    </script>
+
+    <script type="text/html" id="availTopicList">
+        <div style="width: 530px; height: 250px;font-size: 15px;">
+            <h4 style="font-weight: normal; font-size: 16px;">· 选择最能描述问题的话题</h4>
+            <form action="#" method="get" style="margin: 20px 40px; ">
+                <div th:each="topic : ${availTopics}">
+                    <input th:id="topic+${topic.id}" type="checkbox" name="checkbox" lay-skin="primary">
+                    <label th:for="topic+${topic.id}" style="cursor: pointer;" th:text="${topic.topicName}"></label>
+                    <!--<label style="cursor: pointer;" th:text="${topic.topicName}">
+                        <input type="checkbox" name="checkbox" lay-skin="primary">
+                    </label>-->
+                </div>
+            </form>
+        </div>
     </script>
 </head>
 <body>
@@ -163,8 +224,14 @@
         <div class="layui-card-header qa-card-header" style="height: auto;">
             <!--<span>答案</span><br>-->
             <div class="qa-quest-topic">
-                <span th:each="topic : ${topics}"><a th:text="${topic.topicName}"
-                                                     th:href="@{/topic/retrieveTopic/{topicId}(topicId=${topic.id})}">中国</a></span>
+                <span th:each="topic : ${topics}">
+                    <a th:text="${topic.topicName}"
+                       th:href="@{/topic/retrieveTopic/{topicId}(topicId=${topic.id})}">中国</a>
+                </span>
+                <button class="layui-btn qa-edit-btn" onclick="edit(this)"
+                        style="position: relative; background-color: #fff; height: 23px; margin-left: 15px;">
+                    <i class="layui-icon" style="color: red">&#xe642;</i>
+                </button>
             </div>
             <h4><a th:text="${question.content}">明清两代最有意思的是什么？</a></h4>
         </div>

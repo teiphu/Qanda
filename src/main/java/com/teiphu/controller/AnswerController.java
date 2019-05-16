@@ -108,8 +108,8 @@ public class AnswerController {
         Integer answerCount = answers.size();
         model.addAttribute("answerCount", answerCount);
         model.addAttribute("topics", topics);
-        //Integer voteStatus = 0;
-        //model.addAttribute("voteStatus", voteStatus);
+        List<TopicDo> availTopics = topicService.listSimilarTopic(question.getContent(), topics);
+        model.addAttribute("availTopics", availTopics);
         return "question-details";
     }
 
