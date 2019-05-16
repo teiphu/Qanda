@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>问题详情</title>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/question-details.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <!--<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/layui/layui.all.js}"></script>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/question-details.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">-->
+
+    <script th:inline="javascript">
+
+        /*<![CDATA[*/
+        var questionId = /*[[${question.id}]]*/ '1';
+
+        /*]]>*/
+
+        function reply(e) {
+            layer.alert('<textarea id="qa-answer-content" rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
+                {
+                    skin: 'layui-layer-lan',
+                    closeBtn: 2,
+                    title: '回答问题',
+                    shadeClose: true, //点击遮罩关闭
+                    area: ['380px', '350px'],
+                    anim: 0, //动画类型
+                    yes: function (index, layero) {
+                        console.log($('#qa-answer-content').val());
+                        var question = $('#qa-answer-content').val();
+
+                        $.ajax({
+                            url: "/answer/saveAnswer",
+                            type: "POST",
+                            data: {questionId: questionId, answerContent: question},
+                            success: function (res) {
+                                if (res.code == "200") {
+                                    layer.msg("回答问题成功！");
+                                } else {
+                                    layer.msg("回答问题失败！")
+                                }
+                                window.location.reload();
+                            }
+                        });
+
+                        layer.close(index);
+                    }
+                }
+            );
+        }
+
+        // 顶
+        function upvote(e, answerId, receiverId) {
+            var upOrDown = 0;
+            var count = $(e).find('span').html();
+            if ($(e).hasClass('qa-upvote-red')) {
+                // 变暗
+                upOrDown = 0;
+                count = parseInt(count) - 1;
+                $(e).find('span').html(count);
+                $(e).removeClass('qa-upvote-red');
+            } else {
+                // 变亮
+                upOrDown = 1;
+                $(e).addClass('qa-upvote-red');
+                count = parseInt(count) + 1;
+                $(e).find('span').html(count);
+                $(e).next('.qa-tread').removeClass('qa-downvote-red');
+            }
+
+            $.ajax({
+                url: "/updownvote/saveVote",
+                type: "POST",
+                data: {
+                    answerId: answerId,
+                    /*senderId: senderId,*/
+                    receiverId: receiverId,
+                    upOrDown: upOrDown
+                }
+            });
+        }
+
+        // 踩
+        function downvote(e, answerId, receiverId) {
+            var upOrDown = 0;
+            var count = $(e).prev('.qa-upvote').find('span').html();
+            if ($(e).hasClass('qa-downvote-red')) {
+                // 变暗
+                upOrDown = 0;
+                $(e).removeClass('qa-downvote-red');
+            } else {
+                // 变亮
+                upOrDown = 2;
+                $(e).addClass('qa-downvote-red');
+                if ($(e).prev('.qa-upvote').hasClass('qa-upvote-red')) {
+                    count = parseInt(count) - 1;
+                    $(e).prev('.qa-upvote').find('span').html(count);
+                }
+                $(e).prev('.qa-upvote').removeClass('qa-upvote-red');
+            }
+
+            $.ajax({
+                url: "/updownvote/saveVote",
+                type: "POST",
+                data: {
+                    answerId: answerId,
+                    /*senderId: senderId,*/
+                    receiverId: receiverId,
+                    upOrDown: upOrDown
+                }
+            });
+        }
+    </script>
+
+    <script>
+        /*$(document).ready(function(){
+            $('.qa-edit-btn').hover(function() {
+                openMsg();
+            }, function() {
+                layer.close(subtips);
+            });
+            function openMsg() {
+                // subtips = layer.tips('编辑', '#sub',{tips:[1,'#ff6700'],time: 30000});
+                subtips = layer.tips('我是另外一个tips，只不过我长得跟之前那位稍有些不一样。', '吸附元素选择器', {
+                    tips: [1, '#3595CC'],
+                    time: 4000
+                });
+            }
+        });*/
+
+        function question(e) {
+            layer.alert('<textarea id="qa-quest-content" rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
+                {
+                    skin: 'layui-layer-lan',
+                    closeBtn: 0,
+                    title: '提问',
+                    shadeClose: true, //点击遮罩关闭
+                    area: ['380px', '350px'],
+                    anim: 0, //动画类型
+                    yes: function (index, layero) {
+                        console.log($('#qa-quest-content').val());
+                        layer.close(index);
+                    }
+                }
+            );
+        }
+        
+        function edit(e) {
+            layer.confirm('<div style="width: 530px; height: 250px;font-size: 15px;">' +
+                '<h4 style="font-weight: normal; font-size: 18px;">· Select any topics that also describe your </h4>' +
+                    '<form action="#" method="get" style="margin: 20px 40px; ">' +
+                    '<input type="checkbox" name="checkbox" id="checkbox1" lay-skin="primary"> <label for="checkbox1" style="cursor: pointer;">发呆1</label><br>' +
+                    '<input type="checkbox" name="checkbox" id="checkbox2" lay-skin="primary"> <label for="checkbox2" style="cursor: pointer;">发呆2</label><br>' +
+                    '<input type="checkbox" name="checkbox" id="checkbox3" lay-skin="primary"> <label for="checkbox3" style="cursor: pointer;">Japanese (language)</label><br>' +
+                    '</form>' +
+                '</div>', {
+                skin: 'layui-layer-rim',
+                title: '<span style="padding-top: 5px;font-weight: normal; font-size: 18px;">明清两代最有意思的是什么？</span>',
+                btn: ['确定', '取消'], //可以无限个按钮
+                area: ['530px', '350px'],
+            }, function(index, layero){
+                //按钮【按钮二】的回调
+                layer.msg("确定");
+            }, function(index){
+                //按钮【按钮一】的回调
+                layer.msg("取消");
+            });
+
+        }
+        
+    </script>
+</head>
+<body>
+<!-- 导入导航条 -->
+<!--<iframe th:src="@{/common/head.html}" width="100%" height="61px" frameborder="0" class="qa-nav-iframe"></iframe>-->
+
+<!--<div th:insert="~{head::header}"></div>-->
+<div class="layui-header header header-index" id="qa-nav">
+    <div class="layui-main">
+        <a class="logo" href="/">
+            <img th:src="@{/img/qanda.png}" alt="layui">
+        </a>
+
+        <ul class="layui-nav" id="qa-ul">
+            <li class="layui-nav-item layui-this"><a th:href="@{/question/home}">Home</a></li>
+            <li class="layui-nav-item"><a th:href="@{/question/listQuestOfUserInterest}">回答</a></li>
+            <li class="layui-nav-item"><a th:href="@{#}">通知</a></li>
+        </ul>
+
+        <div class="layui-inline qa-search">
+            <input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="qa-search-input">
+            <button class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
+        </div>
+
+        <div class="qa-name">
+            <a th:text="${session.user.username != null}? ${session.user.username} : ''"
+               th:href="@{/question/listQuestionsAnswered}"></a>
+        </div>
+
+        <div class="qa-question-btn">
+            <button onclick="question(this)">添加问题</button>
+        </div>
+    </div>
+</div>
+
+<!-- 中间卡片 -->
+<div class="qa-cart">
+    <!-- 卡片 -->
+    <div class="layui-card" id="qa-inner-padding" style="padding-bottom: 0px;">
+        <div class="layui-card-header qa-card-header" style="height: auto;">
+            <!--<span>答案</span><br>-->
+            <div class="qa-quest-topic">
+                <span th:each="topic : ${topics}">
+                    <a th:text="${topic.topicName}" th:href="@{/topic/retrieveTopic/{topicId}(topicId=${topic.id})}">中国</a>
+                </span>
+                <button class="layui-btn qa-edit-btn" onclick="edit(this)" style="position: relative; background-color: #fff; height: 23px; margin-left: 15px;">
+                    <i class="layui-icon" style="color: red">&#xe642;</i>
+                </button>
+            </div>
+            <h4><a th:text="${question.content}">明清两代最有意思的是什么？</a></h4>
+        </div>
+        <div class="layui-card-body">
+            <!--名字与时间-->
+            <div class="qa-card-inner-body">
+                <p style="color: #9494AE;" th:text="${question.gmtCreate}">Answered 22h ago</p>
+            </div>
+
+            <!-- 操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote" style="width:90px;" onclick="reply(this)">
+                    <!--<i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>-->
+                    <i class="qa-icon-edit"></i>
+                    <b style="padding-top: 4px; ">回答</b>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提示答案数量 -->
+    <div style="text-align: center; margin-bottom: 8px; color: #666;"><span th:text="${answerCount}">4</span>个答案</div>
+
+    <!-- 卡片 -->
+    <div class="layui-card" th:each="answer : ${answers}">
+
+        <div class="layui-card-body" style="padding-bottom: 10px;">
+            <!--名字与时间-->
+            <div class="qa-card-inner-body">
+                <p><a th:text="${answer.user.username}">郑立康</a></p>
+                <p th:text="${answer.gmtCreate}" style="color: #9494AE;">Answered 22h ago</p>
+            </div>
+            <!--答案-->
+            <div class="qa-body-content" th:text="${answer.answerContent}">
+                清朝沦陷后，革命军队占领了清朝帝国皇宫北京的紫禁城，他们在入口门口发现了一块非常好的平板，写下了大清门。
+                这张照片展示了中国大门上平板电脑的一个例子。
+                他们不想浪费这么好的平板电脑，并决定在平板电脑的另一边写下他们的州名。
+                当他们翻过平板电脑时。他们眼中的是大明之门。<br>
+            </div>
+
+            <!-- 顶踩操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote" th:classappend="${answer.voteStatus == 1}? 'qa-upvote-red' : ''"
+                     th:onclick="|upvote(this, '${answer.id}', '${answer.user.id}')|">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Upvote · </b>
+                    <span th:text="${answer.upvoteCount != null}? ${answer.upvoteCount} : 0">32</span>
+                </div>
+
+                <div class="qa-tread" th:classappend="${answer.voteStatus == 2}? 'qa-downvote-red' : ''"
+                     th:onclick="|downvote(this, '${answer.id}', '${answer.user.id}')|">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>
+            </div>
+
+            <!-- 评论 -->
+            <div class="qa-qus-comment">
+                <form class="form-horizontal" role="form">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入评论">
+                        <button type="button" class="btn btn-default">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--<hr>-->
+
+    </div>
+</div>
+</body>
+</html>
