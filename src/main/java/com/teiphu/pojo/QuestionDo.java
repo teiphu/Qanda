@@ -103,4 +103,19 @@ public class QuestionDo implements Serializable {
     public void setAnswer(AnswerDo answer) {
         this.answer = answer;
     }
+
+    @Override
+    public String toString() {
+        return "QuestionDo{" +
+                "id=" + id +
+                ", user=" + user +
+                ", topic=" + topic +
+                ", content='" + content + '\'' +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModified=" + gmtModified +
+                ", status=" + status +
+                ", answer=" + answer +
+                ", answers=" + answers +
+                '}';
+    }
 }

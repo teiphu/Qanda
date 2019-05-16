@@ -22,6 +22,14 @@ public class UserDo implements Serializable {
         this.role = role;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public enum Role {
         admin, normal
     }
@@ -37,6 +45,7 @@ public class UserDo implements Serializable {
     private Timestamp birthday;
     private String job;
     private String signature;
+    private String address;
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
     private Timestamp gmtLogout;

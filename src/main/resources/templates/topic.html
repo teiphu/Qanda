@@ -116,7 +116,7 @@
     <div class="layui-card qa-qa-card" th:each="question : ${questions}">
         <div class="layui-card-header qa-card-header" style="height: auto;">
             <span>答案</span><br>
-            <h4><a th:text="${question.content}"
+            <h4><a style="color: #343a40" th:text="${question.content}"
                    th:href="@{/answer/retrieveAnswersByQuestion/{questionId}(questionId=${question.id})}">明清两代最有意思的是什么？</a>
             </h4>
         </div>

@@ -22,6 +22,7 @@
         .qa-name a {
             display: block;
         }
+
         .qa-name-child {
             line-height: 33px;
             background-color: #fff;
@@ -31,24 +32,30 @@
             white-space: nowrap;
             display: none;
         }
+
         .qa-name-child dd {
             padding: 3px 0;
             margin: 2px 0;
         }
+
         .qa-name-child dd a {
             font-size: 14px;
-            font-family: Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-serif;
+            font-family: Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
             color: #000;
         }
+
         .qa-name-child dd a:hover {
             text-decoration: none;
         }
+
         .qa-name-child dd:hover {
             background-color: #F3F3F3;
         }
+
         .qa-name-child dd:first-child {
             margin-top: 5px;
         }
+
         .qa-name-child dd:last-child {
             margin-bottom: 5px;
         }
@@ -68,7 +75,7 @@
 
         }
 
-        $(document).ready(function(){
+        $(document).ready(function () {
             $(".qa-name a").hover(
                 function () {
                     $('.qa-name-child').css("display", "block");
@@ -205,14 +212,16 @@
                 layer.msg("搜索内容不能为空");
             } else {
                 console.log(searchContent);
-                $.ajax({
+                var url = "/question/search?searchContent=" + searchContent;
+                window.location.href = url;
+                /*$.ajax({
                     url: "/question/search",
                     type: "POST",
                     data: {searchContent: searchContent},
-                    success: function (result) {
-
+                    success: function (response) {
+                        $('#result').html(response);
                     }
-                });
+                });*/
             }
         }
     </script>
@@ -233,17 +242,18 @@
         </ul>
         <!--搜索问题-->
         <div class="layui-inline qa-search">
-            <input placeholder="搜索问题" name="keywords" autocomplete="off" value="" id="qa-search-input" class="qa-search-input">
+            <input placeholder="搜索问题" name="keywords" autocomplete="off" value="" id="qa-search-input"
+                   class="qa-search-input">
             <button class="layui-btn" onclick="search(this)"><i class="layui-icon layui-icon-search"></i></button>
         </div>
 
         <div class="qa-name">
-            <a th:text="${session.user.username != null}? ${session.user.username} : ''"
+            <a style="color: #dc3545" th:text="${session.user.username != null}? ${session.user.username} : ''"
                th:href="@{/question/listQuestionsAnswered}"></a>
             <dl class="qa-name-child">
-                <dd><a href="#">基本资料</a></dd>
+                <dd><a th:href="@{/user/toUpdateInfo}">更新资料</a></dd>
                 <dd><a href="#">修改密码</a></dd>
-                <dd style="text-align: center;"><a href="#">退出</a></dd>
+                <dd style="text-align: center;"><a href="#">注销</a></dd>
             </dl>
         </div>
 
@@ -269,7 +279,7 @@
 
             <div class="layui-card-header qa-card-header" style="height: auto;">
                 <span>答案</span><br>
-                <h4><a th:text="${question.content}"
+                <h4><a style="color: #343a40" th:text="${question.content}"
                        th:href="@{/answer/retrieveAnswersByQuestion/{questionId}(questionId=${question.id})}">明清两代最有意思的是什么？</a>
                 </h4>
             </div>

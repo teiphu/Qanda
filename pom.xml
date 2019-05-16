@@ -11,6 +11,7 @@
     <groupId>com.teiphu</groupId>
     <artifactId>qanda</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
     <name>qanda</name>
     <description>Q and A community project for Spring Boot</description>
 
@@ -19,6 +20,18 @@
     </properties>
 
     <dependencies>
+        <!--用于打成war包需要的依赖-->
+        <!--<dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>-->
+        <!--到此为止-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -90,6 +103,14 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.10.2</version>
+        </dependency>
+
+        <!--性能测试工具-->
+        <dependency>
+            <groupId>org.databene</groupId>
+            <artifactId>contiperf</artifactId>
+            <version>2.3.4</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
