@@ -48,6 +48,36 @@
             })
         }
 
+        // 添加话题
+        function addTopic(e) {
+            layer.confirm('<div style="width: 480px; height: 255px;font-size: 15px;">' +
+                '<h4 style="font-weight: normal; font-size: 18px;">● 编辑要添加的话题 </h4>' +
+                '<form action="#" method="get" class="form-horizontal" style="margin: 20px 30px 5px; ">' +
+                '<div class="form-group">' +
+                '<label for="title" style="cursor: pointer; ">标题</label>' +
+                '<input type="text" class="form-control " name="title" id="title"> ' +
+                '</div>' +
+                '<label for="detail" style="cursor: pointer; ">描述</label>' +
+                '<textarea class="form-control" id="detail" rows="3"  style="resize: none;"></textarea><br>' +
+                '</form>' +
+                '</div>',
+                {
+                    skin: 'layui-layer-lan',
+                    shadeClose: true, //点击遮罩关闭
+                    anim: 0,
+                    title: '<span style="padding-top: 5px;font-weight: normal; font-size: 18px;">添加话题</span>',
+                    btn: ['确定', '取消'], //可以无限个按钮
+                    area: ['530px', '350px'],
+                }, function(index, layero){
+                    //按钮【按钮二】的回调
+                    layer.msg("确定");
+                }, function(index){
+                    //按钮【按钮一】的回调
+                    layer.msg("取消");
+                }
+            );
+        }
+
     </script>
 </head>
 <body>
@@ -100,5 +130,18 @@
 
 </div>
 
+<!-- 侧边 -->
+<div class="qa-side">
+    <div>
+        <button onclick="addTopic(this)" class="layui-btn layui-btn-radius layui-btn-normal" style="width:90px; padding: 8px; margin: 0 0 10px 0px;" value="添加话题">添加话题</button>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item" style="background-color: #E6E6E6">中国</li>
+        <li class="list-group-item">美国</li>
+        <li class="list-group-item">日本</li>
+        <li class="list-group-item">越南</li>
+        <li class="list-group-item">文字</li>
+    </ul>
+</div>
 </body>
 </html>
