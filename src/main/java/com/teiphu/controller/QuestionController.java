@@ -170,9 +170,10 @@ public class QuestionController {
         return "profile";
     }
 
+    @ResponseBody
     @ApiOperation("给问题添加话题")
     @PostMapping("addTopicToQuestion")
-    public Result addTopicToQuestion(Integer questionId, String topicStr) {
+    public Result addTopicToQuestion(Integer questionId, Integer[] topicStr) {
         int res = 0;
         if (!StringUtils.isEmpty(topicStr)) {
             res = questionService.addTopicToQuestion(questionId, topicStr);

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -169,9 +168,10 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public int addTopicToQuestion(Integer questionId, String topicStr) {
+    public int addTopicToQuestion(Integer questionId, Integer[] topicStr) {
         int res = 0;
-        Integer[] topicIds = StringUtils.stringToIntegerArray(topicStr);
+        /*Integer[] topicIds = StringUtils.stringToIntegerArray(topicStr);*/
+        Integer[] topicIds = topicStr;
         if (topicIds != null && topicIds.length > 0) {
             List<Integer> topicIdList = Arrays.asList(topicIds);
             res = questionMapper.addTopicToQuestion(questionId, topicIdList);
