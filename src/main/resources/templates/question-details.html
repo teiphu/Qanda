@@ -155,6 +155,7 @@
                         topicStr.push($(this).val());
                     }
                 });
+                // topicStr = JSON.stringify(topicStr);
                 if (topicStr.length == 0) {
                     // 手动关闭弹框
                     layer.close(index);
@@ -162,6 +163,7 @@
                     $.ajax({
                         url: '/question/addTopicToQuestion',
                         type: 'POST',
+                        traditional: true,
                         data: {
                             questionId: questionId,
                             topicStr: topicStr
