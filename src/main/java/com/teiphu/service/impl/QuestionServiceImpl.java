@@ -7,12 +7,15 @@ import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.QuestionDo;
 import com.teiphu.pojo.UpdownvoteDo;
 import com.teiphu.service.QuestionService;
+import com.teiphu.util.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,20 +36,20 @@ public class QuestionServiceImpl implements QuestionService {
     private UpdownvoteMapper voteMapper;
 
     @Override
-    @Transactional(rollbackFor = { IOException.class })
+    @Transactional(rollbackFor = {IOException.class})
     public int addQuestion(QuestionDo question) {
         return questionMapper.insertQuestion(question);
     }
 
     @Override
-    @Transactional(rollbackFor = { IOException.class })
+    @Transactional(rollbackFor = {IOException.class})
     public int deleteQuestion(Integer questionId) {
         answerMapper.deleteAnswerByQuestion(questionId);
         return questionMapper.deleteQuestion(questionId);
     }
 
     @Override
-    @Transactional(rollbackFor = { IOException.class })
+    @Transactional(rollbackFor = {IOException.class})
     public int updateQuestion(QuestionDo question) {
         return questionMapper.updateQuestion(question);
     }
@@ -163,5 +166,16 @@ public class QuestionServiceImpl implements QuestionService {
         String content = sb.toString();
         List<QuestionDo> questions = questionMapper.listQuestionBySearch(content);
         return questions;
+    }
+
+    @Override
+    public int addTopicToQuestion(Integer questionId, String topicStr) {
+        int res = 0;
+        Integer[] topicIds = StringUtils.stringToIntegerArray(topicStr);
+        if (topicIds != null && topicIds.length > 0) {
+            List<Integer> topicIdList = Arrays.asList(topicIds);
+            res = questionMapper.addTopicToQuestion(questionId, topicIdList);
+        }
+        return res;
     }
 }

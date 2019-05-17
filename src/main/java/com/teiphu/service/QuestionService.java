@@ -33,4 +33,6 @@ public interface QuestionService {
     List<QuestionDo> listQuestionsAnswered(Integer userId);
 
     List<QuestionDo> searchQuestion(String searchContent);
+
+    int addTopicToQuestion(Integer questionId, String topicStr);
 }

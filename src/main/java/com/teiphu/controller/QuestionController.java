@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -121,6 +122,7 @@ public class QuestionController {
 
     /**
      * 获取所有的问题并附带一个答案到首页
+     *
      * @param session
      * @param model
      * @return
@@ -166,5 +168,19 @@ public class QuestionController {
         model.addAttribute("questions", questions);
         model.addAttribute("qacount", questions.size());
         return "profile";
+    }
+
+    @ApiOperation("给问题添加话题")
+    @PostMapping("addTopicToQuestion")
+    public Result addTopicToQuestion(Integer questionId, String topicStr) {
+        int res = 0;
+        if (!StringUtils.isEmpty(topicStr)) {
+            res = questionService.addTopicToQuestion(questionId, topicStr);
+        }
+        if (res > 0) {
+            return new Result(HttpStatus.OK.getCode(), HttpStatus.OK.getDesc());
+        } else {
+            return new Result(HttpStatus.INTERNAL_SERVER_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR.getDesc());
+        }
     }
 }

@@ -125,4 +125,12 @@
         on t3.answerId = t4.answer_id;
     </select>
 
+    <insert id="addTopicToQuestion">
+        insert into topic_question(topic_id, question_id)
+        values
+        <foreach collection="topicIds" index="index" item="topicId" separator=",">
+            (#{topicId}, #{questionId})
+        </foreach>
+    </insert>
+
 </mapper>
