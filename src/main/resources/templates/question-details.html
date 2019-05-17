@@ -142,16 +142,41 @@
             var str = $("#availTopicList").html();
             var title = $("#addTopicPopupWindowsTitle").html();
             layer.confirm(str, {
-                skin: 'layui-layer-rim',
+                skin: 'layui-layer-lan',
                 title: title,
                 btn: ['确定', '取消'], //可以无限个按钮
                 area: ['530px', '350px'],
             }, function (index, layero) {
                 //按钮【按钮二】的回调
-                layer.msg("确定");
+                var questionId = $('.qa-title-add').attr("id");
+                var topicStr = new Array()
+                $.each($('#qa-title-id-value input:checkbox'),function(){
+                    if(this.checked){
+                        topicStr.push($(this).val());
+                    }
+                });
+                if (topicStr.length == 0) {
+                    // 手动关闭弹框
+                    layer.close(index);
+                } else {
+                    $.ajax({
+                        url: '/question/addTopicToQuestion',
+                        type: 'POST',
+                        data: {
+                            questionId: questionId,
+                            topicStr: topicStr
+                        },
+                        success: function (result) {
+                            if (result != null && result.code == '200') {
+                                layer.msg("选择成功");
+                            }
+                        }
+                    })
+                }
+                // layer.msg("确定");
             }, function (index) {
                 //按钮【按钮一】的回调
-                layer.msg("取消");
+                // layer.msg("取消");
             });
 
         }
@@ -166,16 +191,16 @@
     '</div>'-->
 
     <script type="text/html" id="addTopicPopupWindowsTitle">
-        <span style="padding-top: 5px;font-weight: normal; font-size: 18px;" th:text="${question.content}">明清两代最有意思的是什么？</span>
+        <span th:id="${question.id}" class="qa-title-add" style="padding-top: 5px;font-weight: normal; font-size: 16px;" th:text="${question.content}">明清两代最有意思的是什么？</span>
     </script>
 
     <script type="text/html" id="availTopicList">
         <div style="width: 530px; height: 250px;font-size: 15px;">
             <h4 style="font-weight: normal; font-size: 16px;">· 选择最能描述问题的话题</h4>
-            <form action="#" method="get" style="margin: 20px 40px; ">
+            <form action="#" id="qa-title-id-value" method="get" style="margin: 20px 40px; ">
                 <div th:each="topic : ${availTopics}">
-                    <input th:id="topic+${topic.id}" type="checkbox" name="checkbox" lay-skin="primary">
-                    <label th:for="topic+${topic.id}" style="cursor: pointer;" th:text="${topic.topicName}"></label>
+                    <input th:id="${topic.id}" th:value="${topic.id}" type="checkbox" name="checkbox" lay-skin="primary">
+                    <label th:for="${topic.id}" style="cursor: pointer;" th:text="${topic.topicName}"></label>
                     <!--<label style="cursor: pointer;" th:text="${topic.topicName}">
                         <input type="checkbox" name="checkbox" lay-skin="primary">
                     </label>-->
@@ -224,14 +249,14 @@
         <div class="layui-card-header qa-card-header" style="height: auto;">
             <!--<span>答案</span><br>-->
             <div class="qa-quest-topic">
+                <button class="layui-btn qa-edit-btn" onclick="edit(this)"
+                        style="position: relative; background-color: #fff; height: 23px;">
+                    <i class="layui-icon" style="color: red">&#xe642;</i>
+                </button>
                 <span th:each="topic : ${topics}">
                     <a th:text="${topic.topicName}"
                        th:href="@{/topic/retrieveTopic/{topicId}(topicId=${topic.id})}">中国</a>
                 </span>
-                <button class="layui-btn qa-edit-btn" onclick="edit(this)"
-                        style="position: relative; background-color: #fff; height: 23px; margin-left: 15px;">
-                    <i class="layui-icon" style="color: red">&#xe642;</i>
-                </button>
             </div>
             <h4><a th:text="${question.content}">明清两代最有意思的是什么？</a></h4>
         </div>

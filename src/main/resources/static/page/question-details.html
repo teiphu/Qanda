@@ -158,23 +158,38 @@
         function edit(e) {
             layer.confirm('<div style="width: 530px; height: 250px;font-size: 15px;">' +
                 '<h4 style="font-weight: normal; font-size: 18px;">· Select any topics that also describe your </h4>' +
-                    '<form action="#" method="get" style="margin: 20px 40px; ">' +
-                    '<input type="checkbox" name="checkbox" id="checkbox1" lay-skin="primary"> <label for="checkbox1" style="cursor: pointer;">发呆1</label><br>' +
-                    '<input type="checkbox" name="checkbox" id="checkbox2" lay-skin="primary"> <label for="checkbox2" style="cursor: pointer;">发呆2</label><br>' +
-                    '<input type="checkbox" name="checkbox" id="checkbox3" lay-skin="primary"> <label for="checkbox3" style="cursor: pointer;">Japanese (language)</label><br>' +
+                    '<form action="#" id="qa-title-id-value" method="get" style="margin: 20px 40px; ">' +
+                    '<input type="checkbox" name="checkbox" id="77" value="771" lay-skin="primary"> <label for="77" style="cursor: pointer;">发呆1</label><br>' +
+                    '<input type="checkbox" name="checkbox" id="88" value="881" lay-skin="primary"> <label for="88" style="cursor: pointer;">发呆2</label><br>' +
+                    '<input type="checkbox" name="checkbox" id="99" value="991" lay-skin="primary"> <label for="99" style="cursor: pointer;">Japanese (language)</label><br>' +
                     '</form>' +
                 '</div>', {
-                skin: 'layui-layer-rim',
+                skin: 'layui-layer-lan',
                 shadeClose: true, //点击遮罩关闭
-                title: '<span style="padding-top: 5px;font-weight: normal; font-size: 18px;">明清两代最有意思的是什么？</span>',
+                title: '<span id="66" class="qa-title-add" style="padding-top: 5px;font-weight: normal; font-size: 18px;">明清两代最有意思的是什么？</span>',
                 btn: ['确定', '取消'], //可以无限个按钮
                 area: ['530px', '350px'],
             }, function(index, layero){
                 //按钮【按钮二】的回调
-                layer.msg("确定");
+                var t_id = $('.qa-title-add').attr("id");
+                console.log(t_id);
+                // var qa_val = $("#qa-title-id-value").serializeObject();
+                // console.log(qa_val);
+                var list = new Array()
+                $.each($('#qa-title-id-value input:checkbox'),function(){
+
+                    if(this.checked){
+                        list.push($(this).val());
+                        // window.alert("你选了："+
+                        //     $('input[type=checkbox]:checked').length+"个，其中有："+$(this).val());
+                        // console.log(('input[type=checkbox]:checked').length+"个，其中有："+$(this).val());
+                    }
+                });
+                console.log(list);
+                layer.msg(index + " 确定 " + layero);
             }, function(index){
                 //按钮【按钮一】的回调
-                layer.msg("取消");
+                layer.msg(index + "取消");
             });
 
         }
@@ -221,12 +236,12 @@
         <div class="layui-card-header qa-card-header" style="height: auto;">
             <!--<span>答案</span><br>-->
             <div class="qa-quest-topic">
+                <button class="layui-btn qa-edit-btn" onclick="edit(this)" style="position: relative; background-color: #fff; height: 23px;">
+                    <i class="layui-icon" style="color: red">&#xe642;</i>
+                </button>
                 <span th:each="topic : ${topics}">
                     <a th:text="${topic.topicName}" th:href="@{/topic/retrieveTopic/{topicId}(topicId=${topic.id})}">中国</a>
                 </span>
-                <button class="layui-btn qa-edit-btn" onclick="edit(this)" style="position: relative; background-color: #fff; height: 23px; margin-left: 15px;">
-                    <i class="layui-icon" style="color: red">&#xe642;</i>
-                </button>
             </div>
             <h4><a th:text="${question.content}">明清两代最有意思的是什么？</a></h4>
         </div>
