@@ -1,5 +1,7 @@
 package com.teiphu.controller;
 
+import com.teiphu.http.HttpStatus;
+import com.teiphu.http.Result;
 import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.QuestionDo;
 import com.teiphu.pojo.TopicDo;
@@ -40,6 +42,7 @@ public class TopicController {
     @Autowired
     private UserTopicService userTopicService;
 
+    @ResponseBody
     @ApiOperation("取消关注或关注话题")
     @PostMapping("updateTopicAttention")
     public String updateTopicAttention(Integer topicId, Integer userId, Integer followStatus) {
@@ -54,15 +57,21 @@ public class TopicController {
         return "";
     }
 
+    @ResponseBody
     @ApiOperation("保存话题")
-    @PutMapping("saveTopic")
-    public String saveTopic(Integer userId, String topicName, String topicDetail) {
+    @PostMapping("saveTopic")
+    public Result saveTopic(HttpSession session, String topicName, String topicDetail) {
+        UserDo user = (UserDo) session.getAttribute("user");
         TopicDo topic = new TopicDo();
-        topic.setUser(new UserDo(userId));
+        topic.setUser(user);
         topic.setTopicName(topicName);
         topic.setTopicDetail(topicDetail);
         int res = topicService.addTopic(topic);
-        return "";
+        if (res > 0) {
+            return new Result(HttpStatus.OK.getCode(), HttpStatus.OK.getDesc());
+        } else {
+            return new Result(HttpStatus.INTERNAL_SERVER_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR.getDesc());
+        }
     }
 
     @ApiOperation("删除话题")
@@ -116,7 +125,9 @@ public class TopicController {
     public String retrieveTopics(HttpSession session, Model model) {
         UserDo user = (UserDo) session.getAttribute("user");
         List<TopicDo> topics = topicService.listTopic(user.getId());
+        List<TopicDo> concernedTopics = topicService.listTopicByUser(user.getId());
         model.addAttribute("topics", topics);
+        model.addAttribute("concernedTopics", concernedTopics);
         return "topiclist";
     }
 

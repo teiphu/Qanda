@@ -34,5 +34,5 @@ public interface QuestionService {
 
     List<QuestionDo> searchQuestion(String searchContent);
 
-    int addTopicToQuestion(Integer questionId, String topicStr);
+    int addTopicToQuestion(Integer questionId, Integer[] topicStr);
 }

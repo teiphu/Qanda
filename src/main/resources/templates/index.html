@@ -367,8 +367,8 @@
     <ul class="list-group">
         <li class="list-group-item" th:onclick="|clickAllTopic(this)|">所有话题</li>
     </ul>
-    <ul th:each="topic : ${topics}" class="list-group">
-        <li th:text="${topic.topicName != null}? ${topic.topicName} : '话题'"
+    <ul class="list-group">
+        <li th:each="topic : ${topics}" th:text="${topic.topicName != null}? ${topic.topicName} : '话题'"
             th:onclick="'javascript:clickTopic(\''+${topic.id}+'\')'" th:attr="data-topicid=${topic.id}"
             class="list-group-item"></li>
     </ul>

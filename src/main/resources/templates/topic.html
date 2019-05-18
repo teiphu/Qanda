@@ -101,9 +101,10 @@
     <div class="layui-card" style="height: 150px;">
         <div class="layui-card-body">
             <div class="qa-topic-img"></div>
-            <h2 th:text="${topic.topicName}" class="qa-topic-title" style="margin-bottom: 30px; padding-top:10px;">Vietnam</h2>
+            <h2 th:text="${topic.topicName}" class="qa-topic-title" style="margin-bottom: 30px; padding-top:10px;">
+                Vietnam</h2>
             <div class="qa-topic-follow" th:classappend="${topic.followStatus == 1}? 'qa-topic-followed'"
-                th:onclick="|follow(this, '${topic.id}', '${session.user.id}')|">
+                 th:onclick="|follow(this, '${topic.id}', '${session.user.id}')|">
                 <i class="layui-icon layui-icon-praise"
                    style="font-size: 25px; padding-left: 15px; padding-top: 10px;"></i>
                 <b>Follow · </b>
@@ -155,12 +156,12 @@
 
 <!-- 侧边 -->
 <div class="qa-side">
-    <ul th:each="topicbean : ${topicList}" class="list-group">
-        <li th:text="${topicbean.topicName}"
+    <ul class="list-group">
+        <li th:each="topicbean : ${topicList}" th:text="${topicbean.topicName}"
             th:onclick="'javascript:clickTopic(\''+${topicbean.id}+'\')'" th:attr="data-topicid=${topicbean.id}"
-            class="list-group-item" style="background-color: #E6E6E6">中国
+            class="list-group-item">中国
         </li>
-        <!--<li class="list-group-item">美国</li>
+        <!--<li class="list-group-item" style="background-color: #E6E6E6">美国</li>
         <li class="list-group-item">日本</li>
         <li class="list-group-item">越南</li>
         <li class="list-group-item">文字</li>-->
