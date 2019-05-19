@@ -36,95 +36,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private DataSource dataSource;
-
-    /*@Autowired
-    private PasswordEncoder passwordEncoder;*/
-
-    /**
-     * 用于跳转到注册界面
-     * @return
-     */
-    @GetMapping("/registration")
-    public String test() {
-        return "register";
-    }
-
-    /**
-     * 用于跳转到登录界面
-     * @return
-     */
-    @GetMapping("signin")
-    public String signin() {
-        return "signin";
-    }
-
     @GetMapping("toUpdateInfo")
     public String toUpdateInfo() {
         return "settings";
-    }
-
-    /**
-     * 登录并写入Session
-     * @param session
-     * @param email
-     * @param phone
-     * @param password
-     * @return
-     */
-    @ApiOperation(value = "登录")
-    @ResponseBody
-    @PostMapping("login")
-    public Result login(HttpSession session, String email, String phone, String password) {
-        UserDo user = userService.getUserByLogin(email, phone, password);
-        Result result = new Result();
-        if (user != null) {
-            session.setAttribute("userId", user.getId());
-            session.setAttribute("user", user);
-            UserDo userDo = (UserDo) session.getAttribute("user");
-            result.setCode(200);
-            result.setMsg("登录成功");
-        } else {
-            result.setCode(400);
-            result.setMsg("登录失败");
-        }
-        return result;
-    }
-
-    /**
-     *
-     * @param username
-     * @param password
-     * @param email
-     * @param phone
-     * @return
-     */
-    @ApiOperation(value = "注册")
-    @ResponseBody
-    @RequestMapping(value = "/register", produces = "application/json")
-    public Result register(String username, String password, String email, String phone) {
-        //UserDo user = new UserDo(username, passwordEncoder.encode(password), email, phone);
-        UserDo user = new UserDo(username, password, email, phone);
-        int res = userService.addUser(user);
-        Result result = new Result();
-
-        if (res > 0) {
-            result.setCode(200);
-            result.setMsg("注册成功");
-        } else {
-            result.setCode(400);
-            result.setMsg("注册失败");
-        }
-        return result;
     }
 
     @ApiOperation(value = "保存用户")
     @PutMapping("saveUser")
     public String saveUser(String userName, String password, String email, String phone, String sex,
                            Timestamp birthday, String job, String signature) {
-        LOGGER.info(dataSource.toString());
-
         UserDo user = new UserDo(userName, password, email, phone, sex, birthday, job, signature);
         int res = userService.addUser(user);
         return "";

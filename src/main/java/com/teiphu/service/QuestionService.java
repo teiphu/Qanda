@@ -16,7 +16,7 @@ public interface QuestionService {
 
     int updateQuestion(QuestionDo question);
 
-    QuestionDo getQuestion(Integer questionId);
+    QuestionDo getQuestion(Integer questionId, Integer userId);
 
     List<QuestionDo> listQuestionByUser(Integer userId);
 
@@ -35,4 +35,8 @@ public interface QuestionService {
     List<QuestionDo> searchQuestion(String searchContent);
 
     int addTopicToQuestion(Integer questionId, Integer[] topicStr);
+
+    int deleteQuestionAttention(Integer questionId, Integer userId);
+
+    int addQuestionAttention(Integer questionId, Integer userId);
 }

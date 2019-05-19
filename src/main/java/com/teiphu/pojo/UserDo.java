@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author Teiphu
@@ -30,6 +31,14 @@ public class UserDo implements Serializable {
         this.address = address;
     }
 
+    public List<AnswerDo> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<AnswerDo> answers) {
+        this.answers = answers;
+    }
+
     public enum Role {
         admin, normal
     }
@@ -51,6 +60,8 @@ public class UserDo implements Serializable {
     private Timestamp gmtLogout;
     private Integer status;
     private Integer delete;
+    /*用户关注问题后收到的答案列表*/
+    private List<AnswerDo> answers;
 
     public UserDo() {
     }

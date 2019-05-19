@@ -101,11 +101,12 @@ public class AnswerController {
      * @return
      */
     @ApiOperation("查询一个问题的所有答案")
+    /*@RequiredPermission(PermissionConstants.ADMIN)*/
     @GetMapping("retrieveAnswersByQuestion")
     @RequestMapping(value = "/retrieveAnswersByQuestion/{questionId}", method = RequestMethod.GET)
     public String retrieveAnswersByQuestion(HttpSession session, Model model, @PathVariable Integer questionId) {
         UserDo user = (UserDo) session.getAttribute("user");
-        QuestionDo question = questionService.getQuestion(questionId);
+        QuestionDo question = questionService.getQuestion(questionId, user.getId());
         List<AnswerDo> answers = answerService.listAnswerByQuestion(questionId, user.getId());
         List<TopicDo> topics = topicService.listTopicByQuestion(questionId);
         model.addAttribute("question", question);

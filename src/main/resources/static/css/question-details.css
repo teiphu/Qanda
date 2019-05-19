@@ -198,3 +198,12 @@ hr {
 .qa-downvote-red {
     color: #B92B27;
 }
+
+
+.qa-question-followed {
+    color: #B92B27;
+}
+.qa-topic-follow:hover {
+    background-color: #FAFAFA;
+    border-radius: 50px;
+}

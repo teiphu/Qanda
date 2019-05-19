@@ -60,6 +60,18 @@ public class QuestionController {
 
     }
 
+    @ResponseBody
+    @ApiOperation("取消关注或关注话题")
+    @PostMapping("updateQuestionAttention")
+    public String updateQuestionAttention(Integer questionId, Integer userId, Integer followStatus) {
+        if (followStatus.intValue() == 0) {
+            int res = questionService.deleteQuestionAttention(questionId, userId);
+        } else if (followStatus.intValue() == 1) {
+            int res = questionService.addQuestionAttention(questionId, userId);
+        }
+        return "";
+    }
+
     @ApiOperation("删除问题")
     @DeleteMapping("removeQuestion")
     public String removeQuestion(Integer questionId) {
