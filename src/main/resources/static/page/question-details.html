@@ -191,7 +191,28 @@
                 //按钮【按钮一】的回调
                 layer.msg(index + "取消");
             });
+        }
 
+        function togg(e) {
+            // $("p").toggle(1000);
+            var tt = $(e).parents('.qa-qus-comment').next();
+            tt.slideToggle(800);
+            console.log($(e).parents('.qa-qus-comment').next().html());
+            // console.log("dfgd");
+        }
+
+        // 删除点击X的卡片
+        function closeCard(e) {
+            $(e).parent('.qa-close-card').remove();
+            // 向后台发请求删除该答案
+            $.ajax({
+                url: "/",
+                type: "POST",
+                data: {
+                    answerId: answerId
+                }
+            });
+            layer.msg("删除成功");
         }
         
     </script>
@@ -265,9 +286,12 @@
     <!-- 提示答案数量 -->
     <div style="text-align: center; margin-bottom: 8px; color: #666;"><span th:text="${answerCount}">4</span>个答案</div>
 
-    <!-- 卡片 -->
-    <div class="layui-card" th:each="answer : ${answers}">
 
+    <!-- 卡片 -->
+    <div class="layui-card qa-close-card" style="position:relative;" th:each="answer : ${answers}">
+        <div onclick="closeCard(this)" style="width:20px; cursor: pointer; height:20px; position:absolute; right:12px; top:2px; z-index:99;">
+            <i class="layui-icon" style="color:#8B8B8B; font-size:22px;">&#x1006;</i>
+        </div>
         <div class="layui-card-body" style="padding-bottom: 10px;">
             <!--名字与时间-->
             <div class="qa-card-inner-body">
@@ -301,15 +325,100 @@
             <div class="qa-qus-comment">
                 <form class="form-horizontal" role="form">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="请输入评论">
-                        <button type="button" class="btn btn-default">提交</button>
+                        <input type="text" class="form-control" place="请输入评论">
+                        <button type="button" class="btn btn-default" style="background: #D8D8D8">提交</button>
+                        <button type="button" class="btn btn-default" onclick="togg(this)" style="background: #D8D8D8">显示评论</button>
                     </div>
                 </form>
             </div>
+
+            <!-- 评论内容 -->
+            <div class="qa-comment-body">
+                <div class="qa-comment-person">
+                    <span class="qa-comment-name">鲁班</span>
+                    <span style="color: #9494AE;">2019-5-19 14:56:45</span>
+                    <p>评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容</p>
+                </div>
+                <hr>
+                <div class="qa-comment-person">
+                    <span class="qa-comment-name">鲁班</span>
+                    <span style="color: #9494AE;">2019-5-19 14:56:45</span>
+                    <p>评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容</p>
+                </div>
+            </div>
+
         </div>
         <!--<hr>-->
-
     </div>
+
+    <!-- 卡片 -->
+    <div class="layui-card qa-close-card" style="position:relative;" th:each="answer : ${answers}">
+        <div onclick="closeCard(this)" style="width:20px; cursor: pointer; height:20px; position:absolute; right:12px; top:2px; z-index:99;">
+            <i class="layui-icon" style="color:#8B8B8B; font-size:22px;">&#x1006;</i>
+        </div>
+        <div class="layui-card-body" style="padding-bottom: 10px;">
+            <!--名字与时间-->
+            <div class="qa-card-inner-body">
+                <p><a th:text="${answer.user.username}">郑立康</a></p>
+                <p th:text="${answer.gmtCreate}" style="color: #9494AE;">Answered 22h ago</p>
+            </div>
+            <!--答案-->
+            <div class="qa-body-content" th:text="${answer.answerContent}">
+                清朝沦陷后，革命军队占领了清朝帝国皇宫北京的紫禁城，他们在入口门口发现了一块非常好的平板，写下了大清门。
+                这张照片展示了中国大门上平板电脑的一个例子。
+                他们不想浪费这么好的平板电脑，并决定在平板电脑的另一边写下他们的州名。
+                当他们翻过平板电脑时。他们眼中的是大明之门。<br>
+            </div>
+
+            <!-- 顶踩操作 -->
+            <div style="margin-top: 10px;">
+                <div class="qa-upvote" th:classappend="${answer.voteStatus == 1}? 'qa-upvote-red' : ''"
+                     th:onclick="|upvote(this, '${answer.id}', '${answer.user.id}')|">
+                    <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
+                    <b>Upvote · </b>
+                    <span th:text="${answer.upvoteCount != null}? ${answer.upvoteCount} : 0">32</span>
+                </div>
+
+                <div class="qa-tread" th:classappend="${answer.voteStatus == 2}? 'qa-downvote-red' : ''"
+                     th:onclick="|downvote(this, '${answer.id}', '${answer.user.id}')|">
+                    <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
+                </div>
+            </div>
+
+            <!-- 评论 -->
+            <div class="qa-qus-comment">
+                <form class="form-horizontal" role="form">
+                    <div class="input-group">
+                        <input type="text" class="form-control" place="请输入评论">
+                        <button type="button" class="btn btn-default" style="background: #D8D8D8">提交</button>
+                        <button type="button" class="btn btn-default" onclick="togg(this)" style="background: #D8D8D8">显示评论</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 评论内容 -->
+            <div class="qa-comment-body">
+                <div class="qa-comment-person">
+                    <span class="qa-comment-name">鲁班</span>
+                    <span style="color: #9494AE;">2019-5-19 14:56:45</span>
+                    <p>评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容</p>
+                </div>
+                <hr>
+                <div class="qa-comment-person">
+                    <span class="qa-comment-name">鲁班</span>
+                    <span style="color: #9494AE;">2019-5-19 14:56:45</span>
+                    <p>评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容</p>
+                </div>
+            </div>
+
+        </div>
+        <!--<hr>-->
+    </div>
+
+
+
 </div>
+
+
 </body>
 </html>

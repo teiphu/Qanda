@@ -184,6 +184,62 @@
             });
 
         }
+
+        // 显示隐藏评论
+        function togg(e) {
+            // $("p").toggle(1000);
+            var tt = $(e).parents('.qa-qus-comment').next();
+            tt.slideToggle(800);
+            // console.log($(e).parents('.qa-qus-comment').next().html());
+            // console.log("dfgd");
+        }
+
+        // 删除点击X的卡片
+        function closeCard(e) {
+            $(e).parent('.qa-close-card').remove();
+            // 向后台发请求删除该答案
+            /*$.ajax({
+                url: "/",
+                type: "POST",
+                data: {
+                    answerId: answerId
+                }
+            });*/
+            layer.msg("删除成功");
+        }
+
+        function publishComment(e, answerId) {
+            var commentContent = $(e).prev('input').val();
+            console.log("answerId: " + answerId);
+            console.log("commentContent: " + commentContent);
+
+            $.ajax({
+                url: "/comment/saveComment",
+                type: "POST",
+                data: {
+                    answerId: answerId,
+                    commentContent: commentContent
+                }
+            });
+        }
+
+        function closeCard(e, answerId) {
+            $.ajax({
+                url: "/answer/removeAnswer",
+                type: "POST",
+                data: {
+                    answerId: answerId,
+                },
+                success: function (res) {
+                    if (res.code == "200") {
+                        layer.msg("删除答案成功！");
+                    } else {
+                        layer.msg("添加答案失败！")
+                    }
+                    window.location.reload();
+                }
+            });
+        }
     </script>
 
     <script type="text/html" id="addTopicPopupWindowsTitle">
@@ -279,7 +335,11 @@
     <div style="text-align: center; margin-bottom: 8px; color: #666;"><span th:text="${answerCount}">4</span>个答案</div>
 
     <!-- 卡片 -->
-    <div class="layui-card" th:each="answer : ${answers}">
+    <div class="layui-card qa-close-card" style="position:relative;" th:each="answer : ${answers}">
+        <div th:onclick="'javascript:closeCard(this, \''+${answer.id}+'\')'"
+                style="width:20px; cursor: pointer; height:20px; position:absolute; right:12px; top:2px; z-index:99;">
+            <i class="layui-icon" style="color:#8B8B8B; font-size:22px;">&#x1006;</i>
+        </div>
 
         <div class="layui-card-body" style="padding-bottom: 10px;">
             <!--名字与时间-->
@@ -315,10 +375,31 @@
                 <form class="form-horizontal" role="form">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="请输入评论">
-                        <button type="button" class="btn btn-default">提交</button>
+                        <button type="button" class="btn btn-default"
+                                th:onclick="'javascript:publishComment(this, \''+${answer.id}+'\')'"
+                                style="background: #D8D8D8">提交
+                        </button>
+                        <button type="button" class="btn btn-default" onclick="togg(this)" style="background: #D8D8D8">
+                            显示评论
+                        </button>
                     </div>
                 </form>
             </div>
+
+            <!-- 评论内容 -->
+            <div class="qa-comment-body">
+                <!--一个评论卡片-->
+                <div th:each="comment : ${answer.comments}">
+                    <div class="qa-comment-person">
+                        <span class="qa-comment-name" th:text="${comment.user.username}">鲁班</span>
+                        <span style="color: #9494AE;" th:text="${comment.gmtCreate}">2019-5-19 14:56:45</span>
+                        <p th:text="${comment.commentContent}">
+                            评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容</p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+
         </div>
         <!--<hr>-->
 

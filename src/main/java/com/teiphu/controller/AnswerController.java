@@ -59,10 +59,15 @@ public class AnswerController {
     }
 
     @ApiOperation("删除答案")
-    @DeleteMapping("removeAnswer")
-    public String removeAnswer(Integer answerId) {
+    @ResponseBody
+    @PostMapping("removeAnswer")
+    public Result removeAnswer(Integer answerId) {
         int res = answerService.deleteAnswer(answerId);
-        return "";
+        if (res > 0) {
+            return new Result(HttpStatus.OK.getCode(), HttpStatus.OK.getDesc());
+        } else {
+            return new Result(HttpStatus.INTERNAL_SERVER_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR.getDesc());
+        }
     }
 
     @ApiOperation("修改答案")

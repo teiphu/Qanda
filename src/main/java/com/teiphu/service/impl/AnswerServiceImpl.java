@@ -4,6 +4,7 @@ import com.teiphu.mapper.AnswerMapper;
 import com.teiphu.mapper.CommentMapper;
 import com.teiphu.mapper.UpdownvoteMapper;
 import com.teiphu.pojo.AnswerDo;
+import com.teiphu.pojo.CommentDo;
 import com.teiphu.pojo.UpdownvoteDo;
 import com.teiphu.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,8 @@ public class AnswerServiceImpl implements AnswerService {
         Iterator<AnswerDo> it = answers.iterator();
         while (it.hasNext()) {
             AnswerDo answer = it.next();
+            List<CommentDo> comments = commentMapper.listCommentByAnswer(answer.getId());
+            answer.setComments(comments);
             UpdownvoteDo vote = voteMapper.getUpdownvoteStatus(answer.getId(), userId);
             if (vote == null) {
                 answer.setVoteStatus(0);

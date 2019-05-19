@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @Author Teiphu
@@ -20,6 +21,8 @@ public class AnswerDo implements Serializable {
     private Timestamp gmtModified;
 
     private Integer upvoteCount;
+
+    private List<CommentDo> comments;
 
     public Integer getVoteStatus() {
         return voteStatus;
@@ -92,5 +95,13 @@ public class AnswerDo implements Serializable {
 
     public void setUpvoteCount(Integer upvoteCount) {
         this.upvoteCount = upvoteCount;
+    }
+
+    public List<CommentDo> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentDo> comments) {
+        this.comments = comments;
     }
 }

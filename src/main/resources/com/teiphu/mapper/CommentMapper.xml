@@ -7,14 +7,15 @@
         <id property="id" column="id"/>
         <result property="parentCommentId" column="parent_comment_id"/>
         <result property="user.id" column="user_id"/>
+        <result property="user.username" column="user_name"/>
         <result property="answer.id" column="answer_id"/>
         <result property="commentContent" column="comment_content"/>
         <result property="gmtCreate" column="gmt_create"/>
     </resultMap>
 
     <insert id="insertComment">
-        insert into qanda.comment (parent_comment_id, user_id, answer_id, comment_content, gmt_create)
-        values (#{parentCommentId}, #{user.id}, #{answer.id}, #{commentContent}, #{gmtCreate});
+        insert into qanda.comment (parent_comment_id, user_id, answer_id, comment_content)
+        values (#{parentCommentId}, #{user.id}, #{answer.id}, #{commentContent});
     </insert>
 
     <delete id="deleteComment">
@@ -48,9 +49,13 @@
     </select>
 
     <select id="listCommentByAnswer" resultMap="CommentBean">
-        select id, parent_comment_id, user_id, answer_id, comment_content, gmt_create
-        from qanda.comment
-        where answer_id = #{answerId};
+        SELECT t1.id, t1.parent_comment_id, t1.user_id, t1.answer_id, t1.comment_content, t1.gmt_create, t2.user_name
+        FROM
+          (select id, parent_comment_id, user_id, answer_id, comment_content, gmt_create
+          from qanda.comment
+          where answer_id = #{answerId}) t1
+        LEFT JOIN qanda.`user` t2
+        ON t1.user_id = t2.id;
     </select>
 
     <select id="listTopCommentByAnswer" resultMap="CommentBean">

@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -24,11 +25,12 @@ public class CommentController {
     private CommentService commentService;
 
     @ApiOperation("保存评论")
-    @PutMapping("saveComment")
-    public String saveComment(Integer parentCommentId, Integer userId, Integer answerId, String commentContent) {
+    @PostMapping("saveComment")
+    public String saveComment(HttpSession session, Integer parentCommentId, Integer answerId, String commentContent) {
+        UserDo user = (UserDo) session.getAttribute("user");
         CommentDo comment = new CommentDo();
         comment.setParentCommentId(parentCommentId);
-        comment.setUser(new UserDo(userId));
+        comment.setUser(user);
         comment.setAnswer(new AnswerDo(answerId));
         comment.setCommentContent(commentContent);
         int res = commentService.addComment(comment);
