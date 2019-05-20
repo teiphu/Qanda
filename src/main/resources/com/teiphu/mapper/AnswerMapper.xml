@@ -101,4 +101,24 @@
         from qanda.answer;
     </select>
 
+    <resultMap id="AnswerAndQuestionBean" type="com.teiphu.pojo.AnswerDo">
+        <id property="id" column="id"/>
+        <result property="answerContent" column="answer_content"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="user.id" column="user_id"/>
+        <result property="question.id" column="question_id"/>
+        <result property="question.content" column="content"/>
+    </resultMap>
+
+    <select id="listNewAnswer" resultMap="AnswerAndQuestionBean">
+        SELECT answer.id, answer.answer_content, answer.user_id, answer.question_id, answer.gmt_create, question.content
+        FROM answer LEFT JOIN question
+        ON answer.question_id = question.id
+        WHERE question_id IN (
+        SELECT question_id
+        FROM question_attention
+        WHERE user_id = #{userId}
+        ) AND answer.gmt_create > #{recentTime};
+    </select>
+
 </mapper>

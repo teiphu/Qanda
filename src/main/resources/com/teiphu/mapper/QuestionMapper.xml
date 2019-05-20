@@ -72,7 +72,17 @@
 
     <select id="listQuestionPaging" resultMap="QuestionBean">
         select id, user_id, topic_id, content, gmt_create
-        from qanda.question;
+        from qanda.question
+        where id in (
+          SELECT question_id
+          FROM topic_question
+          WHERE topic_id IN (
+            SELECT topic_id
+            FROM user_topic
+            WHERE user_topic.user_id = #{userId})
+          GROUP BY question_id
+        )
+        ORDER BY gmt_create DESC
     </select>
 
     <select id="listQuestionByPage" resultMap="QuestionBean">

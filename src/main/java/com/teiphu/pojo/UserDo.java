@@ -2,11 +2,14 @@ package com.teiphu.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import org.springframework.data.annotation.Persistent;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @Author Teiphu
@@ -14,6 +17,9 @@ import java.util.List;
  **/
 @JsonInclude(Include.NON_NULL)
 public class UserDo implements Serializable {
+
+
+    public static ScheduledExecutorService scheduledExecutorService;
 
     public Role getRole() {
         return role;
@@ -31,11 +37,11 @@ public class UserDo implements Serializable {
         this.address = address;
     }
 
-    public List<AnswerDo> getAnswers() {
+    public Set<AnswerDo> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(List<AnswerDo> answers) {
+    public void setAnswers(Set<AnswerDo> answers) {
         this.answers = answers;
     }
 
@@ -61,7 +67,7 @@ public class UserDo implements Serializable {
     private Integer status;
     private Integer delete;
     /*用户关注问题后收到的答案列表*/
-    private List<AnswerDo> answers;
+    private Set<AnswerDo> answers;
 
     public UserDo() {
     }

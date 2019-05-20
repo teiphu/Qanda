@@ -25,7 +25,14 @@ public class SecurityInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
         LOGGER.info(request.getRequestURI());
+        if (request.getRequestURI().startsWith("/bootstrap") || request.getRequestURI().startsWith("/common") ||
+                request.getRequestURI().startsWith("/css") || request.getRequestURI().startsWith("/error") ||
+                request.getRequestURI().startsWith("/img") || request.getRequestURI().startsWith("/js") ||
+                request.getRequestURI().startsWith("/layer") || request.getRequestURI().startsWith("/layui")) {
+            return true;
+        }
         if (request.getRequestURI().startsWith("/reglog/")) {
             return true;
         }

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * @Author Teiphu
@@ -103,5 +105,18 @@ public class AnswerDo implements Serializable {
 
     public void setComments(List<CommentDo> comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AnswerDo answerDo = (AnswerDo) o;
+        return Objects.equals(id, answerDo.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

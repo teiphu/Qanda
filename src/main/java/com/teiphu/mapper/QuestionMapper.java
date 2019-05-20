@@ -36,7 +36,7 @@ public interface QuestionMapper {
 
     List<QuestionDo> listQuestionsAnswered(Integer userId);
 
-    List<QuestionDo> listQuestionPaging(RowBounds rowBounds);
+    List<QuestionDo> listQuestionPaging(RowBounds rowBounds, Integer userId);
 
     List<QuestionDo> listQuestionBySearch(String searchContent);
 

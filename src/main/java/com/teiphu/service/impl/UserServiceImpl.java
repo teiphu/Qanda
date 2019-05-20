@@ -1,6 +1,9 @@
 package com.teiphu.service.impl;
 
+import com.fasterxml.jackson.databind.introspect.AnnotationMap;
+import com.teiphu.mapper.AnswerMapper;
 import com.teiphu.mapper.UserMapper;
+import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.UserDo;
 import com.teiphu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -19,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private AnswerMapper answerMapper;
 
     /*@Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -67,5 +74,10 @@ public class UserServiceImpl implements UserService {
         UserDo user = new UserDo(email, phone, password);
         UserDo userDo = userMapper.getUserByLogin(user);
         return userDo;
+    }
+
+    @Override
+    public List<AnswerDo> listAnswerToTheQuestionOfConcern(Integer id, Timestamp gmtLogout) {
+        return answerMapper.listNewAnswer(id, gmtLogout);
     }
 }

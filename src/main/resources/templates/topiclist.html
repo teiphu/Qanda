@@ -143,7 +143,7 @@
             <h2 class="qa-topic-title"><a style="color: #343a40" th:text="${topic.topicName}"
                                           th:href="@{/topic/retrieveTopic/{topicId}(topicId=${topic.id})}"></a></h2>
             <div class="qa-topic-detail" th:text="${topic.topicDetail}"></div>
-            <div class="qa-topic-follow qa-topic-followed" th:classappend="${topic.followStatus == 1}? 'qa-topic-followed'"
+            <div class="qa-topic-follow" th:classappend="${topic.followStatus == 1}? 'qa-topic-followed'"
                  th:onclick="|follow(this, '${topic.id}', '${session.user.id}')|">
                 <i class="layui-icon layui-icon-praise"
                    style="font-size: 25px; padding-left: 15px; padding-top: 10px;"></i>

@@ -1,7 +1,9 @@
 package com.teiphu.service;
 
+import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.UserDo;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -23,4 +25,6 @@ public interface UserService {
     List<UserDo> listUser();
 
     UserDo getUserByLogin(String email, String phone, String password);
+
+    List<AnswerDo> listAnswerToTheQuestionOfConcern(Integer id, Timestamp gmtLogout);
 }

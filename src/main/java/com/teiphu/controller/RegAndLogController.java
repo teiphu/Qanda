@@ -1,17 +1,30 @@
 package com.teiphu.controller;
 
+import com.teiphu.NoticeTask;
+import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.Result;
 import com.teiphu.pojo.UserDo;
 import com.teiphu.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.session.InMemoryWebSessionStore;
 
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import static com.teiphu.pojo.UserDo.scheduledExecutorService;
 
 /**
  * @Author Teiphu
@@ -20,6 +33,8 @@ import javax.sql.DataSource;
 @Controller
 @RequestMapping("/reglog")
 public class RegAndLogController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegAndLogController.class);
 
     @Autowired
     private UserService userService;
@@ -84,9 +99,16 @@ public class RegAndLogController {
         UserDo user = userService.getUserByLogin(email, phone, password);
         Result result = new Result();
         if (user != null) {
-            session.setAttribute("userId", user.getId());
+            //session.setAttribute("userId", user.getId());
+            //UserDo userDo = (UserDo) session.getAttribute("user");
+            Set<AnswerDo> answers = new HashSet<>();
+            List<AnswerDo> answerList =  userService.listAnswerToTheQuestionOfConcern(user.getId(), user.getGmtLogout());
+            answers.addAll(answerList);
+            LOGGER.info("set size: " + answers.size());
+            user.setAnswers(answers);
             session.setAttribute("user", user);
-            UserDo userDo = (UserDo) session.getAttribute("user");
+            scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+            scheduledExecutorService.scheduleAtFixedRate(new NoticeTask(user), 0, 4, TimeUnit.SECONDS);
             result.setCode(200);
             result.setMsg("登录成功");
         } else {

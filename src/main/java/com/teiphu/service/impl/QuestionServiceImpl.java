@@ -99,7 +99,7 @@ public class QuestionServiceImpl implements QuestionService {
         int limit = 4;
         int offset = (page - 1) * limit;
         RowBounds rowBounds = new RowBounds(offset, limit);
-        List<QuestionDo> questions = questionMapper.listQuestionPaging(rowBounds);
+        List<QuestionDo> questions = questionMapper.listQuestionPaging(rowBounds, userId);
         Iterator<QuestionDo> it = questions.iterator();
         while (it.hasNext()) {
             QuestionDo question = it.next();
@@ -115,6 +115,8 @@ public class QuestionServiceImpl implements QuestionService {
                         answer.setVoteStatus(2);
                     }
                 }
+            } else {
+                it.remove();
             }
             question.setAnswer(answer);
         }

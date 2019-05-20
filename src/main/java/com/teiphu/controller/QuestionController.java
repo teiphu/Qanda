@@ -2,6 +2,7 @@ package com.teiphu.controller;
 
 import com.teiphu.http.HttpStatus;
 import com.teiphu.http.Result;
+import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.QuestionDo;
 import com.teiphu.pojo.TopicDo;
 import com.teiphu.pojo.UserDo;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author Teiphu
@@ -143,6 +145,8 @@ public class QuestionController {
     @RequestMapping("retrieveQuestions")
     public String retrieveQuestions(HttpSession session, Model model) {
         UserDo user = (UserDo) session.getAttribute("user");
+        Set<AnswerDo> answers = user.getAnswers();
+        LOGGER.info("set size: " + answers.size());
         List<QuestionDo> questions = questionService.listQuestionPaging(1, user.getId());
         model.addAttribute("questions", questions);
         model.addAttribute("user", user);

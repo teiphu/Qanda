@@ -2,7 +2,9 @@ package com.teiphu.mapper;
 
 import com.teiphu.pojo.AnswerDo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -29,4 +31,6 @@ public interface AnswerMapper {
     List<AnswerDo> listAnswer();
 
     AnswerDo getLatestAnswerByQuestion(Integer questionId);
+
+    List<AnswerDo> listNewAnswer(@Param("userId") Integer userId, @Param("recentTime") Timestamp recentTime);
 }
