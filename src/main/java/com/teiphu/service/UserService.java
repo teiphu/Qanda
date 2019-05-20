@@ -22,9 +22,11 @@ public interface UserService {
 
     UserDo getUser(Integer userId);
 
-    List<UserDo> listUser();
+    List<UserDo> listUser(Integer page, Integer limit);
 
     UserDo getUserByLogin(String email, String phone, String password);
 
     List<AnswerDo> listAnswerToTheQuestionOfConcern(Integer id, Timestamp gmtLogout);
+
+    int countUser();
 }

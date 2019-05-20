@@ -59,4 +59,9 @@
         </if>
     </select>
 
+    <select id="countUser">
+        SELECT count(*)
+        FROM `user`
+    </select>
+
 </mapper>

@@ -1,5 +1,8 @@
 package com.teiphu.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.teiphu.http.HttpStatus;
 import com.teiphu.pojo.UserDo;
 import com.teiphu.service.UserService;
@@ -109,11 +112,20 @@ public class UserController {
         return user;
     }
 
+    @ResponseBody
     @ApiOperation(value = "获取多个用户")
     @GetMapping("retrieveUsers")
-    public List<UserDo> retrieveUsers() {
-        List<UserDo> users = userService.listUser();
-        return users;
+    public JSONObject retrieveUsers(Integer page, Integer limit) {
+        int count = userService.countUser();
+        List<UserDo> users = userService.listUser(page, limit);
+        JSONObject res = new JSONObject();
+        res.put("code", 0);
+        res.put("count", count);
+        res.put("msg", "");
+        JSONArray userJA = new JSONArray();
+        userJA.addAll(users);
+        res.put("data", userJA);
+        return res;
     }
 
 }

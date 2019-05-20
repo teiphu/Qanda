@@ -2,6 +2,7 @@ package com.teiphu.mapper;
 
 import com.teiphu.pojo.UserDo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -20,9 +21,11 @@ public interface UserMapper {
 
     UserDo getUser(Integer userId);
 
-    List<UserDo> listUser();
+    List<UserDo> listUser(RowBounds rowBounds);
 
     UserDo getUserByLogin(UserDo user);
 
     UserDo getUserByUsername(String username);
+
+    int countUser();
 }

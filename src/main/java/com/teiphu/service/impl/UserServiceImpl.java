@@ -1,11 +1,11 @@
 package com.teiphu.service.impl;
 
-import com.fasterxml.jackson.databind.introspect.AnnotationMap;
 import com.teiphu.mapper.AnswerMapper;
 import com.teiphu.mapper.UserMapper;
 import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.UserDo;
 import com.teiphu.service.UserService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,8 +65,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDo> listUser() {
-        return userMapper.listUser();
+    public List<UserDo> listUser(Integer page, Integer limit) {
+        int offset = (page - 1) * limit;
+        RowBounds rowBounds = new RowBounds(offset, limit);
+        List<UserDo> users = userMapper.listUser(rowBounds);
+        return users;
     }
 
     @Override
@@ -79,5 +82,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<AnswerDo> listAnswerToTheQuestionOfConcern(Integer id, Timestamp gmtLogout) {
         return answerMapper.listNewAnswer(id, gmtLogout);
+    }
+
+    @Override
+    public int countUser() {
+        return userMapper.countUser();
     }
 }

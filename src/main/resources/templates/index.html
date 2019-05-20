@@ -20,7 +20,7 @@
     <link rel="stylesheet" th:href="@{/css/index.css}">
 
     <style>
-        /*.qa-name a {
+        .qa-name a {
             display: block;
         }
 
@@ -59,7 +59,7 @@
 
         .qa-name-child dd:last-child {
             margin-bottom: 5px;
-        }*/
+        }
     </style>
 
     <script>
@@ -304,13 +304,16 @@
                 <!-- 操作 -->
                 <div style="margin-top: 10px;" th:classappend="${question.answer == null}? 'qa-div-hide'">
                     <div class="qa-upvote" th:classappend="${question.answer.voteStatus == 1}? 'qa-upvote-red' : ''"
-                         th:onclick="|upvote(this, '${question.answer.id}', '${question.answer.user.id}')|">
+                         th:onclick="|upvote(this, '${question.answer.id}', '${question.answer.user.id}')|"
+                         style="cursor: pointer;">
                         <i class="layui-icon layui-icon-praise" style="font-size: 25px; padding-left: 10px"></i>
                         <b>Upvote · </b>
                         <span th:text="${question.answer.upvoteCount != null}? ${question.answer.upvoteCount} : '0'"></span>
                     </div>
 
-                    <div class="qa-tread">
+                    <div class="qa-tread" th:classappend="${question.answer.voteStatus == 2}? 'qa-downvote-red' : ''"
+                         th:onclick="|downvote(this, '${question.answer.id}', '${question.answer.user.id}')|"
+                         style="cursor: pointer;">
                         <i class="layui-icon layui-icon-tread" style="font-size: 25px;"></i>
                     </div>
                 </div>
