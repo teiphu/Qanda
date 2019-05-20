@@ -7,10 +7,184 @@
     <link rel="stylesheet" href="../layui/css/layui.css">
     <script type="text/javascript" src="../layui/layui.all.js"></script>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/index.css">
+
 </head>
 <body>
 
+<!-- 导航条 -->
+<div class="layui-header header header-index" id="qa-nav">
+    <div class="layui-main">
+        <a class="logo" th:href="@{/question/home}">
+            <img th:src="@{/img/qanda.png}" alt="layui">
+        </a>
 
+        <ul class="layui-nav" id="qa-ul">
+            <li class="layui-nav-item layui-this"><a th:href="@{/question/home}">Home</a></li>
+            <li class="layui-nav-item"><a th:href="@{/question/listQuestOfUserInterest}">回答</a></li>
+            <li class="layui-nav-item"><a th:href="@{#}">通知</a></li>
+        </ul>
+        <!--搜索问题-->
+        <div class="layui-inline qa-search">
+            <input placeholder="搜索问题" name="keywords" autocomplete="off" value="" id="qa-search-input"
+                   class="qa-search-input">
+            <button class="layui-btn" onclick="search(this)"><i class="layui-icon layui-icon-search"></i></button>
+        </div>
 
+        <div class="qa-name">
+            <a style="color: #dc3545" th:text="${session.user.username != null}? ${session.user.username} : ''"
+               th:href="@{/question/listQuestionsAnswered}"></a>
+            <dl class="qa-name-child">
+                <dd><a th:href="@{/user/toUpdateInfo}">更新资料</a></dd>
+                <dd><a href="#">修改密码</a></dd>
+                <dd style="text-align: center;"><a href="#">注销</a></dd>
+            </dl>
+        </div>
+
+        <div class="qa-question-btn">
+            <button onclick="question(this)">添加问题</button>
+        </div>
+    </div>
+</div>
+
+<div class="demoTable" style="padding-top: 100px;">
+    搜索商户：
+    <div class="layui-inline">
+        <input class="layui-input" name="keyword" id="demoReload" autocomplete="off">
+    </div>
+    <button class="layui-btn" data-type="reload">搜索</button>
+</div>
+
+<table class="layui-hide" id="LAY_table_user" lay-filter="useruv"></table>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+</script>
+
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        //第一个实例
+        table.render({
+            elem: '#LAY_table_user',
+            height: 312,
+            url: '/demo/table/user/', //数据接口
+            page: true, //开启分页
+            cols: [[ //表头
+                {field: 'username', title: '用户名', width:80},
+                {field: 'sex', title: '性别', width:80, sort: true},
+                {field: 'email', title: '邮箱', width:150},
+                {field: 'phone', title: '电话', width:150}
+                // {field: 'sign', title: '签名', width: 177}
+            ]]
+        });
+
+    });
+</script>
+<!--<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        //方法级渲染
+        table.render({
+            elem: '#LAY_table_user'
+            ,url: 'UVServlet'
+            ,cols: [[
+                {checkbox: true, fixed: true}
+                ,{field:'id', title: 'ID', width:80, sort: true, fixed: true}
+                ,{field:'aid', title: '商户', width:80, sort: true}
+                ,{field:'uv', title: '访问量', width:80, sort: true,edit:true}
+                ,{field:'date', title: '日期', width:180}
+                ,{field:'datatype', title: '日期类型', width:100}
+                ,{field:'right', title: '操作', width:177,toolbar:"#barDemo"}
+            ]]
+            ,id: 'testReload'
+            ,page: true
+            ,height: 600
+        });
+
+        var $ = layui.$, active = {
+            reload: function(){
+                var demoReload = $('#demoReload');
+
+                table.reload('testReload', {
+                    where: {
+                        keyword: demoReload.val()
+                    }
+                });
+            }
+        };
+
+        //监听表格复选框选择
+        table.on('checkbox(useruv)', function(obj){
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(useruv)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                layer.msg('ID：'+ data.id + ' 的查看操作');
+            } else if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    console.log(data);
+                    $.ajax({
+                        url: "UVServlet",
+                        type: "POST",
+                        data:{"uvid":data.id,"memthodname":"deleteuv","aid":data.aid},
+                        dataType: "json",
+                        success: function(data){
+                            if(data.state==1){
+                                obj.del();
+                                layer.close(index);
+                                layer.msg("删除成功", {icon: 6});
+                            }else{
+                                layer.msg("删除失败", {icon: 5});
+                            }
+                        }
+
+                    });
+                });
+            } else if(obj.event === 'edit'){
+                layer.prompt({
+                    formType: 2
+                    ,title: '修改 ID 为 ['+ data.id +'] 的访问量'
+                    ,value: data.uv
+                }, function(value, index){
+                    EidtUv(data,value,index,obj);
+                });
+            }
+        });
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        function  EidtUv(data,value,index,obj) {
+            $.ajax({
+                url: "UVServlet",
+                type: "POST",
+                data:{"uvid":data.id,"memthodname":"edituv","aid":data.aid,"uv":value},
+                dataType: "json",
+                success: function(data){
+                    if(data.state==1){
+                        layer.close(index);
+                        //同步更新表格和缓存对应的值
+                        obj.update({
+                            uv: value
+                        });
+                        layer.msg("修改成功", {icon: 6});
+                    }else{
+                        layer.msg("修改失败", {icon: 5});
+                    }
+                }
+            });
+        }
+    });
+</script>-->
 </body>
 </html>
