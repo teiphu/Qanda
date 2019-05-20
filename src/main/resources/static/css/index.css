@@ -219,3 +219,45 @@ body {
 .qa-div-hide {
     visibility: hidden;
 }
+
+/* 个人资料，鼠标移动上去效果 */
+.qa-name a {
+    display: block;
+}
+
+.qa-name-child {
+    line-height: 33px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+    border: 1px solid #d2d2d2;
+    border-radius: 2px;
+    white-space: nowrap;
+    display: none;
+}
+
+.qa-name-child dd {
+    padding: 3px 0;
+    margin: 2px 0;
+}
+
+.qa-name-child dd a {
+    font-size: 14px;
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
+    color: #000;
+}
+
+.qa-name-child dd a:hover {
+    text-decoration: none;
+}
+
+.qa-name-child dd:hover {
+    background-color: #F3F3F3;
+}
+
+.qa-name-child dd:first-child {
+    margin-top: 5px;
+}
+
+.qa-name-child dd:last-child {
+    margin-bottom: 5px;
+}
