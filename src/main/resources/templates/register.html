@@ -99,13 +99,13 @@
 <script>
     function register() {
         $.ajax({
-            url: "/user/register",
+            url: "/reglog/register",
             type: 'POST',
             data: $('.form-register').serialize(),
             success: function (result) {
                 if (result != null && result.code == '200') {
                     layer.msg("注册成功");
-                    window.location.href = "/user/signin";
+                    window.location.href = "/reglog/signin";
                 } else {
                     layer.msg("注册失败")
                 }

@@ -21,6 +21,10 @@ public class QuestionDo implements Serializable {
     private Timestamp gmtModified;
     private Integer status;
 
+    private Integer followStatus;
+
+    private Integer attention;
+
     private AnswerDo answer;
 
     private List<AnswerDo> answers;
@@ -117,5 +121,21 @@ public class QuestionDo implements Serializable {
                 ", answer=" + answer +
                 ", answers=" + answers +
                 '}';
+    }
+
+    public Integer getFollowStatus() {
+        return followStatus;
+    }
+
+    public void setFollowStatus(Integer followStatus) {
+        this.followStatus = followStatus;
+    }
+
+    public Integer getAttention() {
+        return attention;
+    }
+
+    public void setAttention(Integer attention) {
+        this.attention = attention;
     }
 }

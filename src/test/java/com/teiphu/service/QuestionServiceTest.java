@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import javax.jnlp.IntegrationService;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -52,7 +52,8 @@ public class QuestionServiceTest {
     @PerfTest(invocations = 10000, threads = 1000)
     public void getQuestion() {
         Integer questionId = 48;
-        QuestionDo question = questionService.getQuestion(questionId);
+        Integer userId = 3;
+        QuestionDo question = questionService.getQuestion(questionId, userId);
         LOGGER.info(question.toString());
 
     }

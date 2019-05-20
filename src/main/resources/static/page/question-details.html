@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>问题详情</title>
@@ -18,6 +19,17 @@
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/question-details.css}">
     <link rel="stylesheet" th:href="@{/css/index.css}">-->
+
+    <style>
+
+        .qa-question-followed {
+            color: #B92B27;
+        }
+        .qa-topic-follow:hover {
+            background-color: #FAFAFA;
+            border-radius: 50px;
+        }
+    </style>
 
     <script th:inline="javascript">
 
@@ -154,7 +166,7 @@
                 }
             );
         }
-        
+
         function edit(e) {
             layer.confirm('<div style="width: 530px; height: 250px;font-size: 15px;">' +
                 '<h4 style="font-weight: normal; font-size: 18px;">· Select any topics that also describe your </h4>' +
@@ -214,7 +226,7 @@
             });
             layer.msg("删除成功");
         }
-        
+
     </script>
 </head>
 <body>
@@ -279,6 +291,13 @@
                     <i class="qa-icon-edit"></i>
                     <b style="padding-top: 4px; ">回答</b>
                 </div>
+            </div>
+            <div class="qa-upvote qa-topic-followed" th:classappend="${topic.followStatus == 1}? 'qa-topic-followed'"
+                 th:onclick="|follow(this, '${topic.id}', '${session.user.id}')|">
+                <i class="layui-icon layui-icon-release"
+                   style="font-size: 25px; padding-left: 15px; padding-top: 10px;"></i>
+                <b>Follow · </b>
+                <span th:text="${topic.attention}">32</span>
             </div>
         </div>
     </div>

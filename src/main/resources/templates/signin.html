@@ -69,7 +69,7 @@
 
         <button class="btn btn-lg btn-block qa-btn" type="button" onclick="login()" style="margin-top: 25px;">登&nbsp;录</button>
 
-        <div class="qa-go-register"><a href="/user/registration">去注册</a></div>
+        <div class="qa-go-register"><a href="/reglog/registration">去注册</a></div>
 
         <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
     </form>
@@ -80,7 +80,7 @@
 <script>
     function login() {
         $.ajax({
-            url: '/user/login',
+            url: '/reglog/login',
             type: 'POST',
             data: $('.form-signin').serialize(),
             success: function (result) {

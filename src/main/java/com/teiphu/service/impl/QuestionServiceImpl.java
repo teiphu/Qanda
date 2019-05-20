@@ -1,13 +1,13 @@
 package com.teiphu.service.impl;
 
 import com.teiphu.mapper.AnswerMapper;
+import com.teiphu.mapper.QuestionAttentionMapper;
 import com.teiphu.mapper.QuestionMapper;
 import com.teiphu.mapper.UpdownvoteMapper;
 import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.QuestionDo;
 import com.teiphu.pojo.UpdownvoteDo;
 import com.teiphu.service.QuestionService;
-import com.teiphu.util.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +34,9 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private UpdownvoteMapper voteMapper;
 
+    @Autowired
+    private QuestionAttentionMapper questionAttentionMapper;
+
     @Override
     @Transactional(rollbackFor = {IOException.class})
     public int addQuestion(QuestionDo question) {
@@ -54,8 +57,17 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public QuestionDo getQuestion(Integer questionId) {
+    public QuestionDo getQuestion(Integer questionId, Integer userId) {
+
         QuestionDo question = questionMapper.getQuestion(questionId);
+        int num = questionAttentionMapper.getUserAttention(questionId, userId);
+        int attention = questionAttentionMapper.getAttentionCount(questionId);
+        question.setAttention(attention);
+        if (num > 0) {
+            question.setFollowStatus(1);
+        } else {
+            question.setFollowStatus(0);
+        }
         question.setAnswers(answerMapper.listAnswerByQuestion(questionId));
         return question;
     }
@@ -178,4 +190,15 @@ public class QuestionServiceImpl implements QuestionService {
         }
         return res;
     }
+
+    @Override
+    public int deleteQuestionAttention(Integer questionId, Integer userId) {
+        return questionAttentionMapper.deleteQuestionAttention(questionId, userId);
+    }
+
+    @Override
+    public int addQuestionAttention(Integer questionId, Integer userId) {
+        return questionAttentionMapper.addQuestionAttention(questionId, userId);
+    }
+
 }
