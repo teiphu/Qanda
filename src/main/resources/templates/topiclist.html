@@ -139,7 +139,10 @@
 
     <div class="layui-card" th:each="topic : ${topics}">
         <div class="layui-card-body">
-            <div class="qa-topic-img"></div>
+            <div class="qa-topic-img">
+                <!--<img src="../static/img/42276880.png" height="420" width="420"/>-->
+                <b class="qa-font" th:text="${#strings.substring(topic.topicName, 0, 1)}" style="font-size: 50px; color: #9a9186; padding-left: 25px; font-weight: normal; line-height: 90px;"></b>
+            </div>
             <h2 class="qa-topic-title"><a style="color: #343a40" th:text="${topic.topicName}"
                                           th:href="@{/topic/retrieveTopic/{topicId}(topicId=${topic.id})}"></a></h2>
             <div class="qa-topic-detail" th:text="${topic.topicDetail}"></div>
