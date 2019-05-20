@@ -59,7 +59,7 @@
         </if>
     </select>
 
-    <select id="countUser">
+    <select id="countUser" resultType="int">
         SELECT count(*)
         FROM `user`
     </select>
