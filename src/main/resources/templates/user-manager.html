@@ -42,14 +42,16 @@
 </div>
 
 <div class="demoTable" style="padding-top: 100px;">
-    搜索商户：
+    <!--搜索商户：
     <div class="layui-inline">
         <input class="layui-input" name="keyword" id="demoReload" autocomplete="off">
     </div>
-    <button class="layui-btn" data-type="reload">搜索</button>
+    <button class="layui-btn" data-type="reload">搜索</button>-->
 </div>
 
-<table class="layui-hide" id="qa-user"></table>
+<div style="width:70%; margin: 0 auto;">
+    <table class="layui-hide" id="qa-user" lay-size="lg" lay-filter="demo"></table>
+</div>
 
 <!--<script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
@@ -65,16 +67,18 @@
         //第一个实例
         table.render({
             elem: '#qa-user',
-            // height: 312,
-            url: 'user/retrieveUsers', //数据接口
-            cols: [[
-                {field: 'username', title: '用户名', width:80},
-                {field: 'sex', title: '性别', width:80, sort: true},
-                {field: 'email', title: '邮箱', width:220},
-                {field: 'phone', title: '电话', width:220}
+            url: '/user/retrieveUsers', //数据接口
+            page: true, //开启分页
+            cols: [
+                [
+                    {field:'id', width:'100', title: 'ID', sort: true},
+                    {field: 'username', title: '用户名', width: 100},
+                    {field: 'sex', title: '性别', width:100, sort: true},
+                    {field: 'email', title: '邮箱', width:100 },
+                    {field: 'phone', title: '电话', width:200 }
+                ]
+            ],
 
-            ]],
-            page: true //开启分页
         });
     });
 
