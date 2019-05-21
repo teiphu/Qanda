@@ -6,15 +6,18 @@
     <title>用户管理</title>
     <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
     <!--<script type="text/javascript" th:src="@{/layui/layui.all.js}"></script>-->
-    <!--<link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all">-->
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all">
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <link rel="stylesheet" th:href="@{/css/global.css}">
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <script th:src="@{/layui/layui.js}" charset="utf-8"></script>
 
     <style>
-        .layui-table-cell { pading: 0}
+        .layui-table-page {
+            padding: 13px 7px 0;
+            height: 51px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -46,71 +49,101 @@
     </div>
 </div>
 
-<div class="demoTable" style="padding-top: 100px;">
-    <!--搜索商户：
+<!--<div class="demoTable" style="padding-top: 100px;">
+    &lt;!&ndash;搜索商户：
     <div class="layui-inline">
         <input class="layui-input" name="keyword" id="demoReload" autocomplete="off">
     </div>
-    <button class="layui-btn" data-type="reload">搜索</button>-->
+    <button class="layui-btn" data-type="reload">搜索</button>&ndash;&gt;
+</div>-->
+
+<div style="width:70%; margin: 0 auto; padding-top: 85px;">
+    <div class="qa-table" style="margin-bottom: 18px;">
+        用户名：
+        <div class="layui-inline">
+            <input class="layui-input" name="name" id="qa-search-input" autocomplete="off">
+        </div>
+        <button class="layui-btn" data-type="reload" style="width: 40px; padding-top: 0; margin: -1px 0 0 7px;">搜索</button>
+    </div>
+
+    <table class="layui-hide" id="qa-user" lay-filter="qa-user"></table>
 </div>
 
-<div style="width:70%; margin: 0 auto;">
-    <table class="layui-hide" id="qa-user" lay-size="lg" lay-filter="demo"></table>
-</div>
-
-<!--<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
-    <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
-</script>-->
-
-<!--
-<div style="width:70%; margin: 0 auto;">
-    <table class="layui-table" lay-data="{height:500, url:'/user/retrieveUsers', page:true, id:'qa-user'}" lay-filter="test">
-        <thead>
-        <tr>
-            <th lay-data="{field:'id', width:80, sort: true}">ID</th>
-            <th lay-data="{field:'username', width:80}">用户名</th>
-            <th lay-data="{field:'sex', width:80, sort: true}">性别</th>
-            <th lay-data="{field:'email', sort: true}">积分</th>
-            <th lay-data="{field:'phone', sort: true}">评分</th>
-        </tr>
-        </thead>
-    </table>
-</div>
--->
-
-
-
+<script type="text/html" id="barDemo">
+    <!--<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>-->
+    <a class="layui-btn layui-btn-xs" style="color: #fff; display: block; margin-top: 6px; padding-top: 8px;" lay-event="del">删除</a>
+</script>
 
 <script>
     layui.use('table', function(){
         var table = layui.table;
-
-        /*table.init('test', {
-            // height: 315 //设置高度
-            limit: 5 //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
-            //支持所有基础参数
-        });*/
 
         //第一个实例
         table.render({
             elem: '#qa-user',
             url: '/user/retrieveUsers', //数据接口
             page: true, //开启分页
-            // width : 1000,
-            // height : 650,
             cols: [
                 [
-                    // {checkbox: true, fixed: true, width: 100},
-                    {field:'id', width:'100', title: 'ID', sort: true},
-                    {field: 'username', title: '用户名', width: 100},
-                    {field: 'sex', title: '性别', width: 100, sort: true},
-                    {field: 'email', title: '邮箱', width: 100 },
-                    {field: 'phone', title: '电话', width: 200 }
+                    {type: 'checkbox'},
+                    {field:'id',title: 'ID', sort: true, width:100, align: 'center'},
+                    {field: 'username', title: '用户名',  sort: true, align: 'center'},
+                    {field: 'sex', title: '性别',sort: true, width:100, align: 'center'},
+                    {field: 'email', title: '邮箱', width: 180, align: 'center'},
+                    {field: 'phone', title: '电话', width: 180, align: 'center'},
+                    {fixed: 'right', title: '操作', width: 100, toolbar: '#barDemo', align: 'center'}
                 ]
             ],
+            size: 'lg',
+            even: true,
+            id: 'qa-table-reload',
+        });
 
+        //监听行工具事件
+        table.on('tool(qa-user)', function(obj){
+            var data = obj.data;
+            console.log(obj)
+            if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    obj.del();
+                    console.log("用户id: " + data.id);
+                    // 向后台发请求删除 ，根据用户id删除
+                    $.ajax({
+                        url: "",
+                        type: "POST",
+                        data: {
+                            id: data.id
+                        }
+                    })
+                    layer.close(index);
+                });
+            }
+        });
+
+
+        var $ = layui.$, active = {
+            reload: function(){
+                var qaReload = $('#qa-search-input');
+
+                //执行重载
+                table.reload('qa-table-reload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: {
+                        /*key: {
+                            id: qaReload.val()
+                        }*/
+                        // 传到后台的搜索数据
+                        name: qaReload.val()
+                    }
+                });
+            }
+        };
+
+        $('.qa-table .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
         });
 
     });
