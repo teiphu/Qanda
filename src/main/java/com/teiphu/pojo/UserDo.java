@@ -18,9 +18,6 @@ import java.util.concurrent.ScheduledExecutorService;
 @JsonInclude(Include.NON_NULL)
 public class UserDo implements Serializable {
 
-
-    public static ScheduledExecutorService scheduledExecutorService;
-
     public Role getRole() {
         return role;
     }

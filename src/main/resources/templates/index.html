@@ -99,7 +99,7 @@
             );
         });
 
-        <!-- 弹出框 -->
+        <!-- 提问问题弹出框 -->
         function question(e) {
             layer.alert('<textarea id="qa-quest-content" rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
                 {
@@ -238,7 +238,7 @@
         <ul class="layui-nav" id="qa-ul">
             <li class="layui-nav-item layui-this"><a th:href="@{/question/home}">Home</a></li>
             <li class="layui-nav-item"><a th:href="@{/question/listQuestOfUserInterest}">回答</a></li>
-            <li class="layui-nav-item"><a th:href="@{#}">通知</a></li>
+            <li class="layui-nav-item"><a th:href="@{/question/notification}">通知<span class="layui-badge" th:text="${session.noticeNum}">10</span> </a></li>
         </ul>
         <!--搜索问题-->
         <div class="layui-inline qa-search">
@@ -253,7 +253,7 @@
             <dl class="qa-name-child">
                 <dd><a th:href="@{/user/toUpdateInfo}">更新资料</a></dd>
                 <dd><a href="#">修改密码</a></dd>
-                <dd style="text-align: center;"><a href="#">注销</a></dd>
+                <dd style="text-align: center;"><a th:href="@{/reglog/logout}">注销</a></dd>
             </dl>
         </div>
 

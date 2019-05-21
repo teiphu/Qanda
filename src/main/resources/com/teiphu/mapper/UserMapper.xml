@@ -30,6 +30,12 @@
         where id = #{id};
     </update>
 
+    <update id="updateLogoutTime">
+        update `user`
+        set gmt_logout = NOW()
+        where id = #{userId}
+    </update>
+
     <select id="getUser" resultType="com.teiphu.pojo.UserDo">
         select id, user_name username, password, email, phone, sex, birthday, job, signature, role, gmt_create gmtCreate
         from `user`
@@ -48,7 +54,7 @@
     </select>
 
     <select id="getUserByLogin" resultType="com.teiphu.pojo.UserDo">
-        select id, user_name username, password, email, phone, sex, birthday, job, signature, role, gmt_create gmtCreate
+        select id, user_name username, password, email, phone, sex, birthday, job, signature, role, gmt_create gmtCreate, gmt_logout gmtLogout
         from `user`
         where password = #{password}
         <if test="email != null">

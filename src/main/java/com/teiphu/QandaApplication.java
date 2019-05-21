@@ -7,14 +7,26 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.scheduling.support.SimpleTriggerContext;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 @EnableSwagger2
 @MapperScan(basePackages = "com.teiphu.mapper")
-@SpringBootApplication(exclude= SecurityAutoConfiguration.class)
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class QandaApplication {
 
     private static ApplicationContext context;
+
+    public static Map<Integer, NoticeTask> map = new HashMap<>();
+
+    public static ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
     public static void main(String[] args) {
         SpringApplication.run(QandaApplication.class, args);

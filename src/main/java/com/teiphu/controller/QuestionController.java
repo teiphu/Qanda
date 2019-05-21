@@ -1,5 +1,7 @@
 package com.teiphu.controller;
 
+import com.teiphu.NoticeTask;
+import com.teiphu.QandaApplication;
 import com.teiphu.http.HttpStatus;
 import com.teiphu.http.Result;
 import com.teiphu.pojo.AnswerDo;
@@ -145,8 +147,10 @@ public class QuestionController {
     @RequestMapping("retrieveQuestions")
     public String retrieveQuestions(HttpSession session, Model model) {
         UserDo user = (UserDo) session.getAttribute("user");
-        Set<AnswerDo> answers = user.getAnswers();
+        Set<AnswerDo> answers = QandaApplication.map.get(user.getId()).answers;
         LOGGER.info("set size: " + answers.size());
+        /*model.addAttribute("noticeNum", answers.size());*/
+        session.setAttribute("noticeNum", answers.size());
         List<QuestionDo> questions = questionService.listQuestionPaging(1, user.getId());
         model.addAttribute("questions", questions);
         model.addAttribute("user", user);
@@ -199,5 +203,14 @@ public class QuestionController {
         } else {
             return new Result(HttpStatus.INTERNAL_SERVER_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR.getDesc());
         }
+    }
+
+    @RequestMapping("notification")
+    public String notification(HttpSession session, Model model) {
+        UserDo user = (UserDo) session.getAttribute("user");
+        Set<AnswerDo> answers = QandaApplication.map.get(user.getId()).answers;
+        model.addAttribute("answerNum", answers.size());
+        model.addAttribute("answers", answers);
+        return "notification";
     }
 }

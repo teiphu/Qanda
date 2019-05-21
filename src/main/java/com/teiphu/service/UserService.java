@@ -29,4 +29,6 @@ public interface UserService {
     List<AnswerDo> listAnswerToTheQuestionOfConcern(Integer id, Timestamp gmtLogout);
 
     int countUser();
+
+    int updateLogoutTime(Integer id);
 }

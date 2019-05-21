@@ -88,4 +88,10 @@ public class UserServiceImpl implements UserService {
     public int countUser() {
         return userMapper.countUser();
     }
+
+    @Override
+    public int updateLogoutTime(Integer userId) {
+        int res = userMapper.updateLogoutTime(userId);
+        return res;
+    }
 }

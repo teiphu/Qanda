@@ -1,30 +1,29 @@
 package com.teiphu.controller;
 
 import com.teiphu.NoticeTask;
+import com.teiphu.mapper.AnswerMapper;
 import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.Result;
 import com.teiphu.pojo.UserDo;
 import com.teiphu.service.UserService;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.session.InMemoryWebSessionStore;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.teiphu.pojo.UserDo.scheduledExecutorService;
+import static com.teiphu.QandaApplication.map;
+import static com.teiphu.QandaApplication.scheduledExecutorService;
 
 /**
  * @Author Teiphu
@@ -39,8 +38,12 @@ public class RegAndLogController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AnswerMapper answerMapper;
+
     /**
      * 用于跳转到注册界面
+     *
      * @return
      */
     @GetMapping("/registration")
@@ -49,7 +52,6 @@ public class RegAndLogController {
     }
 
     /**
-     *
      * @param username
      * @param password
      * @param email
@@ -77,6 +79,7 @@ public class RegAndLogController {
 
     /**
      * 用于跳转到登录界面
+     *
      * @return
      */
     @GetMapping("signin")
@@ -86,6 +89,7 @@ public class RegAndLogController {
 
     /**
      * 登录并写入Session
+     *
      * @param session
      * @param email
      * @param phone
@@ -102,13 +106,17 @@ public class RegAndLogController {
             //session.setAttribute("userId", user.getId());
             //UserDo userDo = (UserDo) session.getAttribute("user");
             Set<AnswerDo> answers = new HashSet<>();
-            List<AnswerDo> answerList =  userService.listAnswerToTheQuestionOfConcern(user.getId(), user.getGmtLogout());
-            answers.addAll(answerList);
+            List<AnswerDo> answerList = userService.listAnswerToTheQuestionOfConcern(user.getId(), user.getGmtLogout());
+
             LOGGER.info("set size: " + answers.size());
             user.setAnswers(answers);
+
             session.setAttribute("user", user);
-            scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-            scheduledExecutorService.scheduleAtFixedRate(new NoticeTask(user), 0, 4, TimeUnit.SECONDS);
+
+            NoticeTask task = new NoticeTask(user, answerMapper);
+            task.answers.addAll(answerList);
+            map.put(user.getId(), task);
+            scheduledExecutorService.scheduleAtFixedRate(task, 0, 4, TimeUnit.SECONDS);
             result.setCode(200);
             result.setMsg("登录成功");
         } else {
@@ -120,6 +128,8 @@ public class RegAndLogController {
 
     @RequestMapping("logout")
     public String logout(HttpSession session) {
+        UserDo user = (UserDo) session.getAttribute("user");
+        int res = userService.updateLogoutTime(user.getId());
         session.removeAttribute("user");
         return "signin";
     }

@@ -28,4 +28,6 @@ public interface UserMapper {
     UserDo getUserByUsername(String username);
 
     int countUser();
+
+    int updateLogoutTime(Integer userId);
 }

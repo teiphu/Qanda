@@ -8,10 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author Teiphu
@@ -23,22 +26,34 @@ public class NoticeTask implements Runnable {
 
     private UserDo user;
 
-    @Autowired
     private AnswerMapper answerMapper;
 
-    public NoticeTask(UserDo user) {
+    public Set<AnswerDo> answers = new HashSet<>();
+
+    public NoticeTask(UserDo user, AnswerMapper answerMapper) {
         this.user = user;
+        this.answerMapper = answerMapper;
     }
 
     @Override
     public void run() {
         Integer userId = user.getId();
+        LOGGER.info("UserId: " + userId + ", " + Thread.currentThread().getId());
         Timestamp gmtLogout = user.getGmtLogout();
-        Timestamp recentTime = new Timestamp(System.currentTimeMillis() - 4*1000);
+        LOGGER.info(new Timestamp(System.currentTimeMillis()).toString());
+        Timestamp recentTime = new Timestamp(System.currentTimeMillis() - 4 * 1000);
         LOGGER.info(recentTime.toString());
         List<AnswerDo> answerList = answerMapper.listNewAnswer(userId, recentTime);
-        user.getAnswers().addAll(answerList);
+        /*user.getAnswers().addAll(answerList);*/
+        answers.addAll(answerList);
+    }
 
+    public UserDo getUser() {
+        return user;
+    }
+
+    public void setUser(UserDo user) {
+        this.user = user;
     }
 
 }
