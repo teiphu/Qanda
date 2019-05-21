@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AnswerMapper answerMapper;
 
+
     /*@Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         UserDo user = userMapper.getUserByUsername(s);
@@ -35,7 +36,6 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }*/
-
     @Override
     @Transactional(rollbackFor = { IOException.class })
     public int addUser(UserDo user) {
@@ -73,6 +73,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDo> listUserByName(String name, Integer page, Integer limit) {
+        name = '%' + name + '%';
+        int offset = (page - 1) * limit;
+        RowBounds rowBounds = new RowBounds(offset, limit);
+        List<UserDo> users = userMapper.listUserByName(rowBounds, name);
+        return users;
+    }
+
+    @Override
     public UserDo getUserByLogin(String email, String phone, String password) {
         UserDo user = new UserDo(email, phone, password);
         UserDo userDo = userMapper.getUserByLogin(user);
@@ -87,6 +96,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public int countUser() {
         return userMapper.countUser();
+    }
+
+    @Override
+    public int countUserByName(String username) {
+        return userMapper.countUserByName(username);
     }
 
     @Override

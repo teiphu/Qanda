@@ -50,10 +50,11 @@ public class UserController {
         return "";
     }
 
+    @ResponseBody
     @ApiOperation(value = "移除用户")
-    @DeleteMapping("removeUser")
-    public String removeUser(Integer userId) {
-        int res = userService.deleteUser(userId);
+    @PostMapping("removeUser")
+    public String removeUser(Integer id) {
+        int res = userService.deleteUser(id);
         return "";
     }
 
@@ -115,9 +116,16 @@ public class UserController {
     @ResponseBody
     @ApiOperation(value = "获取多个用户")
     @GetMapping("retrieveUsers")
-    public JSONObject retrieveUsers(Integer page, Integer limit) {
-        int count = userService.countUser();
-        List<UserDo> users = userService.listUser(page, limit);
+    public JSONObject retrieveUsers(String name, Integer page, Integer limit) {
+        int count = 0;
+        List<UserDo> users = null;
+        if (!StringUtils.isEmpty(name)) {
+            users = userService.listUserByName(name, page, limit);
+            count = userService.countUserByName(name);
+        } else {
+            users = userService.listUser(page, limit);
+            count =  userService.countUser();
+        }
         JSONObject res = new JSONObject();
         res.put("code", 0);
         res.put("count", count);

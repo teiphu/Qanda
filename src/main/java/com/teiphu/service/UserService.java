@@ -22,6 +22,8 @@ public interface UserService {
 
     UserDo getUser(Integer userId);
 
+    List<UserDo> listUserByName(String name, Integer page, Integer limit);
+
     List<UserDo> listUser(Integer page, Integer limit);
 
     UserDo getUserByLogin(String email, String phone, String password);
@@ -29,6 +31,8 @@ public interface UserService {
     List<AnswerDo> listAnswerToTheQuestionOfConcern(Integer id, Timestamp gmtLogout);
 
     int countUser();
+
+    int countUserByName(String username);
 
     int updateLogoutTime(Integer id);
 }

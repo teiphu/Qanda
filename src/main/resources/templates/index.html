@@ -250,7 +250,14 @@
         <div class="qa-name">
             <a style="color: #dc3545" th:text="${session.user.username != null}? ${session.user.username} : ''"
                th:href="@{/question/listQuestionsAnswered}"></a>
+            <!--<a th:if="${session.user.ro} eq 'normal'" style="color: #dc3545" th:text="${session.user.username != null}? ${session.user.username} : ''"
+               th:href="@{/question/listQuestionsAnswered}"></a>
+            <a th:if="${session.user.ro} eq 'admin'" style="color: #dc3545" th:text="${session.user.username != null}? ${session.user.username} : ''"
+               th:href="@{/admin/getUserManager}"></a>-->
+            <!--${session.user.role} eq 'admin'? @{/question/listQuestionsAnswered} : @{/admin/getUserManager}-->
+            <!--${session.user.role.name == 'normal'}? ' : '/admin/getUserManager''-->
             <dl class="qa-name-child">
+                <!--<dd ><a th:if="${session.user.role} eq 'admin'" th:href="@{/admin/getUserManager}">用户管理</a></dd>-->
                 <dd><a th:href="@{/user/toUpdateInfo}">更新资料</a></dd>
                 <dd><a href="#">修改密码</a></dd>
                 <dd style="text-align: center;"><a th:href="@{/reglog/logout}">注销</a></dd>

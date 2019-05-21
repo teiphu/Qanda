@@ -53,6 +53,13 @@
         from `user`;
     </select>
 
+    <select id="listUserByName" resultType="com.teiphu.pojo.UserDo">
+        select id, user_name username, password, email, phone, sex, birthday, job, signature, gmt_create gmtCreate
+        from `user`
+        where user_name like #{username};
+    </select>
+
+
     <select id="getUserByLogin" resultType="com.teiphu.pojo.UserDo">
         select id, user_name username, password, email, phone, sex, birthday, job, signature, role, gmt_create gmtCreate, gmt_logout gmtLogout
         from `user`
@@ -68,6 +75,12 @@
     <select id="countUser" resultType="int">
         SELECT count(*)
         FROM `user`
+    </select>
+
+    <select id="countUserByName" resultType="int">
+        SELECT count(*)
+        FROM `user`
+        where user_name like #{username};
     </select>
 
 </mapper>

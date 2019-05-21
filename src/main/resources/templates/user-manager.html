@@ -63,19 +63,20 @@
         <div class="layui-inline">
             <input class="layui-input" name="name" id="qa-search-input" autocomplete="off">
         </div>
-        <button class="layui-btn" data-type="reload" style="width: 40px; padding-top: 0; margin: -1px 0 0 7px;">搜索</button>
+        <button class="layui-btn" data-type="reload" style="width: 40px; padding-top: 0; margin: -1px 0 0 7px;">搜索
+        </button>
     </div>
-
     <table class="layui-hide" id="qa-user" lay-filter="qa-user"></table>
 </div>
 
 <script type="text/html" id="barDemo">
     <!--<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>-->
-    <a class="layui-btn layui-btn-xs" style="color: #fff; display: block; margin-top: 6px; padding-top: 8px;" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs" style="color: #fff; display: block; margin-top: 6px; padding-top: 8px;"
+       lay-event="del">删除</a>
 </script>
 
 <script>
-    layui.use('table', function(){
+    layui.use('table', function () {
         var table = layui.table;
 
         //第一个实例
@@ -86,9 +87,9 @@
             cols: [
                 [
                     {type: 'checkbox'},
-                    {field:'id',title: 'ID', sort: true, width:100, align: 'center'},
-                    {field: 'username', title: '用户名',  sort: true, align: 'center'},
-                    {field: 'sex', title: '性别',sort: true, width:100, align: 'center'},
+                    {field: 'id', title: 'ID', sort: true, width: 100, align: 'center'},
+                    {field: 'username', title: '用户名', sort: true, align: 'center'},
+                    {field: 'sex', title: '性别', sort: true, width: 100, align: 'center'},
                     {field: 'email', title: '邮箱', width: 180, align: 'center'},
                     {field: 'phone', title: '电话', width: 180, align: 'center'},
                     {fixed: 'right', title: '操作', width: 100, toolbar: '#barDemo', align: 'center'}
@@ -100,16 +101,16 @@
         });
 
         //监听行工具事件
-        table.on('tool(qa-user)', function(obj){
+        table.on('tool(qa-user)', function (obj) {
             var data = obj.data;
             console.log(obj)
-            if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
+            if (obj.event === 'del') {
+                layer.confirm('你确定要删除该用户？', function (index) {
                     obj.del();
                     console.log("用户id: " + data.id);
                     // 向后台发请求删除 ，根据用户id删除
                     $.ajax({
-                        url: "",
+                        url: "/user/removeUser",
                         type: "POST",
                         data: {
                             id: data.id
@@ -122,7 +123,7 @@
 
 
         var $ = layui.$, active = {
-            reload: function(){
+            reload: function () {
                 var qaReload = $('#qa-search-input');
 
                 //执行重载
@@ -141,7 +142,7 @@
             }
         };
 
-        $('.qa-table .layui-btn').on('click', function(){
+        $('.qa-table .layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
@@ -149,7 +150,6 @@
     });
 
 </script>
-
 
 
 </body>

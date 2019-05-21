@@ -29,5 +29,9 @@ public interface UserMapper {
 
     int countUser();
 
+    int countUserByName(String username);
+
     int updateLogoutTime(Integer userId);
+
+    List<UserDo> listUserByName(RowBounds rowBounds, String username);
 }
