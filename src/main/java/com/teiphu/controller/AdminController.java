@@ -17,4 +17,8 @@ public class AdminController {
         return "user-manager";
     }
 
+    @GetMapping("getQaManagerIndex")
+    public String getQaManagerIndex() {
+        return "qa-manager-index";
+    }
 }

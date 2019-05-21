@@ -30,7 +30,8 @@ public class SecurityInterceptor implements HandlerInterceptor {
         if (request.getRequestURI().startsWith("/bootstrap") || request.getRequestURI().startsWith("/common") ||
                 request.getRequestURI().startsWith("/css") || request.getRequestURI().startsWith("/error") ||
                 request.getRequestURI().startsWith("/img") || request.getRequestURI().startsWith("/js") ||
-                request.getRequestURI().startsWith("/layer") || request.getRequestURI().startsWith("/layui")) {
+                request.getRequestURI().startsWith("/layer") || request.getRequestURI().startsWith("/layui") ||
+                request.getRequestURI().startsWith("/layuiadmin")) {
             return true;
         }
         if (request.getRequestURI().startsWith("/reglog/")) {
