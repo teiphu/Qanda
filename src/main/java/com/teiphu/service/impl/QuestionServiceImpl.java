@@ -203,4 +203,26 @@ public class QuestionServiceImpl implements QuestionService {
         return questionAttentionMapper.addQuestionAttention(questionId, userId);
     }
 
+    @Override
+    public List<QuestionDo> listQuestionsByPagination(Integer page, Integer limit) {
+        int offset = (page - 1) * limit;
+        RowBounds rowBounds = new RowBounds(offset, limit);
+        List<QuestionDo> questions = questionMapper.listQuestionsByPagination(rowBounds);
+        return questions;
+    }
+
+    @Override
+    public int countQuestion() {
+        return questionMapper.countQuestion();
+    }
+
+    @Override
+    public List<QuestionDo> listQuestionsByPaginationWithName(String content, Integer page, Integer limit) {
+        content = '%' + content + '%';
+        int offset = (page - 1) * limit;
+        RowBounds rowBounds = new RowBounds(offset, limit);
+        List<QuestionDo> questions = questionMapper.listQuestionsByPaginationWithName(content, rowBounds);
+        return questions;
+    }
+
 }

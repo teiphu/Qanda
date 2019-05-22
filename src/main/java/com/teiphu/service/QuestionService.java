@@ -39,4 +39,11 @@ public interface QuestionService {
     int deleteQuestionAttention(Integer questionId, Integer userId);
 
     int addQuestionAttention(Integer questionId, Integer userId);
+
+    List<QuestionDo> listQuestionsByPagination(Integer page, Integer limit);
+
+    int countQuestion();
+
+    List<QuestionDo> listQuestionsByPaginationWithName(String searchText, Integer page, Integer limit);
+
 }

@@ -1,6 +1,7 @@
 package com.teiphu.controller;
 
-import com.teiphu.NoticeTask;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.teiphu.QandaApplication;
 import com.teiphu.http.HttpStatus;
 import com.teiphu.http.Result;
@@ -19,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -76,8 +76,9 @@ public class QuestionController {
         return "";
     }
 
+    @ResponseBody
     @ApiOperation("删除问题")
-    @DeleteMapping("removeQuestion")
+    @PostMapping("removeQuestion")
     public String removeQuestion(Integer questionId) {
         int res = questionService.deleteQuestion(questionId);
         return "";
@@ -212,5 +213,26 @@ public class QuestionController {
         model.addAttribute("answerNum", answers.size());
         model.addAttribute("answers", answers);
         return "notification";
+    }
+
+    @ResponseBody
+    @GetMapping("listQuestionsByPagination")
+    public JSONObject listQuestionsByPagination(String searchText, Integer page, Integer limit) {
+        int count = 0;
+        List<QuestionDo> questions = null;
+        if (!StringUtils.isEmpty(searchText)) {
+            questions = questionService.listQuestionsByPaginationWithName(searchText, page, limit);
+        } else {
+            questions = questionService.listQuestionsByPagination(page, limit);
+            count = questionService.countQuestion();
+        }
+        JSONObject res = new JSONObject();
+        res.put("code", 0);
+        res.put("count", count);
+        res.put("msg", "");
+        JSONArray quesJA = new JSONArray();
+        quesJA.addAll(questions);
+        res.put("data", quesJA);
+        return res;
     }
 }

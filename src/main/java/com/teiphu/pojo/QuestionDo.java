@@ -15,6 +15,7 @@ public class QuestionDo implements Serializable {
 
     private Integer id;
     private UserDo user;
+    private String username;
     private TopicDo topic;
     private String content;
     private Timestamp gmtCreate;
@@ -137,5 +138,13 @@ public class QuestionDo implements Serializable {
 
     public void setAttention(Integer attention) {
         this.attention = attention;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

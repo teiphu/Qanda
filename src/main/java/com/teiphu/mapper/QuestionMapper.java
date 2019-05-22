@@ -41,4 +41,8 @@ public interface QuestionMapper {
     List<QuestionDo> listQuestionBySearch(String searchContent);
 
     int addTopicToQuestion(@Param("questionId") Integer questionId, @Param("topicIds") List<Integer> topicIds);
+
+    List<QuestionDo> listQuestionsByPagination(RowBounds rowBounds);
+
+    List<QuestionDo> listQuestionsByPaginationWithName(String content, RowBounds rowBounds);
 }
