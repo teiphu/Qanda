@@ -141,7 +141,7 @@
         FROM answer;
     </select>
 
-    <select id="listAnswerBySearch" resultType="com.teiphu.pojo.AnswerDo">
+    <select id="listAnswerBySearch" resultMap="AnswerEntity">
         SELECT answer.id, answer.answer_content, answer.gmt_create, question.content, `user`.user_name
         FROM (`answer` LEFT JOIN question
         ON answer.question_id = question.id) LEFT JOIN `user`

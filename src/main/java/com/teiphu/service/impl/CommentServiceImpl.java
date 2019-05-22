@@ -4,7 +4,9 @@ import com.teiphu.mapper.CommentMapper;
 import com.teiphu.mapper.UpdownvoteMapper;
 import com.teiphu.pojo.CommentDo;
 import com.teiphu.service.CommentService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,5 +69,33 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDo> listComent() {
         return commentMapper.listComment();
+    }
+
+    @Override
+    public List<CommentDo> listComentPaging(Integer page, Integer limit) {
+        int offset = (page - 1) * limit;
+        RowBounds rowBounds = new RowBounds(offset, limit);
+        List<CommentDo> comments = commentMapper.listComentPaging(rowBounds);
+        return comments;
+    }
+
+    @Override
+    public int countComment() {
+        return commentMapper.countComment();
+    }
+
+    @Override
+    public List<CommentDo> listCommentBySearch(String searchText, Integer page, Integer limit) {
+        searchText = '%' + searchText + '%';
+        int offset = (page - 1) * limit;
+        RowBounds rowBounds = new RowBounds(offset, limit);
+        List<CommentDo> comments = commentMapper.listComentBySearch(searchText, rowBounds);
+        return comments;
+    }
+
+    @Override
+    public int countCommentBySearch(String searchText) {
+        searchText = '%' + searchText + '%';
+        return commentMapper.countCommentBySearch(searchText);
     }
 }

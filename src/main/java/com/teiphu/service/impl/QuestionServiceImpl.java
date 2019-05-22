@@ -227,6 +227,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public int countQuestionBySearch(String searchText) {
+        searchText = '%' + searchText + '%';
         return questionMapper.countQuestionBySearch(searchText);
     }
 

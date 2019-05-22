@@ -36,6 +36,12 @@
         where id = #{userId}
     </update>
 
+    <update id="changePassword">
+        update `user`
+        set password = #{newPassword}
+        where id = #{userId};
+    </update>
+
     <select id="getUser" resultType="com.teiphu.pojo.UserDo">
         select id, user_name username, password, email, phone, sex, birthday, job, signature, role, gmt_create gmtCreate
         from `user`

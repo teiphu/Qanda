@@ -100,12 +100,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int countUserByName(String username) {
+        username = '%' + username + '%';
         return userMapper.countUserByName(username);
     }
 
     @Override
     public int updateLogoutTime(Integer userId) {
         int res = userMapper.updateLogoutTime(userId);
+        return res;
+    }
+
+    @Override
+    public int changePassword(Integer id, String oldPassword, String newPassword) {
+        int res = userMapper.changePassword(id, oldPassword, newPassword);
         return res;
     }
 }

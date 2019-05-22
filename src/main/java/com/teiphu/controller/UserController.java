@@ -1,9 +1,9 @@
 package com.teiphu.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.teiphu.http.HttpStatus;
+import com.teiphu.http.Result;
 import com.teiphu.pojo.UserDo;
 import com.teiphu.service.UserService;
 import io.swagger.annotations.Api;
@@ -56,6 +56,24 @@ public class UserController {
     public String removeUser(Integer id) {
         int res = userService.deleteUser(id);
         return "";
+    }
+
+
+    @GetMapping("getChangePassword")
+    public String getChangePassword() {
+        return "password";
+    }
+
+    @ResponseBody
+    @PostMapping("changePassword")
+    public Result changePassword(HttpSession session, String oldPassword, String newPassword) {
+        UserDo user = (UserDo) session.getAttribute("user");
+        int res = userService.changePassword(user.getId(), oldPassword, newPassword);
+        if (res > 0) {
+            return new Result(HttpStatus.OK.getCode(), HttpStatus.OK.getDesc());
+        } else {
+            return new Result(HttpStatus.INTERNAL_SERVER_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR.getDesc());
+        }
     }
 
     @ApiOperation(value = "修改用户信息")

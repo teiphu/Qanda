@@ -124,6 +124,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public int countAnswerBySearch(String searchText) {
+        searchText = '%' + searchText + '%';
         return answerMapper.countAnswerBySearch(searchText);
     }
 }

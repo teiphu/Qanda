@@ -2,6 +2,7 @@ package com.teiphu.mapper;
 
 import com.teiphu.pojo.UserDo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
@@ -34,4 +35,6 @@ public interface UserMapper {
     int updateLogoutTime(Integer userId);
 
     List<UserDo> listUserByName(RowBounds rowBounds, String username);
+
+    int changePassword(@Param("userId") Integer userId, @Param("oldPassword") String oldPassword, @Param("newPassword") String newPassword);
 }

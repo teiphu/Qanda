@@ -2,6 +2,7 @@ package com.teiphu.mapper;
 
 import com.teiphu.pojo.CommentDo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -29,4 +30,12 @@ public interface CommentMapper {
     List<CommentDo> listTopCommentByAnswer(Integer answerId);
 
     List<CommentDo> listComment();
+
+    List<CommentDo> listComentPaging(RowBounds rowBounds);
+
+    int countComment();
+
+    List<CommentDo> listComentBySearch(String searchText, RowBounds rowBounds);
+
+    int countCommentBySearch(String searchText);
 }

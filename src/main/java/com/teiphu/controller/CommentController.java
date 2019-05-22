@@ -1,5 +1,7 @@
 package com.teiphu.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.CommentDo;
 import com.teiphu.pojo.UserDo;
@@ -7,6 +9,7 @@ import com.teiphu.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -37,8 +40,9 @@ public class CommentController {
         return "";
     }
 
+    @ResponseBody
     @ApiOperation("删除评论")
-    @DeleteMapping("removeComment")
+    @PostMapping("removeComment")
     public String removeComment(Integer commentId) {
         int res = commentService.deleteComment(commentId);
         return "";
@@ -87,5 +91,27 @@ public class CommentController {
     public List<CommentDo> retrieveComments() {
         List<CommentDo> comments = commentService.listComent();
         return comments;
+    }
+
+    @ResponseBody
+    @GetMapping("listCommentByPaging")
+    public JSONObject listCommentByPaging(String searchText, Integer page, Integer limit) {
+        int count = 0;
+        List<CommentDo> comments = null;
+        if (!StringUtils.isEmpty(searchText)) {
+            comments = commentService.listCommentBySearch(searchText, page, limit);
+            count = commentService.countCommentBySearch(searchText);
+        } else {
+            comments = commentService.listComentPaging(page, limit);
+            count = commentService.countComment();
+        }
+        JSONObject res = new JSONObject();
+        res.put("code", 0);
+        res.put("count", count);
+        res.put("msg", "");
+        JSONArray quesJA = new JSONArray();
+        quesJA.addAll(comments);
+        res.put("data", quesJA);
+        return res;
     }
 }

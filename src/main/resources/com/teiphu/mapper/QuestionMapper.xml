@@ -152,6 +152,7 @@
     </resultMap>
 
     <!--SELECT question.id, question.content, question.gmt_create, `user`.user_name
+
     FROM question LEFT JOIN `user`
     ON question.user_id = `user`.id-->
     <select id="listQuestionsByPagination" resultMap="QuestionWithUserBean">
@@ -171,7 +172,8 @@
         FROM
             (SELECT question.id, question.content, question.gmt_create, `user`.user_name
             FROM question LEFT JOIN `user`
-            ON question.user_id = `user`.id) t1 LEFT JOIN
+            ON question.user_id = `user`.id) t1
+        LEFT JOIN
             (SELECT question_id, count(*) count
             FROM question_attention
             GROUP BY question_id) t2
@@ -180,7 +182,7 @@
     </select>
 
     <select id="countQuestionBySearch" resultType="java.lang.Integer">
-        select *
+        select count(*)
         from qanda.question
         where content like #{searchText}
     </select>

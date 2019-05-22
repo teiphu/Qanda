@@ -22,13 +22,13 @@
 
 <div style="width: 90%; margin: 20px 0 0 50px;">
     <div class="qa-table" style="margin-bottom: 18px;">
-        问题搜索：
+        评论搜索：
         <div class="layui-inline">
             <input class="layui-input" name="name" id="qa-search-input" autocomplete="off">
         </div>
         <button class="layui-btn" data-type="reload" style="font-size: 18px">搜索</button>
     </div>
-    <table class="layui-hide" id="qa-question" lay-filter="qa-question"></table>
+    <table class="layui-hide" id="qa-comment" lay-filter="qa-comment"></table>
 </div>
 
 <script type="text/html" id="barDemo">
@@ -42,16 +42,16 @@
 
         //第一个实例
         table.render({
-            elem: '#qa-question',
-            url: '/question/listQuestionsByPagination', //数据接口
+            elem: '#qa-comment',
+            url: '/comment/listCommentByPaging', //数据接口
             page: true, //开启分页
             cols: [
                 [
                     {type: 'checkbox'},
-                    {field: 'id', title: '问题ID', sort: true, width: 100, align: 'center'},
+                    {field: 'id', title: '评论ID', sort: true, width: 100, align: 'center'},
                     {field: 'username', title: '用户名', sort: true, width: 100, align: 'center'},
-                    {field: 'content', title: '问题', sort: true, width: 480, align: 'center'},
-                    {field: 'attention', title: '关注量', sort: true, width: 100, align: 'center'},
+                    {field: 'answerContent', title: '答案', sort: true, width: 250, align: 'center'},
+                    {field: 'commentContent', title: '评论', sort: true, width: 250, align: 'center'},
                     {field: 'gmtCreate', title: '创建时间', width: 200, align: 'center'},
                     {fixed: 'right', title: '操作', width: 80, toolbar: '#barDemo', align: 'center'}
                 ]
@@ -62,19 +62,19 @@
         });
 
         //监听行工具事件
-        table.on('tool(qa-question)', function (obj) {
+        table.on('tool(qa-comment)', function (obj) {
             var data = obj.data;
             console.log(obj)
             if (obj.event === 'del') {
-                layer.confirm('你确定要删除该问题？', function (index) {
+                layer.confirm('你确定要删除该评论？', function (index) {
                     obj.del();
                     console.log("问题id: " + data.id);
                     // 向后台发请求删除 ，根据用户id删除
                     $.ajax({
-                        url: "/question/removeQuestion",
+                        url: "/comment/removeComment",
                         type: "POST",
                         data: {
-                            questionId: data.id
+                            commentId: data.id
                         }
                     })
                     layer.close(index);

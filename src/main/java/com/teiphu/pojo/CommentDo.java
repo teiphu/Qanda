@@ -15,11 +15,13 @@ public class CommentDo implements Serializable {
     private Integer id;
     private Integer parentCommentId;
     private UserDo user;
+    private String username;
     private AnswerDo answer;
     private String commentContent;
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
     private int delete;
+    private String answerContent;
 
     public CommentDo() {
     }
@@ -90,5 +92,21 @@ public class CommentDo implements Serializable {
 
     public void setDelete(int delete) {
         this.delete = delete;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getAnswerContent() {
+        return answerContent;
+    }
+
+    public void setAnswerContent(String answerContent) {
+        this.answerContent = answerContent;
     }
 }

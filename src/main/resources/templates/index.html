@@ -253,10 +253,9 @@
             <a style="color: #dc3545" th:text="${session.user.username != null}? ${session.user.username} : ''"
                th:href="@{/question/listQuestionsAnswered}"></a>
             <dl class="qa-name-child">
-                <dd th:if="${session.user.username} eq 'admin'"><a th:href="@{/admin/getUserManager}">用户管理</a></dd>
                 <dd th:if="${session.user.username} eq 'admin'"><a th:href="@{/admin/getQaManagerIndex}">后台管理</a></dd>
                 <dd><a th:href="@{/user/toUpdateInfo}">更新资料</a></dd>
-                <dd><a href="#">修改密码</a></dd>
+                <dd><a th:href="@{/user/getChangePassword}">修改密码</a></dd>
                 <dd style="text-align: center;"><a th:href="@{/reglog/logout}">注销</a></dd>
             </dl>
         </div>

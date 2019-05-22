@@ -35,4 +35,6 @@ public interface UserService {
     int countUserByName(String username);
 
     int updateLogoutTime(Integer id);
+
+    int changePassword(Integer id, String oldPassword, String newPassword);
 }

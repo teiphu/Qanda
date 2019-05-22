@@ -69,4 +69,32 @@
         from qanda.comment;
     </select>
 
+    <select id="listComentPaging" resultType="com.teiphu.pojo.CommentDo">
+        SELECT `comment`.id id, answer.answer_content answerContent, `comment`.comment_content commentContent, `user`.user_name username, `comment`.gmt_create gmtCreate
+        FROM (`comment` LEFT JOIN answer
+          ON `comment`.answer_id = answer.id) LEFT JOIN `user`
+        ON `comment`.user_id = `user`.id
+    </select>
+
+    <select id="countComment" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM `comment`
+    </select>
+
+    <select id="listComentBySearch" resultType="com.teiphu.pojo.CommentDo">
+        SELECT `comment`.id id, answer.answer_content answerContent, `comment`.comment_content commentContent, `user`.user_name username, `comment`.gmt_create gmtCreate
+        FROM (`comment` LEFT JOIN answer
+          ON `comment`.answer_id = answer.id) LEFT JOIN `user`
+        ON `comment`.user_id = `user`.id
+        WHERE comment_content LIKE #{searchText}
+    </select>
+
+    <select id="countCommentBySearch" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM (`comment` LEFT JOIN answer
+        ON `comment`.answer_id = answer.id) LEFT JOIN `user`
+        ON `comment`.user_id = `user`.id
+        WHERE comment_content LIKE #{searchText}
+    </select>
+
 </mapper>
