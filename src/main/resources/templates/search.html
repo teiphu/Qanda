@@ -105,6 +105,24 @@
                 }
             );
         }
+        function search(e) {
+            var searchContent = $.trim($('#qa-search-input').val());
+            if (searchContent == null || searchContent.length == 0) {
+                layer.msg("搜索内容不能为空");
+            } else {
+                console.log(searchContent);
+                var url = "/question/search?searchContent=" + searchContent;
+                window.location.href = url;
+                /*$.ajax({
+                    url: "/question/search",
+                    type: "POST",
+                    data: {searchContent: searchContent},
+                    success: function (response) {
+                        $('#result').html(response);
+                    }
+                });*/
+            }
+        }
     </script>
 
 </head>
@@ -117,22 +135,27 @@
         </a>
 
         <ul class="layui-nav" id="qa-ul">
-            <li class="layui-nav-item layui-this"><a th:href="@{/question/home}">Home</a></li>
+            <li class="layui-nav-item"><a th:href="@{/question/home}">Home</a></li>
             <li class="layui-nav-item"><a th:href="@{/question/listQuestOfUserInterest}">回答</a></li>
-            <li class="layui-nav-item"><a th:href="@{#}">通知</a></li>
+            <li class="layui-nav-item"><a th:href="@{/question/notification}">通知<span class="layui-badge"
+                                                                                      th:text="${session.noticeNum}">10</span>
+            </a></li>
         </ul>
 
         <div class="layui-inline qa-search">
-            <input placeholder="搜索问题" name="keywords" autocomplete="off" value="" class="qa-search-input">
-            <button class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
+            <input placeholder="搜索问题" name="keywords" autocomplete="off" value="" id="qa-search-input"
+                   class="qa-search-input">
+            <button class="layui-btn" onclick="search(this)"><i class="layui-icon layui-icon-search"></i></button>
         </div>
 
         <div class="qa-name">
-            <a th:text="${session.user.username}" th:href="@{/question/listQuestionsAnswered}"></a>
+            <a style="color: #dc3545" th:text="${session.user.username != null}? ${session.user.username} : ''"
+               th:href="@{/question/listQuestionsAnswered}"></a>
             <dl class="qa-name-child">
-                <dd><a href="#">基本资料</a></dd>
-                <dd><a href="#">修改密码</a></dd>
-                <dd style="text-align: center;"><a href="#">退出</a></dd>
+                <dd th:if="${session.user.username} eq 'admin'"><a th:href="@{/admin/getQaManagerIndex}">后台管理</a></dd>
+                <dd><a th:href="@{/user/toUpdateInfo}">更新资料</a></dd>
+                <dd><a th:href="@{/user/getChangePassword}">修改密码</a></dd>
+                <dd style="text-align: center;"><a th:href="@{/reglog/logout}">注销</a></dd>
             </dl>
         </div>
 

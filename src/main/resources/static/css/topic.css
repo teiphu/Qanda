@@ -21,6 +21,15 @@
     margin: 15px 20px 0 0;
     float: left;
 }
+.qa-topic-img-content {
+    width: 100px;
+    height: 100px;
+    /*border: 1px solid #888888;*/
+    border-radius: 50%;
+    box-shadow: 1px 1px 2px 0px #888888;
+    /*margin: 15px 20px 0 0;*/
+    float: left;
+}
 .layui-card-body h2 {
     margin-top: 10px;
     padding-left: 132px;
