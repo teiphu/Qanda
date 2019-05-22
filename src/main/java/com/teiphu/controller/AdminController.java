@@ -27,8 +27,15 @@ public class AdminController {
         return "admin/question-manager";
     }
 
+    @GetMapping("getAdminAnswerManager")
+    public String getAdminAnswerManager() {
+        return "admin/answer-manager";
+    }
+
     @GetMapping("getQaManagerIndex")
     public String getQaManagerIndex() {
         return "qa-manager-index";
     }
+
+
 }
