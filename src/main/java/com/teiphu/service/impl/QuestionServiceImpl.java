@@ -124,6 +124,33 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public List<QuestionDo> listAllQuestionPaging(Integer page, Integer userId) {
+        int limit = 4;
+        int offset = (page - 1) * limit;
+        RowBounds rowBounds = new RowBounds(offset, limit);
+        List<QuestionDo> questions = questionMapper.listAllQuestionPaging(rowBounds, userId);
+        Iterator<QuestionDo> it = questions.iterator();
+        while (it.hasNext()) {
+            QuestionDo question = it.next();
+            AnswerDo answer = answerMapper.getLatestAnswerByQuestion(question.getId());
+            if (answer != null) {
+                UpdownvoteDo vote = voteMapper.getUpdownvoteStatus(answer.getId(), userId);
+                if (vote == null) {
+                    answer.setVoteStatus(0);
+                } else {
+                    if (vote.getUpOrDown().intValue() == 1) {
+                        answer.setVoteStatus(1);
+                    } else {
+                        answer.setVoteStatus(2);
+                    }
+                }
+            }
+            question.setAnswer(answer);
+        }
+        return questions;
+    }
+
+    @Override
     public List<QuestionDo> listQuestionByPage(Integer num) {
         int limit = 10;
         int offset = (num - 1) * limit;

@@ -144,7 +144,7 @@ public class QuestionController {
      * @param model
      * @return
      */
-    @ApiOperation("检索所有问题")
+    @ApiOperation("检索所有关注的问题")
     @RequestMapping("retrieveQuestions")
     public String retrieveQuestions(HttpSession session, Model model) {
         UserDo user = (UserDo) session.getAttribute("user");
@@ -160,7 +160,7 @@ public class QuestionController {
         return "index";
     }
 
-    @ApiOperation("分页检索所有问题")
+    @ApiOperation("分页检索所有关注问题")
     @RequestMapping(value = "retrieveQuestionsPaging")
     public String retrieveQuestionsPaging(HttpSession session, Model model, Integer page) {
         UserDo user = (UserDo) session.getAttribute("user");
@@ -171,6 +171,35 @@ public class QuestionController {
         //List<TopicDo> topics = topicService.listTopicByUser(user.getId());
         //model.addAttribute("topics", topics);
         return "index::qa-refresh";
+    }
+
+    @ApiOperation("检索所有问题")
+    @RequestMapping("retrieveAllQuestions")
+    public String retrieveAllQuestions(HttpSession session, Model model) {
+        UserDo user = (UserDo) session.getAttribute("user");
+        Set<AnswerDo> answers = QandaApplication.map.get(user.getId()).answers;
+        LOGGER.info("set size: " + answers.size());
+        /*model.addAttribute("noticeNum", answers.size());*/
+        session.setAttribute("noticeNum", answers.size());
+        List<QuestionDo> questions = questionService.listAllQuestionPaging(1, user.getId());
+        model.addAttribute("questions", questions);
+        model.addAttribute("user", user);
+        List<TopicDo> topics = topicService.listTopicByUser(user.getId());
+        model.addAttribute("topics", topics);
+        return "list-all-question";
+    }
+
+    @ApiOperation("分页检索所有问题")
+    @RequestMapping(value = "retrieveAllQuestionsPaging")
+    public String retrieveAllQuestionsPaging(HttpSession session, Model model, Integer page) {
+        UserDo user = (UserDo) session.getAttribute("user");
+        List<QuestionDo> questions = questionService.listAllQuestionPaging(page, user.getId());
+        model.addAttribute("questions", questions);
+        //UserDo user = (UserDo) session.getAttribute("user");
+        //model.addAttribute("user", user);
+        //List<TopicDo> topics = topicService.listTopicByUser(user.getId());
+        //model.addAttribute("topics", topics);
+        return "list-all-question::qa-refresh";
     }
 
     @ApiOperation("获取用户感兴趣的问题")

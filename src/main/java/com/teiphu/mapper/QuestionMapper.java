@@ -38,6 +38,8 @@ public interface QuestionMapper {
 
     List<QuestionDo> listQuestionPaging(RowBounds rowBounds, Integer userId);
 
+    List<QuestionDo> listAllQuestionPaging(RowBounds rowBounds, Integer userId);
+
     List<QuestionDo> listQuestionBySearch(String searchContent);
 
     int addTopicToQuestion(@Param("questionId") Integer questionId, @Param("topicIds") List<Integer> topicIds);
@@ -47,4 +49,6 @@ public interface QuestionMapper {
     List<QuestionDo> listQuestionsByPaginationWithName(String content, RowBounds rowBounds);
 
     int countQuestionBySearch(String searchText);
+
+
 }

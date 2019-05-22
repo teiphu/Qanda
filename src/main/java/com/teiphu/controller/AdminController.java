@@ -41,6 +41,5 @@ public class AdminController {
     public String getQaManagerIndex() {
         return "qa-manager-index";
     }
-
-
+    
 }

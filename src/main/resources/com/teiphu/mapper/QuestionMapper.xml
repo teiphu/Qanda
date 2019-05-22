@@ -85,6 +85,12 @@
         ORDER BY gmt_create DESC
     </select>
 
+    <select id="listAllQuestionPaging" resultMap="QuestionBean">
+        select id, user_id, topic_id, content, gmt_create
+        from qanda.question
+        ORDER BY gmt_create DESC
+    </select>
+
     <select id="listQuestionByPage" resultMap="QuestionBean">
         select id, user_id, topic_id, content, gmt_create
         from qanda.question;
@@ -186,5 +192,6 @@
         from qanda.question
         where content like #{searchText}
     </select>
+
 
 </mapper>
