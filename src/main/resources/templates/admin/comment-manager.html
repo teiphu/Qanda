@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>问题管理</title>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <!--<script type="text/javascript" th:src="@{/layui/layui.all.js}"></script>-->
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <script th:src="@{/layui/layui.js}" charset="utf-8"></script>
+
+    <style>
+        /*.layui-table-page {
+            padding: 13px 7px 0;
+            height: 51px;
+            font-size: 14px;
+        }*/
+    </style>
+</head>
+<body>
+
+<div style="width: 90%; margin: 20px 0 0 50px;">
+    <div class="qa-table" style="margin-bottom: 18px;">
+        问题搜索：
+        <div class="layui-inline">
+            <input class="layui-input" name="name" id="qa-search-input" autocomplete="off">
+        </div>
+        <button class="layui-btn" data-type="reload" style="font-size: 18px">搜索</button>
+    </div>
+    <table class="layui-hide" id="qa-question" lay-filter="qa-question"></table>
+</div>
+
+<script type="text/html" id="barDemo">
+    <!--<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>-->
+    <a class="layui-btn layui-btn-xs" style="color: #fff;" lay-event="del">删除</a>
+</script>
+
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+
+        //第一个实例
+        table.render({
+            elem: '#qa-question',
+            url: '/question/listQuestionsByPagination', //数据接口
+            page: true, //开启分页
+            cols: [
+                [
+                    {type: 'checkbox'},
+                    {field: 'id', title: '问题ID', sort: true, width: 100, align: 'center'},
+                    {field: 'username', title: '用户名', sort: true, width: 100, align: 'center'},
+                    {field: 'content', title: '问题', sort: true, width: 480, align: 'center'},
+                    {field: 'attention', title: '关注量', sort: true, width: 100, align: 'center'},
+                    {field: 'gmtCreate', title: '创建时间', width: 200, align: 'center'},
+                    {fixed: 'right', title: '操作', width: 80, toolbar: '#barDemo', align: 'center'}
+                ]
+            ],
+            // size: 'sm',
+            even: true,
+            id: 'qa-table-reload',
+        });
+
+        //监听行工具事件
+        table.on('tool(qa-question)', function (obj) {
+            var data = obj.data;
+            console.log(obj)
+            if (obj.event === 'del') {
+                layer.confirm('你确定要删除该问题？', function (index) {
+                    obj.del();
+                    console.log("问题id: " + data.id);
+                    // 向后台发请求删除 ，根据用户id删除
+                    $.ajax({
+                        url: "/question/removeQuestion",
+                        type: "POST",
+                        data: {
+                            questionId: data.id
+                        }
+                    })
+                    layer.close(index);
+                });
+            }
+        });
+
+
+        var $ = layui.$, active = {
+            reload: function () {
+                var qaReload = $('#qa-search-input');
+
+                //执行重载
+                table.reload('qa-table-reload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: {
+                        /*key: {
+                            id: qaReload.val()
+                        }*/
+                        // 传到后台的搜索数据
+                        searchText: qaReload.val()
+                    }
+                });
+            }
+        };
+
+        $('.qa-table .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+
+</script>
+
+
+</body>
+</html>

@@ -45,4 +45,6 @@ public interface QuestionMapper {
     List<QuestionDo> listQuestionsByPagination(RowBounds rowBounds);
 
     List<QuestionDo> listQuestionsByPaginationWithName(String content, RowBounds rowBounds);
+
+    int countQuestionBySearch(String searchText);
 }

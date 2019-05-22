@@ -17,7 +17,9 @@ public class AnswerDo implements Serializable {
 
     private Integer id;
     private UserDo user;
+    private String username;
     private QuestionDo question;
+    private String questionContent;
     private String answerContent;
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
@@ -118,5 +120,21 @@ public class AnswerDo implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getQuestionContent() {
+        return questionContent;
+    }
+
+    public void setQuestionContent(String questionContent) {
+        this.questionContent = questionContent;
     }
 }

@@ -225,4 +225,9 @@ public class QuestionServiceImpl implements QuestionService {
         return questions;
     }
 
+    @Override
+    public int countQuestionBySearch(String searchText) {
+        return questionMapper.countQuestionBySearch(searchText);
+    }
+
 }

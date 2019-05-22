@@ -7,6 +7,7 @@ import com.teiphu.pojo.AnswerDo;
 import com.teiphu.pojo.CommentDo;
 import com.teiphu.pojo.UpdownvoteDo;
 import com.teiphu.service.AnswerService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,5 +98,32 @@ public class AnswerServiceImpl implements AnswerService {
     public AnswerDo getLatestAnswerByQuestion(Integer questionId) {
         AnswerDo answer = answerMapper.getLatestAnswerByQuestion(questionId);
         return answer;
+    }
+
+    @Override
+    public List<AnswerDo> listAnswerPaging(Integer page, Integer limit) {
+        int offset = (page - 1) * limit;
+        RowBounds rowBounds = new RowBounds(offset, limit);
+        List<AnswerDo> answers = answerMapper.listAnswerPaging(rowBounds);
+        return answers;
+    }
+
+    @Override
+    public int countAnswer() {
+        return answerMapper.countAnswer();
+    }
+
+    @Override
+    public List<AnswerDo> listAnswerBySearch(String searchText, Integer page, Integer limit) {
+        searchText = '%' + searchText + '%';
+        int offset = (page - 1) * limit;
+        RowBounds rowBounds = new RowBounds(offset, limit);
+        List<AnswerDo> answers = answerMapper.listAnswerBySearch(searchText, rowBounds);
+        return answers;
+    }
+
+    @Override
+    public int countAnswerBySearch(String searchText) {
+        return answerMapper.countAnswerBySearch(searchText);
     }
 }

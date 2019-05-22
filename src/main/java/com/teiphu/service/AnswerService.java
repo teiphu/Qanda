@@ -25,4 +25,12 @@ public interface AnswerService {
     List<AnswerDo> listAnswerByUser(Integer userId);
 
     AnswerDo getLatestAnswerByQuestion(Integer questionId);
+
+    List<AnswerDo> listAnswerPaging(Integer page, Integer limit);
+
+    int countAnswer();
+
+    List<AnswerDo> listAnswerBySearch(String searchText, Integer page, Integer limit);
+
+    int countAnswerBySearch(String searchText);
 }

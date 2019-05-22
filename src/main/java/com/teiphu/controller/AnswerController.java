@@ -1,5 +1,7 @@
 package com.teiphu.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.teiphu.http.HttpStatus;
 import com.teiphu.http.Result;
 import com.teiphu.pojo.AnswerDo;
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -124,6 +127,28 @@ public class AnswerController {
     public List<AnswerDo> retrieveAnswersByUser(Integer userId) {
         List<AnswerDo> answers = answerService.listAnswerByUser(userId);
         return answers;
+    }
+
+    @ResponseBody
+    @GetMapping("listAnswerPaging")
+    public JSONObject listAnswerPaging(String searchText, Integer page, Integer limit) {
+        int count = 0;
+        List<AnswerDo> answers = null;
+        if (!StringUtils.isEmpty(searchText)) {
+            answers = answerService.listAnswerBySearch(searchText, page, limit);
+            count = answerService.countAnswerBySearch(searchText);
+        } else {
+            answers = answerService.listAnswerPaging(page, limit);
+            count = answerService.countAnswer();
+        }
+        JSONObject res = new JSONObject();
+        res.put("code", 0);
+        res.put("count", count);
+        res.put("msg", "");
+        JSONArray quesJA = new JSONArray();
+        quesJA.addAll(answers);
+        res.put("data", quesJA);
+        return res;
     }
 
 }

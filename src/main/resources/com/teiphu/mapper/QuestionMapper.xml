@@ -179,4 +179,10 @@
         WHERE content like #{content};
     </select>
 
+    <select id="countQuestionBySearch" resultType="java.lang.Integer">
+        select *
+        from qanda.question
+        where content like #{searchText}
+    </select>
+
 </mapper>

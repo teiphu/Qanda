@@ -121,4 +121,38 @@
         ) AND answer.gmt_create > #{recentTime};
     </select>
 
+    <resultMap id="AnswerEntity" type="com.teiphu.pojo.AnswerDo">
+        <id property="id" column="id"/>
+        <result property="answerContent" column="answer_content"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="questionContent" column="content"/>
+        <result property="username" column="user_name"/>
+    </resultMap>
+
+    <select id="listAnswerPaging" resultMap="AnswerEntity">
+        SELECT answer.id, answer.answer_content, answer.gmt_create, question.content, `user`.user_name
+        FROM (`answer` LEFT JOIN question
+        ON answer.question_id = question.id) LEFT JOIN `user`
+        ON answer.user_id = `user`.id
+    </select>
+
+    <select id="countAnswer" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM answer;
+    </select>
+
+    <select id="listAnswerBySearch" resultType="com.teiphu.pojo.AnswerDo">
+        SELECT answer.id, answer.answer_content, answer.gmt_create, question.content, `user`.user_name
+        FROM (`answer` LEFT JOIN question
+        ON answer.question_id = question.id) LEFT JOIN `user`
+        ON answer.user_id = `user`.id
+        where answer.answer_content like #{searchText}
+    </select>
+
+    <select id="countAnswerBySearch" resultType="java.lang.Integer">
+        select count(*)
+        from answer
+        where answer_content like #{searchText}
+    </select>
+
 </mapper>

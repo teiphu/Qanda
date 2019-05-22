@@ -222,6 +222,7 @@ public class QuestionController {
         List<QuestionDo> questions = null;
         if (!StringUtils.isEmpty(searchText)) {
             questions = questionService.listQuestionsByPaginationWithName(searchText, page, limit);
+            count = questionService.countQuestionBySearch(searchText);
         } else {
             questions = questionService.listQuestionsByPagination(page, limit);
             count = questionService.countQuestion();

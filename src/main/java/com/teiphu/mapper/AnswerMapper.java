@@ -3,6 +3,7 @@ package com.teiphu.mapper;
 import com.teiphu.pojo.AnswerDo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -33,4 +34,12 @@ public interface AnswerMapper {
     AnswerDo getLatestAnswerByQuestion(Integer questionId);
 
     List<AnswerDo> listNewAnswer(@Param("userId") Integer userId, @Param("recentTime") Timestamp recentTime);
+
+    List<AnswerDo> listAnswerPaging(RowBounds rowBounds);
+
+    int countAnswer();
+
+    List<AnswerDo> listAnswerBySearch(String searchText, RowBounds rowBounds);
+
+    int countAnswerBySearch(String searchText);
 }
