@@ -17,6 +17,11 @@ public class AdminController {
         return "user-manager";
     }
 
+    @GetMapping("getHome")
+    public String getHome() {
+        return "admin/home";
+    }
+
     @GetMapping("getAdminUserManager")
     public String getAdminUserManager() {
         return "admin/user-manager";
