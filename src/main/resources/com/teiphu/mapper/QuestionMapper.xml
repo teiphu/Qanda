@@ -20,7 +20,7 @@
         <result property="answer.upvoteCount" column="upvoteCount"/>
     </resultMap>
 
-    <insert id="insertQuestion">
+    <insert id="insertQuestion" useGeneratedKeys="true" keyProperty="id">
         insert into qanda.question(user_id, content)
         values (#{user.id}, #{content});
     </insert>

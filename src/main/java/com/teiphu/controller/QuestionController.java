@@ -57,7 +57,9 @@ public class QuestionController {
         question.setContent(content);
         int res = questionService.addQuestion(question);
         if (res > 0) {
-            return new Result(HttpStatus.OK.getCode(), HttpStatus.OK.getDesc());
+            Result result = new Result(HttpStatus.OK.getCode(), HttpStatus.OK.getDesc());
+            result.setData(String.valueOf(question.getId()));
+            return result;
         } else {
             return new Result(HttpStatus.INTERNAL_SERVER_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR.getDesc());
         }

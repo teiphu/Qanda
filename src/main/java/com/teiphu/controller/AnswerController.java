@@ -2,6 +2,7 @@ package com.teiphu.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.teiphu.QandaApplication;
 import com.teiphu.http.HttpStatus;
 import com.teiphu.http.Result;
 import com.teiphu.pojo.AnswerDo;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author Teiphu
@@ -149,6 +151,16 @@ public class AnswerController {
         quesJA.addAll(answers);
         res.put("data", quesJA);
         return res;
+    }
+
+    @GetMapping("deleteNotification")
+    public String deleteNotification(HttpSession session, Model model) {
+        UserDo user = (UserDo) session.getAttribute("user");
+        Set<AnswerDo> answers = QandaApplication.map.get(user.getId()).answers;
+        answers.clear();
+        model.addAttribute("answerNum", answers.size());
+        model.addAttribute("answers", answers);
+        return "notification";
     }
 
 }

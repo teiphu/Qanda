@@ -44,8 +44,10 @@ public class NoticeTask implements Runnable {
         Timestamp recentTime = new Timestamp(System.currentTimeMillis() - 4 * 1000);
         LOGGER.info(recentTime.toString());
         List<AnswerDo> answerList = answerMapper.listNewAnswer(userId, recentTime);
+        LOGGER.info("answerList size: " + answerList.size());
         /*user.getAnswers().addAll(answerList);*/
         answers.addAll(answerList);
+        LOGGER.info("answers size: " + answers.size());
     }
 
     public UserDo getUser() {

@@ -177,15 +177,13 @@
                             type: "POST",
                             data: {content: question},
                             success: function (res) {
-                                //console.log(res);
-                                //alert(res);
                                 if (res.code == "200") {
                                     layer.msg("添加问题成功！");
+                                    window.location.href = "/answer/retrieveAnswersByQuestion/" + res.data;
                                 } else {
                                     layer.msg("添加问题失败！")
+                                    window.location.reload();
                                 }
-                                // $(this).addClass("done");
-                                window.location.reload();
                             }
                         });
 
@@ -210,7 +208,9 @@
         <ul class="layui-nav" id="qa-ul">
             <li class="layui-nav-item"><a th:href="@{/question/home}">Home</a></li>
             <li class="layui-nav-item"><a th:href="@{/question/listQuestOfUserInterest}">回答</a></li>
-            <li class="layui-nav-item layui-this"><a th:href="@{/question/notification}">通知</a></li>
+            <li class="layui-nav-item"><a th:href="@{/question/notification}">通知<span class="layui-badge"
+                                                                                      th:text="${session.noticeNum}">10</span>
+            </a></li>
         </ul>
         <!--搜索问题-->
         <div class="layui-inline qa-search">
@@ -242,10 +242,11 @@
     <div class="qa-data-content">
         <div class="qa-data-content-header">
             <p><span th:text="${answerNum}"></span>条信息</p>
+            <!--<p><a style="color: #0D1206" th:href="@{/answer/deleteNotification}">全部标记为已读</a></p>-->
         </div>
 
         <div class="qa-cart-data" th:each="answer : ${answers}">
-            <div><h2><a href="#" th:text="${answer.question.content}"></a></h2></div>
+            <div><h2><a th:href="@{/answer/retrieveAnswersByQuestion/{questionId}(questionId=${answer.question.id})}" th:text="${answer.question.content}"></a></h2></div>
             <!-- 内容 -->
             <div class="qa-cart-flag">
                 答案

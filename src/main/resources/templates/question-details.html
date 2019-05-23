@@ -122,7 +122,7 @@
         /*]]>*/
 
         function reply(e) {
-            layer.alert('<textarea id="qa-answer-content" rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
+            layer.alert('<textarea id="qa-answer-content" rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的答案"></textarea>',
                 {
                     skin: 'layui-layer-lan',
                     closeBtn: 2,
@@ -424,15 +424,13 @@
                             type: "POST",
                             data: {content: question},
                             success: function (res) {
-                                //console.log(res);
-                                //alert(res);
                                 if (res.code == "200") {
                                     layer.msg("添加问题成功！");
+                                    window.location.href = "/answer/retrieveAnswersByQuestion/" + res.data;
                                 } else {
                                     layer.msg("添加问题失败！")
+                                    window.location.reload();
                                 }
-                                // $(this).addClass("done");
-                                window.location.reload();
                             }
                         });
 
