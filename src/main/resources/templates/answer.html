@@ -106,6 +106,32 @@
             );
         });
 
+        function submitAnswer(e) {
+            var answerContent = $(e).prev('textarea').val();
+            var questionId = $(e).prev('textarea').prev('.qa-quetion-id').val();
+            console.log("answerContent: " + answerContent);
+            console.log("questionId: " + questionId);
+            if (answerContent.length == 0) {
+                layer.msg("答案不能为空!");
+                return ;
+            }
+
+            $.ajax({
+                url: "/answer/saveAnswer",
+                type: "POST",
+                data: {questionId: questionId, answerContent: answerContent},
+                success: function (res) {
+                    if (res.code == "200") {
+                        layer.msg("回答问题成功！");
+                        // sleep(2000);
+                        setTimeout(function(){ window.location.reload(); }, 2000);
+                    } else {
+                        layer.msg("回答问题失败！")
+                    }
+                }
+            });
+        }
+
         <!-- 提问问题弹出框 -->
         function question(e) {
             layer.alert('<textarea id="qa-quest-content" rows="7" cols="75" style="border: 0; resize: none;" placeholder="输入你的问题"></textarea>',
@@ -142,6 +168,8 @@
                 }
             );
         }
+
+
     </script>
 
 </head>
@@ -217,9 +245,10 @@
 
             <!-- 弹出框 -->
             <div class="qa-pop-up" style="display: none;">
-                    <textarea rows="5" cols="78" style="padding: 5px; border-radius: 5px;"
+                    <input type="hidden" class="qa-quetion-id" th:value="${question.id}"></input>
+                    <textarea rows="5" cols="78" name="answer" style="padding: 5px; border-radius: 5px;"
                               placeholder="输入你的答案"></textarea>
-                <button class="btn btn-primary" style="height: 30px; line-height: 13px;">提交</button>
+                <button class="btn btn-primary" onclick="submitAnswer(this)" style="height: 30px; line-height: 13px;">提交</button>
             </div>
         </div>
     </div>
