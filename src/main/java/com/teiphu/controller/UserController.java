@@ -60,7 +60,8 @@ public class UserController {
 
 
     @GetMapping("getChangePassword")
-    public String getChangePassword() {
+    public String getChangePassword(HttpSession session) {
+        UserDo user = (UserDo) session.getAttribute("user");
         return "password";
     }
 

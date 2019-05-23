@@ -26,6 +26,19 @@ public class SecurityInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        if (request.getRequestURI().startsWith("/admin")) {
+            HttpSession session = request.getSession();
+            UserDo user = (UserDo) session.getAttribute("user");
+            if (user == null) {
+                return false;
+            }
+            if (user.getRole().name().equals(PermissionConstants.ADMIN)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         LOGGER.info(request.getRequestURI());
         if (request.getRequestURI().startsWith("/bootstrap") || request.getRequestURI().startsWith("/common") ||
                 request.getRequestURI().startsWith("/css") || request.getRequestURI().startsWith("/error") ||
