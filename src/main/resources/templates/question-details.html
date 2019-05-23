@@ -131,7 +131,7 @@
                     area: ['380px', '350px'],
                     anim: 0, //动画类型
                     yes: function (index, layero) {
-                        console.log($('#qa-answer-content').val());
+                        // console.log($('#qa-answer-content').val());
                         var question = $('#qa-answer-content').val();
 
                         $.ajax({
@@ -426,6 +426,7 @@
                             success: function (res) {
                                 if (res.code == "200") {
                                     layer.msg("添加问题成功！");
+                                    setTimeout(function(){ window.location.reload(); }, 2000);
                                     window.location.href = "/answer/retrieveAnswersByQuestion/" + res.data;
                                 } else {
                                     layer.msg("添加问题失败！")

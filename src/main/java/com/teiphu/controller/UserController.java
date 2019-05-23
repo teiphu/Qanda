@@ -68,6 +68,9 @@ public class UserController {
     @PostMapping("changePassword")
     public Result changePassword(HttpSession session, String oldPassword, String newPassword) {
         UserDo user = (UserDo) session.getAttribute("user");
+        if (!oldPassword.equals(user.getPassword())) {
+            return new Result(HttpStatus.INTERNAL_SERVER_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR.getDesc());
+        }
         int res = userService.changePassword(user.getId(), oldPassword, newPassword);
         if (res > 0) {
             return new Result(HttpStatus.OK.getCode(), HttpStatus.OK.getDesc());
