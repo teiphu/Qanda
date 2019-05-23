@@ -129,11 +129,12 @@
                                 //alert(res);
                                 if (res.code == "200") {
                                     layer.msg("添加问题成功！");
+                                    setTimeout(function(){ window.location.reload(); }, 2000);
                                 } else {
                                     layer.msg("添加问题失败！")
                                 }
                                 // $(this).addClass("done");
-                                window.location.reload();
+                                // window.location.reload();
                             }
                         });
 
