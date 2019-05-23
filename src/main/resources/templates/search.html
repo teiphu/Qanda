@@ -109,7 +109,8 @@
                             success: function (res) {
                                 if (res.code == "200") {
                                     layer.msg("添加问题成功！");
-                                    window.location.href = "/answer/retrieveAnswersByQuestion/" + res.data;
+                                    setTimeout(function(){ window.location.href = "/answer/retrieveAnswersByQuestion/" + res.data; }, 2000);
+                                    // window.location.href = "/answer/retrieveAnswersByQuestion/" + res.data;
                                 } else {
                                     layer.msg("添加问题失败！")
                                     window.location.reload();
