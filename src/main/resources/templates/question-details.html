@@ -87,6 +87,10 @@
     </style>
 
     <script th:inline="javascript">
+        // 暂停d毫秒
+        function sleep(d){
+            for(var t = Date.now();Date.now() - t <= d;);
+        }
 
         $(document).ready(function () {
             $(".qa-name a").hover(
@@ -137,10 +141,11 @@
                             success: function (res) {
                                 if (res.code == "200") {
                                     layer.msg("回答问题成功！");
+                                    // sleep(2000);
+                                    setTimeout(function(){ window.location.reload(); }, 2000);
                                 } else {
                                     layer.msg("回答问题失败！")
                                 }
-                                window.location.reload();
                             }
                         });
 
@@ -148,6 +153,7 @@
                     }
                 }
             );
+
         }
 
         // 顶
@@ -293,6 +299,12 @@
             var commentContent = $(e).prev('input').val();
             console.log("answerId: " + answerId);
             console.log("commentContent: " + commentContent);
+            if (commentContent.length == 0) {
+                layer.msg("评论不能为空！", {
+                    time: 1500
+                });
+                return ;
+            }
 
             $.ajax({
                 url: "/comment/saveComment",
@@ -300,8 +312,15 @@
                 data: {
                     answerId: answerId,
                     commentContent: commentContent
+                },
+                success: function (res) {
+                    layer.msg("评论成功！", {
+                        time: 1500
+                    });
+                    setTimeout(function(){ window.location.reload(); }, 2000);
                 }
             });
+            // window.location.reload();
         }
 
         function closeCard(e, answerId) {
