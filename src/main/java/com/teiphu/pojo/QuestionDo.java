@@ -1,6 +1,7 @@
 package com.teiphu.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -11,6 +12,7 @@ import java.util.List;
  * @Date 2019.03.08 下午 3:52
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Document(indexName = "questionindex", type = "questiontype")
 public class QuestionDo implements Serializable {
 
     private Integer id;

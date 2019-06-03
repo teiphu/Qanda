@@ -26,7 +26,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        if (request.getRequestURI().startsWith("/admin")) {
+        /*if (request.getRequestURI().startsWith("/admin")) {
             HttpSession session = request.getSession();
             UserDo user = (UserDo) session.getAttribute("user");
             if (user == null) {
@@ -45,7 +45,8 @@ public class SecurityInterceptor implements HandlerInterceptor {
                 request.getRequestURI().startsWith("/img") || request.getRequestURI().startsWith("/js") ||
                 request.getRequestURI().startsWith("/layer") || request.getRequestURI().startsWith("/layui") ||
                 request.getRequestURI().startsWith("/layuiadmin") || request.getRequestURI().startsWith("/admin/home") ||
-                request.getRequestURI().startsWith("/font")) {
+                request.getRequestURI().startsWith("/font") || request.getRequestURI().startsWith("/swagger-ui") ||
+                request.getRequestURI().startsWith("/es")) {
             return true;
         }
         if (request.getRequestURI().startsWith("/reglog/")) {
@@ -55,7 +56,8 @@ public class SecurityInterceptor implements HandlerInterceptor {
             return true;
         }
         response.sendError(HttpStatus.FORBIDDEN.getCode(), "没有权限");
-        return false;
+        return false;*/
+        return true;
     }
 
     private boolean hasPermission(Object handler, HttpSession session) {

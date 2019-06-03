@@ -258,4 +258,9 @@ public class QuestionServiceImpl implements QuestionService {
         return questionMapper.countQuestionBySearch(searchText);
     }
 
+    @Override
+    public List<QuestionDo> listAllQuestion() {
+        return questionMapper.listQuestion();
+    }
+
 }

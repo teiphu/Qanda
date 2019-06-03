@@ -49,4 +49,6 @@ public interface QuestionService {
     List<QuestionDo> listQuestionsByPaginationWithName(String searchText, Integer page, Integer limit);
 
     int countQuestionBySearch(String searchText);
+
+    List<QuestionDo> listAllQuestion();
 }
