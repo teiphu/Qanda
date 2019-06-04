@@ -32,14 +32,14 @@ public class SearchController {
     private QuestionService questionService;
 
     @ApiOperation("问题搜索")
-    @RequestMapping(name = "search", method = RequestMethod.GET)
+    @RequestMapping(value = "searchQuestion", method = RequestMethod.POST)
     public List<QuestionDo> searchQuestion(String searchContent, Integer page, Integer limit) {
         List<QuestionDo> questions = searchService.search(searchContent, page, limit);
         return questions;
     }
 
     @ApiOperation("建立索引")
-    @RequestMapping(name = "indexing", method = RequestMethod.POST)
+    @RequestMapping(value = "indexing", method = RequestMethod.POST)
     public void indexing() {
         List<QuestionDo> questions = questionService.listAllQuestion();
         Iterable<QuestionDo> questionIterable = searchService.save(questions);

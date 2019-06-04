@@ -31,16 +31,14 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public List<QuestionDo> search(String searchContent, Integer page, Integer limit) {
-        /*page = 1;
-        limit = 10;*/
         SearchQuery searchQuery = getLogSearchQuery(page, limit, searchContent);
-        Page<QuestionDo> questionPage = questionRepository.search(searchQuery);
+//        Page<QuestionDo> questionPage = questionRepository.search(searchQuery);
+        Page<QuestionDo> questionPage = pageQuery(page, limit, searchContent);
         return questionPage.getContent();
     }
 
     @Override
     public Iterable<QuestionDo> save(List<QuestionDo> questions) {
-
         Iterable<QuestionDo> questionIterable = questionRepository.saveAll(questions);
         return questionIterable;
     }
@@ -80,13 +78,21 @@ public class SearchServiceImpl implements SearchService {
         //设置排序
         FieldSortBuilder sort = SortBuilders.fieldSort("id").order(SortOrder.DESC);
         //设置分页
-        Pageable pageable = new PageRequest(page, size);
-
+        //Pageable pageable = new PageRequest(page, size);
+        Pageable pageable = PageRequest.of(page, size);
         return new NativeSearchQueryBuilder()
                 .withPageable(pageable)
                 .withQuery(builder)
                 .withSort(sort)
                 .build();
+    }
+
+    private Page<QuestionDo> pageQuery(Integer page, Integer size, String searchContent) {
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(QueryBuilders.matchPhraseQuery("content", searchContent))
+                .withPageable(PageRequest.of(page, size))
+                .build();
+        return questionRepository.search(searchQuery);
     }
 }
 

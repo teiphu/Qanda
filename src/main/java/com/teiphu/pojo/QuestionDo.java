@@ -10,6 +10,8 @@ import java.util.List;
 /**
  * @Author Teiphu
  * @Date 2019.03.08 下午 3:52
+ * Index相当于表
+ * , type = "questiontype"
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(indexName = "questionindex", type = "questiontype")
